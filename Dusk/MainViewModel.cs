@@ -7,18 +7,17 @@ using Dusk.Screens;
 
 namespace Dusk
 {
-    sealed class MainViewModel : INotifyPropertyChanged
+    internal sealed class MainViewModel : INotifyPropertyChanged
     {
         private static MainViewModel _instance;
         public static MainViewModel Instance => _instance ?? (_instance = new MainViewModel());
 
         private ObservableCollection<UserControl> _screens = new ObservableCollection<UserControl>();
-        
+
         private MainViewModel()
         {
-            
         }
-        
+
         private UserControl _CurrentScreen;
 
         public UserControl CurrentScreen
@@ -43,7 +42,7 @@ namespace Dusk
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

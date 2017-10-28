@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
-using Dusk.Models;
 using Dusk.Screens;
 
 namespace Dusk
@@ -15,12 +12,12 @@ namespace Dusk
     {
         //private static Task<UpdateManager> _updateManager = null;
 
-        
         private MainWindow mainWindow;
+
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
             awooo.IsRunning = true;
-            
+
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline),
                 new FrameworkPropertyMetadata { DefaultValue = 30 });
 
@@ -37,10 +34,8 @@ namespace Dusk
                 mainWindow.Show();
             }
 
-
-                Task.Factory.StartNew(CheckForUpdates);
+            Task.Factory.StartNew(CheckForUpdates);
         }
-
 
         //private void FinalAnim(object sender, EventArgs e)
         //{
@@ -67,7 +62,7 @@ namespace Dusk
 
         private void App_OnExit(object sender, ExitEventArgs e)
         {
-          //  _updateManager?.Dispose();
+            //  _updateManager?.Dispose();
             Dusk.Properties.Settings.Default.Save();
         }
     }

@@ -24,18 +24,18 @@
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Logo" Storyboard.TargetProperty="Opacity">
-                        <DiscreteDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
-                        <LinearDoubleKeyFrame KeyTime="0:0:3" Value="1"/>
-                        <LinearDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
-                        <LinearDoubleKeyFrame KeyTime="0:0:6" Value="0"/>
+                        <DiscreteDoubleKeyFrame KeyTime="0:0:2" Value="0" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:3" Value="1" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:5" Value="1" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:6" Value="0" />
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
             </BeginStoryboard>
             <BeginStoryboard>
                 <Storyboard x:Name="Storyboard">
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Opacity">
-                        <DiscreteDoubleKeyFrame KeyTime="0:0:4.5" Value="1"/>
-                        <LinearDoubleKeyFrame KeyTime="0:0:5" Value="0.5"/>
+                        <DiscreteDoubleKeyFrame KeyTime="0:0:4.5" Value="1" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:5" Value="0.5" />
                     </DoubleAnimationUsingKeyFrames>
                 </Storyboard>
             </BeginStoryboard>
@@ -45,27 +45,27 @@
         <MediaElement Source="../../Resources/welcome.mp4" LoadedBehavior="Play"
                       MediaEnded="MediaElement_OnMediaEnded"
                       SpeedRatio="1"
-                      Width="640" Height="360"/>
+                      Width="640" Height="360" />
         <StackPanel Margin="10" Orientation="Horizontal"
                     Name="Logo" Opacity="0"
                     HorizontalAlignment="Center" VerticalAlignment="Bottom">
-        <Image Source="pack://application:,,,/Resources/sun.png" Height="37"
+            <Image Source="pack://application:,,,/Resources/sun.png" Height="37"
                Width="37" Stretch="Uniform"
-               VerticalAlignment="Center"/>
+               VerticalAlignment="Center" />
             <StackPanel VerticalAlignment="Center"
                         Margin="7 0">
                 <StackPanel.Effect>
-                    <BlurEffect Radius="1.5" KernelType="Gaussian" RenderingBias="Performance"/>
+                    <BlurEffect Radius="1.5" KernelType="Gaussian" RenderingBias="Performance" />
                 </StackPanel.Effect>
-                <TextBlock Text="Dusk 2018 [SPISC Manager]" 
+                <TextBlock Text="Dusk 2018 [SPISC Manager]"
                            Foreground="Black"
                            FontWeight="Bold"
-                           FontFamily="/Resources/#WeblySleek UI"/>
+                           FontFamily="/Resources/#WeblySleek UI" />
                 <TextBlock Text="DSWD GUIHULNGAN"
                            Foreground="Black"
                            FontWeight="Bold"
                            FontFamily="/Resources/#WeblySleek UI"
-                           FontSize="12pt"/>
+                           FontSize="12pt" />
             </StackPanel>
         </StackPanel>
     </Grid>

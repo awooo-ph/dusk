@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Markup;
 
 namespace Dusk
 {
-    class EnumBinding : MarkupExtension
+    internal class EnumBinding : MarkupExtension
     {
         private Type _enumType;
 
@@ -21,28 +17,30 @@ namespace Dusk
                     if (value != null)
                     {
                         var enumType = Nullable.GetUnderlyingType(value) ?? value;
-                        if(!enumType.IsEnum)
+                        if (!enumType.IsEnum)
                             throw new ArgumentException("must be enum");
                     }
                     _enumType = value;
                 }
             }
         }
-        
-        public EnumBinding() { }
+
+        public EnumBinding()
+        {
+        }
 
         public EnumBinding(Type type)
         {
             EnumType = type;
         }
-        
+
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (null == this._enumType)
                 throw new InvalidOperationException("The EnumType must be specified.");
 
             var actualEnumType = Nullable.GetUnderlyingType(this._enumType) ?? this._enumType;
-            Array enumValues =  Enum.GetValues(actualEnumType);
+            Array enumValues = Enum.GetValues(actualEnumType);
 
             if (actualEnumType == this._enumType)
                 return enumValues;
