@@ -39,6 +39,19 @@ namespace Dusk
             }
         }
 
+        private bool _IsAdding;
+
+        public bool IsAdding
+        {
+            get => _IsAdding;
+            set
+            {
+                if (value == _IsAdding) return;
+                _IsAdding = value;
+                OnPropertyChanged(nameof(IsAdding));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

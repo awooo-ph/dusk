@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Animation;
 using Dusk.Screens;
 
@@ -10,7 +9,10 @@ namespace Dusk
     /// </summary>
     public partial class App : Application
     {
-        //private static Task<UpdateManager> _updateManager = null;
+
+#if !DEBUG
+        private static Task<UpdateManager> _updateManager = null;
+#endif
 
         private MainWindow mainWindow;
 
@@ -23,7 +25,7 @@ namespace Dusk
 
             mainWindow = new MainWindow { DataContext = MainViewModel.Instance };
             MainWindow = mainWindow;
-            //mainWindow.Show();
+
             if (Dusk.Properties.Settings.Default.ShowSplash)
             {
                 var splash = new Splash();
@@ -33,19 +35,14 @@ namespace Dusk
             {
                 mainWindow.Show();
             }
-
+#if !DEBUG
             Task.Factory.StartNew(CheckForUpdates);
+#endif
         }
-
-        //private void FinalAnim(object sender, EventArgs e)
-        //{
-        //    ((DoubleAnimation) sender).Completed -= FinalAnim;
-        //    splash.Close();
-        //}
-
+#if !DEBUG
         private static async void CheckForUpdates()
         {
-#if !DEBUG
+
             using (var mgr = new UpdateManager(@"C:\Users\7\Source\Repos\Dusk\dev\Releases"))
             {
                 await mgr.UpdateApp();
@@ -57,12 +54,15 @@ namespace Dusk
 
             //if (_updateManager.Result.IsInstalledApp)
             //    await _updateManager.Result.UpdateApp();
+
+    }
 #endif
-        }
 
         private void App_OnExit(object sender, ExitEventArgs e)
         {
-            //  _updateManager?.Dispose();
+#if !DEBUG
+            _updateManager?.Dispose();
+#endif
             Dusk.Properties.Settings.Default.Save();
         }
     }

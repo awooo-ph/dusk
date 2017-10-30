@@ -17,6 +17,7 @@
         xmlns:local="clr-namespace:Dusk"
         xmlns:converters="clr-namespace:Dusk.Converters"
         xmlns:screens="clr-namespace:Dusk.Screens"
+        xmlns:viewModels="clr-namespace:Dusk.Screens.ViewModels"
         mc:Ignorable="d"
                 GlowBrush="Black"
                 NonActiveGlowBrush="Black"
@@ -197,6 +198,7 @@
                            SnapsToDevicePixels="True" />
 
                 <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
+                              IsChecked="{Binding IsOpen,Source={viewModels:NewPersonViewModel}}"
                               Foreground="White"
                               Style="{StaticResource FlatButton}">
 
@@ -208,7 +210,7 @@
                                      VerticalAlignment="Center" />
                         <StackPanel VerticalAlignment="Center"
                                     Margin="4">
-                            <TextBlock Text="Add New" FontWeight="Bold" />
+                            <TextBlock Text="ADD NEW" FontWeight="Bold" />
                             <TextBlock Text="Senior Citizen"
                                        FontWeight="Light"
                                        Opacity="0.7" />
@@ -265,7 +267,7 @@
                                      VerticalAlignment="Center" />
                                                 <StackPanel VerticalAlignment="Center"
                                     Margin="4">
-                                                    <TextBlock Text="Add New" FontWeight="Bold" />
+                                                    <TextBlock Text="ADD NEW" FontWeight="Bold" />
                                                     <TextBlock Text="Senior Citizen"
                                        FontWeight="Light"
                                        Opacity="0.7" />

@@ -9,6 +9,7 @@
              xmlns:models="http://csproj.cf/dusk/models"
              xmlns:dusk="clr-namespace:Dusk"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:converters="clr-namespace:Dusk.Converters"
 
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -26,7 +27,19 @@
                     <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" />
                     <DataGridTextColumn Header="Middle Name" Binding="{Binding Middlename}" />
                     <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}" />
-                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="Barangay">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding BarangayId,Converter={converters:BarangayConverter}}">
+                                    <TextBlock.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="Population: "/><Run Text="{Binding BarangayId,Converter={converters:BarangayPopulationConverter},StringFormat={}#\,##0}"/>
+                                        </TextBlock>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d}" />
                     <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age}" />
                     <md:MaterialDataGridComboBoxColumn Header="Gender" SelectedValueBinding="{Binding Sex}"

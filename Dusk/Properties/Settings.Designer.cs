@@ -25,13 +25,49 @@ namespace Dusk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ShowSplash {
             get {
                 return ((bool)(this["ShowSplash"]));
             }
             set {
                 this["ShowSplash"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long LastBarangay {
+            get {
+                return ((long)(this["LastBarangay"]));
+            }
+            set {
+                this["LastBarangay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowUsageCount {
+            get {
+                return ((bool)(this["ShowUsageCount"]));
+            }
+            set {
+                this["ShowUsageCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableSuggestions {
+            get {
+                return ((bool)(this["EnableSuggestions"]));
+            }
+            set {
+                this["EnableSuggestions"] = value;
             }
         }
     }
