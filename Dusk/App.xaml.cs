@@ -23,8 +23,10 @@ namespace Dusk
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline),
                 new FrameworkPropertyMetadata { DefaultValue = 30 });
 
-            mainWindow = new MainWindow { DataContext = MainViewModel.Instance };
+            mainWindow = new MainWindow();
             MainWindow = mainWindow;
+            MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
+            mainWindow.DataContext = MainViewModel.Instance;
 
             if (Dusk.Properties.Settings.Default.ShowSplash)
             {

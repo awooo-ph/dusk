@@ -18,12 +18,15 @@
         xmlns:converters="clr-namespace:Dusk.Converters"
         xmlns:screens="clr-namespace:Dusk.Screens"
         xmlns:viewModels="clr-namespace:Dusk.Screens.ViewModels"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Icon="Resources/sun.png"
         mc:Ignorable="d"
                 GlowBrush="Black"
                 NonActiveGlowBrush="Black"
                 BorderThickness="0"
-                ShowTitleBar="False"
-        Title="Dusk - DSWD Guihulngan City" Height="470" MinWidth="777" Width="777">
+                ShowTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=1000}}"
+                ShowIconOnTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=700}}"
+        Title="Dusk - DSWD Guihulngan" Height="470" MinWidth="666" Width="666">
     <ma:MetroWindow.Triggers>
         <EventTrigger RoutedEvent="ma:MetroWindow.WindowTransitionCompleted">
             <BeginStoryboard>
@@ -47,7 +50,13 @@
             </BeginStoryboard>
         </EventTrigger>
     </ma:MetroWindow.Triggers>
-    <Grid>
+    <ma:MetroWindow.RightWindowCommands>
+        <ma:WindowCommands>
+         
+            <Button Content="{md:PackIcon Settings}" ToolTip="Settings"/>
+        </ma:WindowCommands>
+    </ma:MetroWindow.RightWindowCommands>
+    <Grid IsSharedSizeScope="True">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -60,6 +69,8 @@
                     <!-- Material Design: MahApps Compatibility -->
                     <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Defaults.xaml " />
                     <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
                     <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />-->
                 </ResourceDictionary.MergedDictionaries>
                 <Style TargetType="{x:Type TextBlock}">
@@ -111,95 +122,150 @@
             </ResourceDictionary>
         </Grid.Resources>
 
+        <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" SharedSizeGroup="titleBar"/>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <md:ColorZone Mode="Dark" Grid.Row="0"
-                      x:Name="TitleBar" x:FieldModifier="private"
-                      IsHitTestVisible="False">
-            <DockPanel LastChildFill="True">
-                <Grid     DockPanel.Dock="Left">
-                    <Image Source="Resources/sun.png" Height="57"
-                       x:Name="Sun"
-                       Opacity="0"
-                       Stretch="Uniform"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                       Margin="10" />
-                    <Image Source="Resources/dswd_128.png" Height="57"
-                       Stretch="Uniform"
-                       x:Name="Dswd"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Margin="10" />
-                </Grid>
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Social Pension for Indigent Senior Citizens"
-                               FontFamily="Resources/#WeblySleek UI"
-                               FontSize="10pt" />
-                    <TextBlock Text="BENEFICIARIES MANAGER"
-                               FontFamily="Resources/#WeblySleek UI"
-                               FontWeight="Bold"
-                               FontSize="15pt" />
-                </StackPanel>
-            </DockPanel>
-        </md:ColorZone>
-
-        <md:ColorZone Grid.Row="0" HorizontalAlignment="Right"
-                  Margin="0,0,110,0" Mode="Light"
-                      CornerRadius="7"
-                  VerticalAlignment="Center">
-            <Grid>
-                <!--<Rectangle Fill="DarkSlateGray" RadiusX="7" RadiusY="7" Margin="0 0 0 0"
-                           VerticalAlignment="Stretch"
-                           HorizontalAlignment="Stretch" />-->
-                <TextBox md:TextFieldAssist.DecorationVisibility="Collapsed"
-                         md:TextFieldAssist.TextBoxViewMargin="0 0 25 0"
-                         md:HintAssist.Hint="Search oldies"
-                     md:HintAssist.HintOpacity="0.4"
-                         Margin="7 4"
-                         CharacterCasing="Upper"
-                         FontSize="11pt"
-                         ClipToBounds="False"
-                         Padding="0"
-                         VerticalAlignment="Center"
-                         Width="174" />
-                <md:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center"
-                             FontWeight="Bold"
-                         Height="20pt" Width="20pt"
-                             Margin="4 0" />
-            </Grid>
-        </md:ColorZone>
-
+       
         <md:TransitioningContent Grid.Row="1"
                                  Content="{Binding CurrentScreen}" />
 
-        <md:ColorZone Grid.Row="2" Mode="Dark" Height="47">
-            <TextBlock Text="Dusk 2018 [Thesis Version]"
-                       FontSize="10pt" />
+        <md:ColorZone Grid.Row="2" Mode="Dark">
+            <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="{Binding StatusIcon}"
+                                     Margin="10 0"
+                                     VerticalContentAlignment="Center"
+                                     Visibility="{Binding StatusIconVisibility}"
+                                     Height="24" Width="24" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding StatusMessage}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <Button Margin="0 7" Style="{DynamicResource MaterialDesignFlatButton}"
+                                Padding="7 0"
+                                Content="About Dusk"/>
+                        <Button Margin="0 7 7 7" Style="{DynamicResource MaterialDesignFlatButton}"
+                                Padding="7 0"
+                                Content="Help"/>
+                        <Button Margin="7">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="MessageText"/>
+                                <TextBlock Text="Send Feedback"
+                                           Margin="4,0,0,0"/>
+
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+            </Grid>
         </md:ColorZone>
 
-        <Grid Grid.Row="0" Grid.RowSpan="3">
+        </Grid>
+
+        <Grid IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{Binding ElementName=TitleBar,Path=ActualHeight}" />
+                <RowDefinition Height="Auto" SharedSizeGroup="titleBar"/>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="{Binding ElementName=TitleIcon,Path=ActualWidth}"/>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal"
-                        Grid.Column="1"
-                    Grid.Row="0">
-                <Rectangle Fill="Black" Width="1" VerticalAlignment="Stretch"
-                           SnapsToDevicePixels="True" />
+            <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
+                          IsHitTestVisible="False"
+                          Height="{Binding ElementName=AddNewButton,Path=ActualHeight}">
+                <Grid x:Name="TitleIcon" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}"
+                            Grid.Column="0">
+                    <Grid DockPanel.Dock="Left">
+                        <Image Source="Resources/sun.png" Height="57"
+                           x:Name="Sun"
+                           Opacity="0"
+                           Stretch="Uniform"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Margin="10" />
+                        <Image Source="Resources/dswd_128.png" Height="57"
+                           Stretch="Uniform"
+                           x:Name="Dswd"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           Margin="10" />
+                    </Grid>
+                    <StackPanel VerticalAlignment="Center"
+                                Margin="0 0 47 0" 
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=1000}}">
+                        <TextBlock Text="Social Pension for Indigent Senior Citizens"
+                               FontFamily="Resources/#WeblySleek UI"
+                               FontSize="10pt" />
+                        <TextBlock Text="BENEFICIARIES MANAGER"
+                               FontFamily="Resources/#WeblySleek UI"
+                               FontWeight="Bold"
+                               FontSize="15pt" />
+                    </StackPanel>
+                </StackPanel>
+                </Grid>
+            </md:ColorZone>
 
-                <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
+            <Grid Grid.Row="0" HorizontalAlignment="Left"
+                  Background="Transparent"
+                  Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                           IsHitTestVisible="False"
+                           Grid.ColumnSpan="2"
+                           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}"/>
+
+                <StackPanel Margin="14 0 7 0"
+                            VerticalAlignment="Center"
+                            Grid.Column="0"
+                        Orientation="Horizontal">
+                    <md:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center"
+                             FontWeight="Bold"
+                             Height="17pt" Width="17pt"
+                             Margin="4" />
+
+                    <StackPanel VerticalAlignment="Center" Margin="0 0 17 0">
+                        <TextBlock Text="SEARCH OLDIES" FontWeight="Bold" Margin="7 0"/>
+                        <TextBox
+                             md:HintAssist.Hint="Search keyword"
+                             md:HintAssist.HintOpacity="0.4"
+                             Margin="7 0"
+                            CaretBrush="White"
+                             CharacterCasing="Upper"
+                             FontSize="10pt"
+                             ClipToBounds="False"
+                             Padding="0"
+                             VerticalAlignment="Center"
+                             Width="174" />
+
+                    </StackPanel>
+                    
+                </StackPanel>
+
+                <Rectangle Fill="Black" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True" 
+                           Grid.Column="1"/>
+            </Grid>
+
+            <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
+                              Grid.Column="1"
+                              Grid.Row="0"
+                              SnapsToDevicePixels="True"
                               IsChecked="{Binding IsOpen,Source={viewModels:NewPersonViewModel}}"
-                              Foreground="White"
+                              Foreground="White" BorderThickness="1 0 1 0"
+                              BorderBrush="Black"
                               Style="{StaticResource FlatButton}">
 
                     <StackPanel Orientation="Horizontal">
@@ -217,9 +283,147 @@
                         </StackPanel>
                     </StackPanel>
                 </ToggleButton>
-                <Rectangle Fill="Black" Width="1" VerticalAlignment="Stretch"
-                           SnapsToDevicePixels="True" />
+
+            <ToggleButton VerticalAlignment="Stretch"
+                          Grid.Column="2"
+                          Grid.Row="0"
+                          SnapsToDevicePixels="True"
+                          Foreground="White" BorderThickness="0 0 1 0"
+                          BorderBrush="Black"
+                          Style="{StaticResource FlatButton}">
+
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Wrench"
+                                 Margin="4"
+                                 Height="17pt"
+                                 Width="17pt"
+                                 VerticalAlignment="Center" />
+                    <StackPanel VerticalAlignment="Center"
+                                Margin="4">
+                        <TextBlock Text="TOOLS" FontWeight="Bold" />
+                        <TextBlock Text="Herramientas"
+                                   FontWeight="Light"
+                                   Opacity="0.7" />
+                    </StackPanel>
+                </StackPanel>
+            </ToggleButton>
+
+            <Grid Grid.Column="3" Grid.Row="0"
+                  VerticalAlignment="Bottom"
+                  HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="userColumn"/>
+                </Grid.ColumnDefinitions>
+            
+            <Grid x:Name="UserGrid"
+                  Margin="0 0 7 0"
+                  Background="Transparent"
+                  >
+                <ToggleButton x:Name="UserToggle"
+                              IsChecked="{Binding IsUserMenuOpen,Mode=TwoWay}">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid Background="Transparent"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                    <ToggleButton.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <EventTrigger.Actions>
+                                <StopStoryboard BeginStoryboardName="HideUserOptions"/>
+                                <BeginStoryboard Name="ShowUserOptions">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="UserOptions"
+                                                         Storyboard.TargetProperty="Height"
+                                                         To="64" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <EventTrigger.Actions>
+                                <StopStoryboard BeginStoryboardName="ShowUserOptions"/>
+                                <BeginStoryboard Name="HideUserOptions">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="UserOptions"
+                                                         Storyboard.TargetProperty="Height"
+                                                         To="0" Duration="0:0:0.1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
+                </ToggleButton>
+                <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                           IsHitTestVisible="False"
+                           Grid.ColumnSpan="2"
+                           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}" />
+
+                    <DockPanel HorizontalAlignment="Stretch"
+                               IsHitTestVisible="False"
+                               Margin="20 10 10 10"
+                               LastChildFill="True">
+                        <md:PackIcon Kind="Account" Height="16" Width="16" VerticalAlignment="Center"
+                                     DockPanel.Dock="Left"/>
+                        <TextBlock Text="admin" VerticalAlignment="Center"
+                                   Margin="7 0"
+                                   DockPanel.Dock="Left"/>
+                        <md:PackIcon Kind="ChevronDown" VerticalAlignment="Center"
+                                     DockPanel.Dock="Right"
+                                     HorizontalAlignment="Right"
+                                     Margin="2 0 0 0"
+                                     Opacity="0.4"/>
+                    </DockPanel>
+                
+            </Grid>
+                </Grid>
+
+            <Grid Grid.Column="3" Grid.Row="1"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="userColumn" />
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="UserOptions"
+                        Margin="0 0 7 0"
+                        Height="0"
+                        
+                        Background="{DynamicResource MaterialDesignDarkBackground}"
+                        VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <MenuItem HorizontalContentAlignment="Center"
+                              Command="{Binding AccountSettingsCommand}"
+                        Foreground="White">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="AccountSettingsVariant" Height="16" Width="16" VerticalAlignment="Center"
+                                             DockPanel.Dock="Left" />
+                                <TextBlock Text="Account" VerticalAlignment="Center"
+                                           Margin="7 0"
+                                           DockPanel.Dock="Left" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem HorizontalContentAlignment="Center"
+                              Command="{Binding LogoutCommand}"
+                        Foreground="White">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Logout" Height="16" Width="16"
+                                             VerticalAlignment="Center"
+                                             DockPanel.Dock="Left" />
+                                <TextBlock Text="Logout" VerticalAlignment="Center"
+                                           Margin="7 0"
+                                           DockPanel.Dock="Left" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
             </StackPanel>
+                </Grid>
 
             <Rectangle Visibility="Hidden" IsHitTestVisible="False"
                            x:Name="SizePlaceHolder"
@@ -230,7 +434,7 @@
 
             <ToggleButton Grid.Row="0" Grid.Column="0"
                           Grid.RowSpan="3"
-                          Grid.ColumnSpan="3"
+                          Grid.ColumnSpan="4"
                           Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}"
                           IsChecked="{Binding ElementName=AddNewButton,Path=IsChecked}">
                 <ToggleButton.Style>
@@ -284,9 +488,9 @@
 
             <screens:NewPerson Background="White"
                                Grid.ColumnSpan="3"
-                               Grid.Column="0"
+                               Grid.Column="1"
                                Grid.Row="1"
-                               HorizontalAlignment="Center"
+                               HorizontalAlignment="Left"
                       Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}" />
         </Grid>
     </Grid>

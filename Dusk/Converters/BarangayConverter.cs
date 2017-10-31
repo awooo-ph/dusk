@@ -11,7 +11,7 @@ namespace Dusk.Converters
             if (value == null) return Binding.DoNothing;
             var brgy = (Barangay)((long)value);
             if (brgy == null) return "Not Specified";
-            return $"{brgy} [{brgy.Code}]";
+            return $"{brgy}";
         }
     }
 

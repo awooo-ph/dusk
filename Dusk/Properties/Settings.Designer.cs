@@ -70,5 +70,17 @@ namespace Dusk.Properties {
                 this["EnableSuggestions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DataGridEditing {
+            get {
+                return ((bool)(this["DataGridEditing"]));
+            }
+            set {
+                this["DataGridEditing"] = value;
+            }
+        }
     }
 }

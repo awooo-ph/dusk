@@ -1,9 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Threading;
 using Dusk.Annotations;
 using Dusk.Screens;
+using MaterialDesignThemes.Wpf;
 
 namespace Dusk
 {
@@ -13,6 +18,8 @@ namespace Dusk
         public static MainViewModel Instance => _instance ?? (_instance = new MainViewModel());
 
         private ObservableCollection<UserControl> _screens = new ObservableCollection<UserControl>();
+
+        public Dispatcher Dispatcher { get; set; }
 
         private MainViewModel()
         {
@@ -57,7 +64,93 @@ namespace Dusk
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Dispatcher.Invoke(() =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            });
         }
+
+        private bool _IsUserMenuOpen;
+
+        public bool IsUserMenuOpen
+        {
+            get => _IsUserMenuOpen;
+            set
+            {
+                if (value == _IsUserMenuOpen) return;
+                _IsUserMenuOpen = value;
+                OnPropertyChanged(nameof(IsUserMenuOpen));
+            }
+        }
+
+        private ICommand _accountSettingsCommand;
+
+        public ICommand AccountSettingsCommand =>
+            _accountSettingsCommand ?? (_accountSettingsCommand = new DelegateCommand(
+                d =>
+                {
+                    IsUserMenuOpen = false;
+                    SetStatus("Not implemented yet!", PackIconKind.Alert, 4000);
+                }));
+
+        private ICommand _logoutCommand;
+
+        public ICommand LogoutCommand => _logoutCommand ?? (_logoutCommand = new DelegateCommand(d =>
+        {
+            IsUserMenuOpen = false;
+            SetStatus("Not implemented yet!", PackIconKind.Alert, 4000);
+        }));
+
+        private Timer _statusTimer = null;
+        public void SetStatus(string message, PackIconKind icon, long timeout = 47000)
+        {
+            StatusIcon = icon;
+            StatusMessage = message;
+            _statusTimer?.Dispose();
+            _statusTimer = new Timer(state =>
+            {
+                StatusIcon = PackIconKind.Xaml;
+                StatusMessage = "";
+            }, null, timeout, int.MaxValue);
+        }
+
+        private PackIconKind _StatusIcon = PackIconKind.Xaml;
+
+        public PackIconKind StatusIcon
+        {
+            get => _StatusIcon;
+            set
+            {
+                if (value == _StatusIcon) return;
+                _StatusIcon = value;
+                OnPropertyChanged(nameof(StatusIcon));
+                OnPropertyChanged(nameof(StatusIconVisibility));
+            }
+        }
+
+
+        private string _StatusMessage;
+
+        public string StatusMessage
+        {
+            get => _StatusMessage;
+            set
+            {
+                if (value == _StatusMessage) return;
+                _StatusMessage = value;
+                OnPropertyChanged(nameof(StatusMessage));
+            }
+        }
+
+        public Visibility StatusIconVisibility
+        {
+            get => StatusIcon != PackIconKind.Xaml ? Visibility.Visible : Visibility.Collapsed;
+            set => OnPropertyChanged();
+        }
+
+
+
+
+
     }
 }

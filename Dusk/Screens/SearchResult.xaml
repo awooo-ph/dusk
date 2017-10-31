@@ -10,7 +10,8 @@
              xmlns:dusk="clr-namespace:Dusk"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:Dusk.Converters"
-
+             xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:cnf="clr-namespace:Dusk.Properties"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -20,28 +21,32 @@
     <md:ColorZone Mode="Light" VerticalAlignment="Stretch">
         <Grid>
             <DataGrid ItemsSource="{Binding Source={x:Static models:Person.Cache}}"
+                      
                       AutoGenerateColumns="False" CanUserAddRows="False"
+                      CanUserDeleteRows="True"
                       CanUserSortColumns="True" CanUserReorderColumns="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="No." Binding="{Binding Number}" />
-                    <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" />
+                    <DataGridTextColumn Header="No." Binding="{Binding Number}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                     <DataGridTextColumn Header="Middle Name" Binding="{Binding Middlename}" />
                     <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}" />
-                    <DataGridTemplateColumn Header="Barangay">
+                    <md:MaterialDataGridComboBoxColumn Header="Barangay" ItemsSource="{Binding Source={x:Static models:Barangay.Cache}}"
+                                                       SelectedValuePath="Id" SelectedValueBinding="{Binding BarangayId}"/>
+                    
+                    <DataGridTemplateColumn Header="Birth Date">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding BarangayId,Converter={converters:BarangayConverter}}">
-                                    <TextBlock.ToolTip>
-                                        <TextBlock>
-                                            <Run Text="Population: "/><Run Text="{Binding BarangayId,Converter={converters:BarangayPopulationConverter},StringFormat={}#\,##0}"/>
-                                        </TextBlock>
-                                    </TextBlock.ToolTip>
-                                </TextBlock>
+                                <TextBlock Text="{Binding BirthDate,StringFormat=d}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding BirthDate}" Margin="0"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat=d}" />
                     <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age}" />
+                    <md:MaterialDataGridTextColumn Header="asdf"/>
                     <md:MaterialDataGridComboBoxColumn Header="Gender" SelectedValueBinding="{Binding Sex}"
                                                        ItemsSourceBinding="{Binding Source={dusk:EnumBinding {x:Type models:Sexes}}}" />
                 </DataGrid.Columns>
