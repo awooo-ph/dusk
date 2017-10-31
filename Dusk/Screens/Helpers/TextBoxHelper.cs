@@ -26,7 +26,7 @@ namespace Dusk.Screens.Helpers
 
         private static void SuggestionSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-
+            if (!awooo.IsRunning) return;
             if (!(sender is TextBox tb)) return;
 
 

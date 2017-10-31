@@ -1,32 +1,33 @@
 ﻿<ma:MetroWindow x:Class="Dusk.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Display"
-        TextOptions.TextRenderingMode="ClearType"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
+                xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+                TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                TextElement.FontWeight="Regular"
+                TextElement.FontSize="13"
+                TextOptions.TextFormattingMode="Display"
+                TextOptions.TextRenderingMode="ClearType"
                 FontFamily="{DynamicResource MaterialDesignFont}"
                 WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource MaterialDesignLightBackground}"
+                Background="{DynamicResource MaterialDesignLightBackground}"
                 WindowState="Maximized"
-        xmlns:local="clr-namespace:Dusk"
-        xmlns:converters="clr-namespace:Dusk.Converters"
-        xmlns:screens="clr-namespace:Dusk.Screens"
-        xmlns:viewModels="clr-namespace:Dusk.Screens.ViewModels"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
-        Icon="Resources/sun.png"
-        mc:Ignorable="d"
+                xmlns:local="clr-namespace:Dusk"
+                xmlns:converters="clr-namespace:Dusk.Converters"
+                xmlns:screens="clr-namespace:Dusk.Screens"
+                xmlns:viewModels="clr-namespace:Dusk.Screens.ViewModels"
+                xmlns:system="clr-namespace:System;assembly=mscorlib"
+                xmlns:models="http://csproj.cf/dusk/models"
+                Icon="Resources/sun.png"
+                mc:Ignorable="d"
                 GlowBrush="Black"
                 NonActiveGlowBrush="Black"
                 BorderThickness="0"
                 ShowTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=1000}}"
                 ShowIconOnTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=700}}"
-        Title="Dusk - DSWD Guihulngan" Height="470" MinWidth="666" Width="666">
+                Title="Dusk - DSWD Guihulngan" Height="470" MinWidth="666" Width="666">
     <ma:MetroWindow.Triggers>
         <EventTrigger RoutedEvent="ma:MetroWindow.WindowTransitionCompleted">
             <BeginStoryboard>
@@ -52,8 +53,8 @@
     </ma:MetroWindow.Triggers>
     <ma:MetroWindow.RightWindowCommands>
         <ma:WindowCommands>
-         
-            <Button Content="{md:PackIcon Settings}" ToolTip="Settings"/>
+
+            <Button Content="{md:PackIcon Settings}" ToolTip="Settings" />
         </ma:WindowCommands>
     </ma:MetroWindow.RightWindowCommands>
     <Grid IsSharedSizeScope="True">
@@ -62,13 +63,17 @@
                 <ResourceDictionary.MergedDictionaries>
                     <!-- MahApps -->
 
-                    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 
                     <!-- Material Design -->
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                     <!-- Material Design: MahApps Compatibility -->
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Defaults.xaml " />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Defaults.xaml " />
+                    <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
                     <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
                     <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />-->
@@ -82,13 +87,15 @@
                     <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
                 </Style>
 
+
                 <Style x:Key="FlatButton" TargetType="{x:Type ToggleButton}">
                     <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                     <Setter Property="Cursor" Value="Hand" />
                     <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
-                    <Setter Property="md:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
+                    <Setter Property="md:RippleAssist.Feedback"
+                            Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
                     <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -98,12 +105,15 @@
                             <ControlTemplate TargetType="{x:Type ToggleButton}">
                                 <Grid>
                                     <Border Background="{TemplateBinding Background}" x:Name="border"
-                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                        <md:Ripple Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        Padding="{TemplateBinding Padding}"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <md:Ripple Content="{TemplateBinding Content}"
+                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                   Focusable="False"
+                                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                   Padding="{TemplateBinding Padding}"
+                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                     </Border>
                                 </Grid>
                                 <ControlTemplate.Triggers>
@@ -122,169 +132,168 @@
             </ResourceDictionary>
         </Grid.Resources>
 
-        <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" SharedSizeGroup="titleBar"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-       
-        <md:TransitioningContent Grid.Row="1"
-                                 Content="{Binding CurrentScreen}" />
-
-        <md:ColorZone Grid.Row="2" Mode="Dark">
-            <Grid>
-                    <StackPanel Orientation="Horizontal">
-                        <md:PackIcon Kind="{Binding StatusIcon}"
-                                     Margin="10 0"
-                                     VerticalContentAlignment="Center"
-                                     Visibility="{Binding StatusIconVisibility}"
-                                     Height="24" Width="24" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding StatusMessage}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-
-                        <Button Margin="0 7" Style="{DynamicResource MaterialDesignFlatButton}"
-                                Padding="7 0"
-                                Content="About Dusk"/>
-                        <Button Margin="0 7 7 7" Style="{DynamicResource MaterialDesignFlatButton}"
-                                Padding="7 0"
-                                Content="Help"/>
-                        <Button Margin="7">
-                        <StackPanel Orientation="Horizontal">
-                            <md:PackIcon Kind="MessageText"/>
-                                <TextBlock Text="Send Feedback"
-                                           Margin="4,0,0,0"/>
-
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-            </Grid>
-        </md:ColorZone>
-
-        </Grid>
-
         <Grid IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" SharedSizeGroup="titleBar"/>
+                <RowDefinition Height="Auto" SharedSizeGroup="titleBar" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding ElementName=TitleIcon,Path=ActualWidth}"/>
+                <ColumnDefinition Width="{Binding ElementName=TitleIcon,Path=ActualWidth}" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
-                          IsHitTestVisible="False"
-                          Height="{Binding ElementName=AddNewButton,Path=ActualHeight}">
-                <Grid x:Name="TitleIcon" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}"
-                            Grid.Column="0">
-                    <Grid DockPanel.Dock="Left">
-                        <Image Source="Resources/sun.png" Height="57"
-                           x:Name="Sun"
-                           Opacity="0"
-                           Stretch="Uniform"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Margin="10" />
-                        <Image Source="Resources/dswd_128.png" Height="57"
-                           Stretch="Uniform"
-                           x:Name="Dswd"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Margin="10" />
-                    </Grid>
-                    <StackPanel VerticalAlignment="Center"
-                                Margin="0 0 47 0" 
-                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=1000}}">
-                        <TextBlock Text="Social Pension for Indigent Senior Citizens"
-                               FontFamily="Resources/#WeblySleek UI"
-                               FontSize="10pt" />
-                        <TextBlock Text="BENEFICIARIES MANAGER"
-                               FontFamily="Resources/#WeblySleek UI"
-                               FontWeight="Bold"
-                               FontSize="15pt" />
+            <md:TransitioningContent Grid.Row="1"
+                                     Grid.Column="0" Grid.ColumnSpan="4"
+                                     Content="{Binding CurrentScreen}" />
+
+            <!--Status bar-->
+            <md:ColorZone Grid.Row="2" Mode="Dark" Grid.Column="0" Grid.ColumnSpan="4">
+                <Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="{Binding StatusIcon}"
+                                     Margin="10 0"
+                                     VerticalContentAlignment="Center"
+                                     Visibility="{Binding StatusIconVisibility}"
+                                     Height="24" Width="24" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StatusMessage}" VerticalAlignment="Center" />
                     </StackPanel>
-                </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                        <Button Margin="0 7" Style="{DynamicResource MaterialDesignFlatButton}"
+                                Padding="7 0"
+                                Content="About Dusk" />
+                        <Button Margin="0 7 7 7" Style="{DynamicResource MaterialDesignFlatButton}"
+                                Padding="7 0"
+                                Content="Help" />
+                        <Button Margin="7">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="MessageText" />
+                                <TextBlock Text="Send Feedback"
+                                           Margin="4,0,0,0" />
+
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </md:ColorZone>
 
+            <!--Title bar-->
+            <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
+                          Grid.Column="0" Grid.Row="0"
+                          IsHitTestVisible="False"
+                          Height="{Binding ElementName=AddNewButton,Path=ActualHeight}">
+                <Grid x:Name="TitleIcon" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}"
+                                Grid.Column="0">
+                        <Grid DockPanel.Dock="Left">
+                            <Image Source="Resources/sun.png" Height="57"
+                                   x:Name="Sun"
+                                   Opacity="0"
+                                   Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Margin="10" />
+                            <Image Source="Resources/dswd_128.png" Height="57"
+                                   Stretch="Uniform"
+                                   x:Name="Dswd"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Margin="10" />
+                        </Grid>
+                        <StackPanel VerticalAlignment="Center"
+                                    Margin="0 0 47 0"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=1000}}">
+                            <TextBlock Text="Social Pension for Indigent Senior Citizens"
+                                       FontFamily="Resources/#WeblySleek UI"
+                                       FontSize="10pt" />
+                            <TextBlock Text="BENEFICIARIES MANAGER"
+                                       FontFamily="Resources/#WeblySleek UI"
+                                       FontWeight="Bold"
+                                       FontSize="15pt" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </md:ColorZone>
+
+            <!--Search-->
             <Grid Grid.Row="0" HorizontalAlignment="Left"
                   Background="Transparent"
                   Grid.Column="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                            IsHitTestVisible="False"
                            Grid.ColumnSpan="2"
-                           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}"/>
+                           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}" />
 
                 <StackPanel Margin="14 0 7 0"
                             VerticalAlignment="Center"
                             Grid.Column="0"
-                        Orientation="Horizontal">
+                            Orientation="Horizontal">
                     <md:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center"
-                             FontWeight="Bold"
-                             Height="17pt" Width="17pt"
-                             Margin="4" />
+                                 FontWeight="Bold"
+                                 Height="17pt" Width="17pt"
+                                 Margin="4" />
 
                     <StackPanel VerticalAlignment="Center" Margin="0 0 17 0">
-                        <TextBlock Text="SEARCH OLDIES" FontWeight="Bold" Margin="7 0"/>
+                        <TextBlock Text="SEARCH OLDIES" FontWeight="Bold" Margin="7 0" />
                         <TextBox
-                             md:HintAssist.Hint="Search keyword"
-                             md:HintAssist.HintOpacity="0.4"
-                             Margin="7 0"
+                            md:HintAssist.Hint="Search keyword"
+                            md:HintAssist.HintOpacity="0.4"
+                            Margin="7 0"
                             CaretBrush="White"
-                             CharacterCasing="Upper"
-                             FontSize="10pt"
-                             ClipToBounds="False"
-                             Padding="0"
-                             VerticalAlignment="Center"
-                             Width="174" />
+                            CharacterCasing="Upper"
+                            FontSize="10pt"
+                            ClipToBounds="False"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            Width="174" />
 
                     </StackPanel>
-                    
+
                 </StackPanel>
 
-                <Rectangle Fill="Black" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True" 
-                           Grid.Column="1"/>
+                <Rectangle Fill="Black" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True"
+                           Grid.Column="1" />
             </Grid>
 
+            <!--Add New-->
             <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
-                              Grid.Column="1"
-                              Grid.Row="0"
-                              SnapsToDevicePixels="True"
-                              IsChecked="{Binding IsOpen,Source={viewModels:NewPersonViewModel}}"
-                              Foreground="White" BorderThickness="1 0 1 0"
-                              BorderBrush="Black"
-                              Style="{StaticResource FlatButton}">
+                          Grid.Column="1"
+                          Grid.Row="0"
+                          SnapsToDevicePixels="True"
+                          IsChecked="{Binding IsOpen,Source={viewModels:NewPersonViewModel}}"
+                          Foreground="White" BorderThickness="1 0 1 0"
+                          BorderBrush="Black"
+                          Style="{StaticResource FlatButton}">
 
-                    <StackPanel Orientation="Horizontal">
-                        <md:PackIcon Kind="AccountPlus"
-                                     Margin="4"
-                                     Height="17pt"
-                                     Width="17pt"
-                                     VerticalAlignment="Center" />
-                        <StackPanel VerticalAlignment="Center"
-                                    Margin="4">
-                            <TextBlock Text="ADD NEW" FontWeight="Bold" />
-                            <TextBlock Text="Senior Citizen"
-                                       FontWeight="Light"
-                                       Opacity="0.7" />
-                        </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="AccountPlus"
+                                 Margin="4"
+                                 Height="17pt"
+                                 Width="17pt"
+                                 VerticalAlignment="Center" />
+                    <StackPanel VerticalAlignment="Center"
+                                Margin="4">
+                        <TextBlock Text="ADD NEW" FontWeight="Bold" />
+                        <TextBlock Text="Senior Citizen"
+                                   FontWeight="Light"
+                                   Opacity="0.7" />
                     </StackPanel>
-                </ToggleButton>
+                </StackPanel>
+            </ToggleButton>
 
+            <!--Tools-->
             <ToggleButton VerticalAlignment="Stretch"
+                          x:Name="ToolsButton"
                           Grid.Column="2"
                           Grid.Row="0"
                           SnapsToDevicePixels="True"
@@ -308,81 +317,82 @@
                 </StackPanel>
             </ToggleButton>
 
+            <!--User-->
             <Grid Grid.Column="3" Grid.Row="0"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="userColumn"/>
+                    <ColumnDefinition SharedSizeGroup="userColumn" />
                 </Grid.ColumnDefinitions>
-            
-            <Grid x:Name="UserGrid"
-                  Margin="0 0 7 0"
-                  Background="Transparent"
-                  >
-                <ToggleButton x:Name="UserToggle"
-                              IsChecked="{Binding IsUserMenuOpen,Mode=TwoWay}">
-                    <ToggleButton.Style>
-                        <Style TargetType="ToggleButton">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ToggleButton">
-                                        <Grid Background="Transparent"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ToggleButton.Style>
-                    <ToggleButton.Triggers>
-                        <EventTrigger RoutedEvent="ToggleButton.Checked">
-                            <EventTrigger.Actions>
-                                <StopStoryboard BeginStoryboardName="HideUserOptions"/>
-                                <BeginStoryboard Name="ShowUserOptions">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="UserOptions"
-                                                         Storyboard.TargetProperty="Height"
-                                                         To="64" Duration="0:0:0.1"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                            <EventTrigger.Actions>
-                                <StopStoryboard BeginStoryboardName="ShowUserOptions"/>
-                                <BeginStoryboard Name="HideUserOptions">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="UserOptions"
-                                                         Storyboard.TargetProperty="Height"
-                                                         To="0" Duration="0:0:0.1" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </ToggleButton.Triggers>
-                </ToggleButton>
-                <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                           IsHitTestVisible="False"
-                           Grid.ColumnSpan="2"
-                           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}" />
+
+                <Grid x:Name="UserGrid"
+                      Margin="0 0 7 0"
+                      Background="Transparent">
+                    <ToggleButton x:Name="UserToggle"
+                                  IsChecked="{Binding IsUserMenuOpen,Mode=TwoWay}">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Grid Background="Transparent" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ToggleButton.Style>
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <EventTrigger.Actions>
+                                    <StopStoryboard BeginStoryboardName="HideUserOptions" />
+                                    <BeginStoryboard Name="ShowUserOptions">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="UserOptions"
+                                                             Storyboard.TargetProperty="Height"
+                                                             To="64" Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <EventTrigger.Actions>
+                                    <StopStoryboard BeginStoryboardName="ShowUserOptions" />
+                                    <BeginStoryboard Name="HideUserOptions">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="UserOptions"
+                                                             Storyboard.TargetProperty="Height"
+                                                             To="0" Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                    <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               IsHitTestVisible="False"
+                               Grid.ColumnSpan="2"
+                               Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}" />
 
                     <DockPanel HorizontalAlignment="Stretch"
                                IsHitTestVisible="False"
                                Margin="20 10 10 10"
                                LastChildFill="True">
                         <md:PackIcon Kind="Account" Height="16" Width="16" VerticalAlignment="Center"
-                                     DockPanel.Dock="Left"/>
+                                     DockPanel.Dock="Left" />
                         <TextBlock Text="admin" VerticalAlignment="Center"
                                    Margin="7 0"
-                                   DockPanel.Dock="Left"/>
+                                   DockPanel.Dock="Left" />
                         <md:PackIcon Kind="ChevronDown" VerticalAlignment="Center"
                                      DockPanel.Dock="Right"
                                      HorizontalAlignment="Right"
                                      Margin="2 0 0 0"
-                                     Opacity="0.4"/>
+                                     Opacity="0.4" />
                     </DockPanel>
-                
-            </Grid>
-                </Grid>
 
+                </Grid>
+            </Grid>
+
+            <!--User popup-->
             <Grid Grid.Column="3" Grid.Row="1"
                   VerticalAlignment="Top"
                   HorizontalAlignment="Right">
@@ -390,17 +400,18 @@
                     <ColumnDefinition SharedSizeGroup="userColumn" />
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="UserOptions"
-                        Margin="0 0 7 0"
-                        Height="0"
-                        
-                        Background="{DynamicResource MaterialDesignDarkBackground}"
-                        VerticalAlignment="Top" HorizontalAlignment="Right">
+                            Margin="0 0 7 0"
+                            Height="0"
+
+                            Background="{DynamicResource MaterialDesignDarkBackground}"
+                            VerticalAlignment="Top" HorizontalAlignment="Right">
                     <MenuItem HorizontalContentAlignment="Center"
                               Command="{Binding AccountSettingsCommand}"
-                        Foreground="White">
+                              Foreground="White">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="AccountSettingsVariant" Height="16" Width="16" VerticalAlignment="Center"
+                                <md:PackIcon Kind="AccountSettingsVariant" Height="16" Width="16"
+                                             VerticalAlignment="Center"
                                              DockPanel.Dock="Left" />
                                 <TextBlock Text="Account" VerticalAlignment="Center"
                                            Margin="7 0"
@@ -410,7 +421,7 @@
                     </MenuItem>
                     <MenuItem HorizontalContentAlignment="Center"
                               Command="{Binding LogoutCommand}"
-                        Foreground="White">
+                              Foreground="White">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Logout" Height="16" Width="16"
@@ -422,16 +433,11 @@
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
-            </StackPanel>
-                </Grid>
+                </StackPanel>
+            </Grid>
 
-            <Rectangle Visibility="Hidden" IsHitTestVisible="False"
-                           x:Name="SizePlaceHolder"
-                           Grid.Column="0"
-                           Grid.Row="1"
-                           Grid.ColumnSpan="2"
-                           HorizontalAlignment="Stretch" />
 
+            <!--Add new background-->
             <ToggleButton Grid.Row="0" Grid.Column="0"
                           Grid.RowSpan="3"
                           Grid.ColumnSpan="4"
@@ -450,9 +456,10 @@
                 </ToggleButton.Style>
             </ToggleButton>
 
+            <!--Add new (checked)-->
             <ToggleButton IsChecked="{Binding ElementName=AddNewButton,Path=IsChecked}"
                           Grid.Column="1" Grid.Row="0"
-                              Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}">
+                          Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}">
                 <ToggleButton.Style>
                     <Style TargetType="ToggleButton">
                         <Setter Property="Template">
@@ -460,21 +467,21 @@
                                 <ControlTemplate TargetType="ToggleButton">
                                     <Grid Background="Transparent">
                                         <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Right"
-                                                    Width="{Binding ElementName=AddNewButton,Path=ActualWidth}"
-                                                    Padding="16 4 16 4"
-                                                    Background="White">
+                                                Width="{Binding ElementName=AddNewButton,Path=ActualWidth}"
+                                                Padding="16 4 16 4"
+                                                Background="White">
                                             <StackPanel Orientation="Horizontal">
                                                 <md:PackIcon Kind="AccountPlus"
-                                     Margin="4"
-                                     Height="17pt"
-                                     Width="17pt"
-                                     VerticalAlignment="Center" />
+                                                             Margin="4"
+                                                             Height="17pt"
+                                                             Width="17pt"
+                                                             VerticalAlignment="Center" />
                                                 <StackPanel VerticalAlignment="Center"
-                                    Margin="4">
+                                                            Margin="4">
                                                     <TextBlock Text="ADD NEW" FontWeight="Bold" />
                                                     <TextBlock Text="Senior Citizen"
-                                       FontWeight="Light"
-                                       Opacity="0.7" />
+                                                               FontWeight="Light"
+                                                               Opacity="0.7" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </Border>
@@ -486,12 +493,173 @@
                 </ToggleButton.Style>
             </ToggleButton>
 
+            <!--Add new form-->
             <screens:NewPerson Background="White"
                                Grid.ColumnSpan="3"
                                Grid.Column="1"
                                Grid.Row="1"
+                               Grid.RowSpan="2"
                                HorizontalAlignment="Left"
-                      Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}" />
+                               Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}" />
+            
+            <!--Tools background-->
+            <ToggleButton Grid.Row="0" Grid.Column="0"
+                          Grid.RowSpan="3"
+                          Grid.ColumnSpan="4"
+                          Visibility="{Binding ElementName=ToolsButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}"
+                          IsChecked="{Binding ElementName=ToolsButton,Path=IsChecked}">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Rectangle Fill="#77000000" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+
+            <!--Tools checked-->
+            <ToggleButton IsChecked="{Binding ElementName=ToolsButton,Path=IsChecked}"
+                          Grid.Column="2" Grid.Row="0"
+                          Visibility="{Binding ElementName=ToolsButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}">
+                <ToggleButton.Style>
+                    <Style TargetType="ToggleButton">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Grid Background="Transparent">
+                                        <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                                                Width="{Binding ElementName=ToolsButton,Path=ActualWidth}"
+                                                Padding="16 4 16 4"
+                                                Background="White">
+                                            <StackPanel Orientation="Horizontal">
+                                                <md:PackIcon Kind="Wrench"
+                                                             Margin="4"
+                                                             Height="17pt"
+                                                             Width="17pt"
+                                                             VerticalAlignment="Center" />
+                                                <StackPanel VerticalAlignment="Center"
+                                                            Margin="4">
+                                                    <TextBlock Text="Tools" FontWeight="Bold" />
+                                                    <TextBlock Text="Herramientas"
+                                                               FontWeight="Light"
+                                                               Opacity="0.7" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+            
+            <!--Tools popup-->
+            <md:ColorZone Mode="Dark" Background="White"
+                          Grid.RowSpan="2"
+                          DataContext="{Binding Source={viewModels:ToolsViewModel}}"
+                          Visibility="{Binding ElementName=ToolsButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}"
+                          Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"
+                          Margin="1 0 0 0"
+                          Foreground="{StaticResource MaterialDesignLightForeground}"
+                          HorizontalAlignment="Left">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Filter" Margin="4"
+                                             Foreground="White"/>
+                                <TextBlock Text="FILTER" Margin="4"
+                                           Foreground="White"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type viewModels:ShowPeople}}}"
+                                      Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                              SelectedItem="{Binding ShowPeople}"
+                              IsSynchronizedWithCurrentItem="True"
+                              Margin="4">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            
+                            
+                                <CheckBox IsChecked="{Binding FilterGender}" Margin="4" Content="Gender"
+                                          Grid.Column="0" Grid.Row="1"/>
+                            <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type models:Sexes}}}"
+                                      Grid.Row="1"
+                                      Grid.Column="1"
+                                      SelectedItem="{Binding Gender}"
+                                      IsEnabled="{Binding FilterGender}"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Margin="4">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            
+                                <CheckBox IsChecked="{Binding FilterCivilStatus}" Margin="4" Content="Civil Status"
+                                          Grid.Column="0" Grid.Row="2"/>
+                            <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type models:CivilStatuses}}}"
+                                      Grid.Row="2"
+                                      Grid.Column="1"
+                                      SelectedItem="{Binding CivilStatus}"
+                                      IsEnabled="{Binding FilterCivilStatus}"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Margin="4">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            
+                                <CheckBox IsChecked="{Binding FilterBarangay}" Margin="4" Content="Barangay"
+                                          Grid.Column="0" Grid.Row="3"/>
+                                <ComboBox ItemsSource="{Binding Source={x:Static models:Barangay.Cache}}"
+                                          Grid.Column="1" Grid.Row="3"
+                                      SelectedItem="{Binding Barangay}"
+                                      IsEnabled="{Binding FilterBarangay}"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      Margin="4"/>
+                            
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </md:ColorZone>
         </Grid>
     </Grid>
 </ma:MetroWindow>
