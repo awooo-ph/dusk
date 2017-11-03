@@ -28,14 +28,20 @@ namespace Dusk
             MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
             mainWindow.DataContext = MainViewModel.Instance;
 
+
+
             if (Dusk.Properties.Settings.Default.ShowSplash)
             {
+                // mainWindow.Show();
+                //mainWindow.Visibility = Visibility.Hidden;
+                // mainWindow.Hide();
                 var splash = new Splash();
                 splash.Show();
             }
             else
             {
                 mainWindow.Show();
+
             }
 #if !DEBUG
             Task.Factory.StartNew(CheckForUpdates);

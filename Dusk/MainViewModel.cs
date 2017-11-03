@@ -148,7 +148,37 @@ namespace Dusk
             set => OnPropertyChanged();
         }
 
+        public bool EnableUserAccounts
+        {
+            get => Properties.Settings.Default.EnableUserAccounts;
+            set
+            {
+                if (value == Properties.Settings.Default.EnableUserAccounts) return;
+                Properties.Settings.Default.EnableUserAccounts = value;
+                OnPropertyChanged(nameof(EnableUserAccounts));
+            }
+        }
 
+
+        private ICommand _showSettingsCommand;
+
+        public ICommand ShowSettingsCommand => _showSettingsCommand ?? (_showSettingsCommand = new DelegateCommand(d =>
+        {
+            IsSettingsOpen = true;
+        }));
+
+        private bool _IsSettingsOpen;
+
+        public bool IsSettingsOpen
+        {
+            get => _IsSettingsOpen;
+            set
+            {
+                if (value == _IsSettingsOpen) return;
+                _IsSettingsOpen = value;
+                OnPropertyChanged(nameof(IsSettingsOpen));
+            }
+        }
 
 
     }

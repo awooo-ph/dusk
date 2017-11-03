@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows.Data;
 using Dusk.Models;
 
 namespace Dusk.Screens.ViewModels
@@ -104,6 +105,35 @@ namespace Dusk.Screens.ViewModels
                 if (value == _Barangay) return;
                 _Barangay = value;
                 OnPropertyChanged(nameof(Barangay));
+            }
+        }
+
+        private ListCollectionView _barangays;
+        public ListCollectionView Barangays => _barangays ?? (_barangays = new ListCollectionView(Barangay.Cache));
+
+        private bool _FilterDisability;
+
+        public bool FilterDisability
+        {
+            get => _FilterDisability;
+            set
+            {
+                if (value == _FilterDisability) return;
+                _FilterDisability = value;
+                OnPropertyChanged(nameof(FilterDisability));
+            }
+        }
+
+        private string _Disability;
+
+        public string Disability
+        {
+            get => _Disability;
+            set
+            {
+                if (value == _Disability) return;
+                _Disability = value;
+                OnPropertyChanged(nameof(Disability));
             }
         }
 

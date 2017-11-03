@@ -82,5 +82,17 @@ namespace Dusk.Properties {
                 this["DataGridEditing"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableUserAccounts {
+            get {
+                return ((bool)(this["EnableUserAccounts"]));
+            }
+            set {
+                this["EnableUserAccounts"] = value;
+            }
+        }
     }
 }

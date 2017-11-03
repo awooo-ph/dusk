@@ -12,6 +12,7 @@
         ResizeMode="NoResize"
         AllowsTransparency="True"
         ShowTitleBar="False"
+                ShowCloseButton="False"
                 TextOptions.TextFormattingMode="Display"
                 TextOptions.TextRenderingMode="ClearType"
                 Name="Window"
@@ -32,6 +33,16 @@
                 </Storyboard>
             </BeginStoryboard>
             <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Seniors" Storyboard.TargetProperty="Opacity">
+                        <DiscreteDoubleKeyFrame KeyTime="0:0:1" Value="0" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:2" Value="1" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:5" Value="1" />
+                        <LinearDoubleKeyFrame KeyTime="0:0:6" Value="0" />
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard>
                 <Storyboard x:Name="Storyboard">
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Opacity">
                         <DiscreteDoubleKeyFrame KeyTime="0:0:4.5" Value="1" />
@@ -46,7 +57,19 @@
                       MediaEnded="MediaElement_OnMediaEnded"
                       SpeedRatio="1"
                       Width="640" Height="360" />
-        <StackPanel Margin="10" Orientation="Horizontal"
+        <Grid x:Name="Seniors" Opacity="0">
+        <Image Source="/Resources/senion-female.png" HorizontalAlignment="Left"
+               Height="300"
+               x:Name="SeniorFemale"
+               Stretch="Uniform" Margin="10"
+               VerticalAlignment="Center"/>
+        <Image Source="/Resources/senior-male.png" HorizontalAlignment="Right"
+               x:Name="SeniorMale"
+               Height="300"
+               Stretch="Uniform" Margin="10"
+               VerticalAlignment="Center"/>
+        </Grid>
+        <StackPanel Margin="47" Orientation="Horizontal"
                     Name="Logo" Opacity="0"
                     HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Image Source="pack://application:,,,/Resources/sun.png" Height="37"

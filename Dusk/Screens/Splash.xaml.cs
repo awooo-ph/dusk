@@ -13,6 +13,8 @@ namespace Dusk.Screens
         public Splash()
         {
             InitializeComponent();
+            // Application.Current.MainWindow.IsEnabled = false;
+            // ((MetroWindow)Application.Current.MainWindow).ShowOverlay();
             Storyboard.Completed += Storyboard_Completed;
         }
 
@@ -20,7 +22,12 @@ namespace Dusk.Screens
         {
             Task.Factory.StartNew(() =>
             {
-                Dispatcher.Invoke(() => App.Current.MainWindow.Show());
+                Dispatcher.Invoke(() =>
+                {
+                    //  Application.Current.MainWindow.IsEnabled = true;
+                    //  ((MetroWindow)Application.Current.MainWindow).HideOverlay();
+                    Application.Current.MainWindow.Show();
+                });
             });
 
             var anim = new DoubleAnimation(0, TimeSpan.FromMilliseconds(400));

@@ -8,14 +8,15 @@ namespace Dusk.Converters
 
         public enum ReturnTypes
         {
-            Visibility, Boolean
+            Visibility, Boolean, Long, Object
         }
 
         public enum Operations
         {
             Equals,
             GreaterThan,
-            LessThan
+            LessThan,
+            NotEquals,
         }
 
         private object trueVisibility = Visibility.Visible;
@@ -38,9 +39,9 @@ namespace Dusk.Converters
         }
 
         public Operations Operation { get; set; } = Operations.Equals;
-        public long Operand { get; set; } = 0;
+        public object Operand { get; set; } = 0;
 
-        public EqualityConverter(Visibility whenTrue, Visibility whenFalse)
+        public EqualityConverter(object whenTrue, object whenFalse)
         {
             trueVisibility = whenTrue;
             falseVisibility = whenFalse;
@@ -51,30 +52,27 @@ namespace Dusk.Converters
 
         }
 
-        private object _value;
-        public EqualityConverter(object binding)
-        {
-            var temp = (System.Windows.Data.Binding)binding;
-
-            //var conv = new TemplateBindingExpressionConverter();
-            //  temp.TemplateBindingExtension.
-            _value = binding;
-        }
-
         protected override object Convert(object value, Type targetType, object parameter)
         {
-            if (parameter == null && _value != null)
-                return value.Equals(_value) ? trueVisibility : falseVisibility;
+            // if (targetType != trueVisibility.GetType()) return Binding.DoNothing;
+
+            if (value == null)
+                return falseVisibility;
+
+            if (parameter != null)
+                return value.Equals(parameter) ? trueVisibility : falseVisibility;
 
             if (Operation == Operations.GreaterThan)
             {
-                return (dynamic)value >= Operand ? trueVisibility : falseVisibility;
+                return (double)value >= System.Convert.ToDouble(Operand) ? trueVisibility : falseVisibility;
             }
             if (Operation == Operations.LessThan)
             {
-                return (dynamic)value < Operand ? trueVisibility : falseVisibility;
+                return (double)value < System.Convert.ToDouble(Operand) ? trueVisibility : falseVisibility;
             }
-            return value.Equals(parameter) ? trueVisibility : falseVisibility;
+            if (Operation == Operations.NotEquals)
+                return value.Equals(Operand) ? falseVisibility : trueVisibility;
+            return value.Equals(Operand) ? trueVisibility : falseVisibility;
         }
     }
 }
