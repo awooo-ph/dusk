@@ -53,7 +53,7 @@
         </EventTrigger>
     </ma:MetroWindow.Triggers>
     <Grid>
-        <MediaElement Source="../../Resources/welcome.mp4" LoadedBehavior="Play"
+        <MediaElement Source="DSWD.mp4" LoadedBehavior="Play"
                       MediaEnded="MediaElement_OnMediaEnded"
                       SpeedRatio="1"
                       Width="640" Height="360" />
