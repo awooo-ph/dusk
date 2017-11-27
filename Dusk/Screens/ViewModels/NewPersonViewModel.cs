@@ -1,9 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Dusk.Data;
 using Dusk.Models;
 using FastMember;
+using Microsoft.Win32;
+using NuGet;
 
 namespace Dusk.Screens.ViewModels
 {
@@ -42,11 +46,36 @@ namespace Dusk.Screens.ViewModels
             IsOpen = false;
         }));
 
+        private ICommand _changePictureCommand;
+
+        public ICommand ChangePictureCommand => _changePictureCommand ?? (_changePictureCommand = new DelegateCommand(
+            d =>
+            {
+                var dlg = new OpenFileDialog();
+                dlg.Title = "Select Picture";
+                dlg.Multiselect = false;
+                dlg.Filter =
+                    @"All Images|*.BMP;*.JPG;*.JPEG;*.GIF;*.PNG|
+                                                            BMP Files|*.BMP;*.DIB;*.RLE|
+                                                            JPEG Files|*.JPG;*.JPEG;*.JPE;*.JFIF|
+                                                            GIF Files|*.GIF|
+                                                            PNG Files|*.PNG";
+
+                dlg.InitialDirectory = Directory.Exists(Settings.PicturePath) ? Settings.PicturePath :
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                if (!dlg.ShowDialog(Application.Current.MainWindow) ?? false) return;
+                Settings.PicturePath = Path.GetDirectoryName(dlg.FileName);
+                Model.Picture = dlg.OpenFile().ReadAllBytes();
+            }));
+
+        
+
         private ICommand _saveCommand;
 
         public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(d =>
         {
             Properties.Settings.Default.LastBarangay = Model.BarangayId;
+
             Model.Save();
             CacheValues(Model);
             Model = null;

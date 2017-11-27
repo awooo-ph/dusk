@@ -21,15 +21,35 @@
     <md:ColorZone Mode="Light" VerticalAlignment="Stretch">
         <Grid>
             <DataGrid ItemsSource="{Binding Source={x:Static models:Person.Cache}}"
-                      
                       AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserDeleteRows="True"
-                      CanUserSortColumns="True" CanUserReorderColumns="True">
+                      CanUserDeleteRows="False"
+                      CanUserSortColumns="True"
+                      FrozenColumnCount="1"
+                      CanUserReorderColumns="True">
+                <DataGrid.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="DataGridRow">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
                 <DataGrid.Columns>
+                    <DataGridCheckBoxColumn EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            CanUserReorder="False"
+                                            CanUserSort="False"
+                                            CanUserResize="False"
+                                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                            Binding="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                        <DataGridCheckBoxColumn.Header>
+                            <CheckBox HorizontalAlignment="Center" Margin="4 0 0 0"
+                                      IsChecked="{Binding Source={x:Static dusk:MainViewModel.Instance},Path=AllSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataGridCheckBoxColumn.Header>
+                    </DataGridCheckBoxColumn>
                     <DataGridTextColumn Header="No." Binding="{Binding Number}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                     <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Header="Middle Name" Binding="{Binding Middlename}" />
-                    <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}" />
+                    <DataGridTextColumn Header="Middle Name" Binding="{Binding Middlename}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                    <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                    
                     <md:MaterialDataGridComboBoxColumn Header="Barangay" ItemsSource="{Binding Source={x:Static models:Barangay.Cache}}"
                                                        SelectedValuePath="Id" SelectedValueBinding="{Binding BarangayId}"/>
                     
@@ -41,14 +61,18 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <DatePicker SelectedDate="{Binding BirthDate}" Margin="0"/>
+                                <DatePicker SelectedDate="{Binding BirthDate}" Margin="-4"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age}" />
-                    <md:MaterialDataGridTextColumn Header="asdf"/>
+                    
+                    <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age,Mode=OneWay}" />
+                    
                     <md:MaterialDataGridComboBoxColumn Header="Gender" SelectedValueBinding="{Binding Sex}"
                                                        ItemsSourceBinding="{Binding Source={dusk:EnumBinding {x:Type models:Sexes}}}" />
+
+                    <DataGridTextColumn Header="Remarks" Binding="{Binding Remarks}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

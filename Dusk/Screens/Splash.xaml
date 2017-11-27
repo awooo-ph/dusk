@@ -8,20 +8,21 @@
         mc:Ignorable="d"
         ShowInTaskbar="False"
         WindowStyle="None"
+                Background="White"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         AllowsTransparency="True"
         ShowTitleBar="False"
+                Width="640" Height="360"
                 ShowCloseButton="False"
                 TextOptions.TextFormattingMode="Display"
                 TextOptions.TextRenderingMode="ClearType"
                 Name="Window"
                 Topmost="True"
-                WindowTransitionsEnabled="True"
-                WindowTransitionCompleted="Splash_OnWindowTransitionCompleted"
-        Title="Dusk" SizeToContent="WidthAndHeight">
+                WindowTransitionsEnabled="False"
+                WindowTransitionCompleted="Splash_OnWindowTransitionCompleted">
     <ma:MetroWindow.Triggers>
-        <EventTrigger RoutedEvent="ma:MetroWindow.WindowTransitionCompleted">
+        <EventTrigger RoutedEvent="ma:MetroWindow.Loaded">
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Logo" Storyboard.TargetProperty="Opacity">
@@ -56,7 +57,7 @@
         <MediaElement Source="DSWD.mp4" LoadedBehavior="Play"
                       MediaEnded="MediaElement_OnMediaEnded"
                       SpeedRatio="1"
-                      Width="640" Height="360" />
+                       />
         <Grid x:Name="Seniors" Opacity="0">
         <Image Source="/Resources/senion-female.png" HorizontalAlignment="Left"
                Height="300"

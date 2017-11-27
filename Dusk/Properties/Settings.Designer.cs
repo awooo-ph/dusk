@@ -94,5 +94,17 @@ namespace Dusk.Properties {
                 this["EnableUserAccounts"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PicturePath {
+            get {
+                return ((string)(this["PicturePath"]));
+            }
+            set {
+                this["PicturePath"] = value;
+            }
+        }
     }
 }

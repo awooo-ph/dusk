@@ -202,13 +202,11 @@
             <!--Title bar-->
             <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
                           Grid.Column="0" Grid.Row="0"
-                          IsHitTestVisible="False"
-                          >
+                          IsHitTestVisible="False">
                 <Grid x:Name="TitleIcon" HorizontalAlignment="Left">
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Left"
-                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}"
+                                
                                 Grid.Column="0">
                         <Grid DockPanel.Dock="Left">
                             <Image Source="Resources/sun.png" Height="57"

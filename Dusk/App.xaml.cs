@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Animation;
 using Dusk.Screens;
+using Squirrel;
 
 namespace Dusk
 {
@@ -11,7 +13,7 @@ namespace Dusk
     {
 
         //#if !DEBUG
-        //  private static Task<UpdateManager> _updateManager = null;
+        private static UpdateManager _updateManager = null;
         //#endif
 
         private MainWindow mainWindow;
@@ -23,55 +25,72 @@ namespace Dusk
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline),
                 new FrameworkPropertyMetadata { DefaultValue = 30 });
 
-            mainWindow = new MainWindow();
-            MainWindow = mainWindow;
-            MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
-            mainWindow.DataContext = MainViewModel.Instance;
-
-
 
             if (Dusk.Properties.Settings.Default.ShowSplash)
             {
-                // mainWindow.Show();
-                //mainWindow.Visibility = Visibility.Hidden;
-                // mainWindow.Hide();
+
+                mainWindow = new MainWindow();
+                MainWindow = mainWindow;
+                MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
+                Task.Factory.StartNew(async () =>
+                {
+                    await mainWindow.Dispatcher.InvokeAsync(() => mainWindow.DataContext = MainViewModel.Instance);
+                });
+
+
                 var splash = new Splash();
                 splash.Show();
+
+
             }
             else
             {
+                mainWindow = new MainWindow();
+                MainWindow = mainWindow;
                 mainWindow.Show();
+
+                MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
+                mainWindow.DataContext = MainViewModel.Instance;
 
             }
             //#if !DEBUG
-            //   Task.Factory.StartNew(CheckForUpdates);
+            Task.Factory.StartNew(CheckForUpdates);
             //#endif
         }
         //#if !DEBUG
         private static async void CheckForUpdates()
         {
+            //Todo squirrel update
+
 
             //using (var mgr = new UpdateManager(@"C:\Users\7\Source\Repos\Dusk\dev\Releases"))
             //{
             //    await mgr.UpdateApp();
             //}
 
-            //  _updateManager = UpdateManager.GitHubUpdateManager("https://github.com/awooo-ph/dusk", "Dusk", prerelease: true);
+            _updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/awooo-ph/dusk", "Dusk", prerelease: true);
 
             //_updateManager = new UpdateManager(@"C:\Users\7\Source\Repos\Dusk\deploy");
 
-            //  if (_updateManager.Result.IsInstalledApp)
-            //      await _updateManager.Result.UpdateApp();
+            if (_updateManager.IsInstalledApp)
+            {
+                //_updateManager.UpdateApp()
+                // var up = await _updateManager.CheckForUpdate();
+                await _updateManager.UpdateApp();
+            }
 
         }
         //#endif
 
-        private void App_OnExit(object sender, ExitEventArgs e)
+        protected override void OnExit(ExitEventArgs e)
         {
             //#if !DEBUG
-            // _updateManager?.Dispose();
+            _updateManager?.Dispose();
             //#endif
             Dusk.Properties.Settings.Default.Save();
+
+            base.OnExit(e);
         }
+
     }
 }

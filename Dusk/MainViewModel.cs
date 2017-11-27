@@ -70,6 +70,18 @@ namespace Dusk
             });
         }
 
+        private bool _allSelected;
+
+        public bool AllSelected
+        {
+            get { return _allSelected; }
+            set
+            {
+                _allSelected = value; 
+                OnPropertyChanged();
+            }
+        }
+
         private bool _IsUserMenuOpen;
 
         public bool IsUserMenuOpen
