@@ -12,9 +12,7 @@ namespace Dusk
     public partial class App : Application
     {
 
-        //#if !DEBUG
-        private static UpdateManager _updateManager = null;
-        //#endif
+        private static Task<UpdateManager> _updateManager = null;
 
         private MainWindow mainWindow;
 
@@ -25,39 +23,23 @@ namespace Dusk
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline),
                 new FrameworkPropertyMetadata { DefaultValue = 30 });
 
+            mainWindow = new MainWindow();
+            MainWindow = mainWindow;
+            MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
 
             if (Dusk.Properties.Settings.Default.ShowSplash)
             {
-
-                mainWindow = new MainWindow();
-                MainWindow = mainWindow;
-                MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
-                Task.Factory.StartNew(async () =>
-                {
-                    await mainWindow.Dispatcher.InvokeAsync(() => mainWindow.DataContext = MainViewModel.Instance);
-                });
-
-
                 var splash = new Splash();
                 splash.Show();
-
-
             }
             else
             {
-                mainWindow = new MainWindow();
-                MainWindow = mainWindow;
-                mainWindow.Show();
-
-                MainViewModel.Instance.Dispatcher = mainWindow.Dispatcher;
                 mainWindow.DataContext = MainViewModel.Instance;
-
+                mainWindow.Show();
             }
-            //#if !DEBUG
             Task.Factory.StartNew(CheckForUpdates);
-            //#endif
         }
-        //#if !DEBUG
+
         private static async void CheckForUpdates()
         {
             //Todo squirrel update
@@ -68,25 +50,24 @@ namespace Dusk
             //    await mgr.UpdateApp();
             //}
 
-            _updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/awooo-ph/dusk", "Dusk", prerelease: true);
+            _updateManager = UpdateManager.GitHubUpdateManager("https://github.com/awooo-ph/dusk", "Dusk", prerelease: true);
 
             //_updateManager = new UpdateManager(@"C:\Users\7\Source\Repos\Dusk\deploy");
 
-            if (_updateManager.IsInstalledApp)
+            if (_updateManager.Result.IsInstalledApp)
             {
                 //_updateManager.UpdateApp()
                 // var up = await _updateManager.CheckForUpdate();
-                await _updateManager.UpdateApp();
+                await _updateManager.Result.UpdateApp();
             }
 
         }
-        //#endif
+
 
         protected override void OnExit(ExitEventArgs e)
         {
-            //#if !DEBUG
+
             _updateManager?.Dispose();
-            //#endif
             Dusk.Properties.Settings.Default.Save();
 
             base.OnExit(e);

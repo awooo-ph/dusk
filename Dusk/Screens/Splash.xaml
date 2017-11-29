@@ -1,4 +1,4 @@
-﻿<ma:MetroWindow x:Class="Dusk.Screens.Splash"
+﻿<Window x:Class="Dusk.Screens.Splash"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,18 +11,16 @@
                 Background="White"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
+                Loaded="Splash_OnLoaded"
         AllowsTransparency="True"
-        ShowTitleBar="False"
+      
                 Width="640" Height="360"
-                ShowCloseButton="False"
                 TextOptions.TextFormattingMode="Display"
                 TextOptions.TextRenderingMode="ClearType"
                 Name="Window"
-                Topmost="True"
-                WindowTransitionsEnabled="False"
-                WindowTransitionCompleted="Splash_OnWindowTransitionCompleted">
-    <ma:MetroWindow.Triggers>
-        <EventTrigger RoutedEvent="ma:MetroWindow.Loaded">
+                Topmost="True">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Logo" Storyboard.TargetProperty="Opacity">
@@ -52,17 +50,23 @@
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
-    </ma:MetroWindow.Triggers>
+    </Window.Triggers>
     <Grid>
-        <MediaElement Source="DSWD.mp4" LoadedBehavior="Play"
-                      MediaEnded="MediaElement_OnMediaEnded"
-                      SpeedRatio="1"
-                       />
+        <Viewbox>
+            <Canvas Height="460" Width="820" ClipToBounds="True">
+                <Image Width="820"
+                       x:Name="Image"
+                       Stretch="Uniform"
+                       Source="/Resources/Splash.jpg"
+                       Canvas.Top="0"
+                       Canvas.Left="0"/>
+            </Canvas>
+        </Viewbox>
         <Grid x:Name="Seniors" Opacity="0">
         <Image Source="/Resources/senion-female.png" HorizontalAlignment="Left"
                Height="300"
                x:Name="SeniorFemale"
-               Stretch="Uniform" Margin="10"
+               Stretch="Uniform" Margin="20 10 10 10"
                VerticalAlignment="Center"/>
         <Image Source="/Resources/senior-male.png" HorizontalAlignment="Right"
                x:Name="SeniorMale"
@@ -93,4 +97,4 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-</ma:MetroWindow>
+</Window>
