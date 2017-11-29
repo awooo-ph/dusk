@@ -1,13 +1,21 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Dusk.Annotations;
+using Dusk.Models;
+using Dusk.Properties;
 using Dusk.Screens;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
 
 namespace Dusk
@@ -23,6 +31,15 @@ namespace Dusk
 
         private MainViewModel()
         {
+            Messenger.Default.AddListener<Person>(Messages.PersonSelectionChanged,
+                person =>
+                {
+                    OnPropertyChanged(nameof(HasSelected));
+                    OnPropertyChanged(nameof(SelectionCount));
+                    OnPropertyChanged(nameof(AllSelected));
+                });
+            Messenger.Default.AddListener<Person>(Messages.PersonSaved,
+                person => MessageQueue.Enqueue("Changes saved.", "UNDO", person.Restore));
         }
 
         private UserControl _CurrentScreen;
@@ -45,6 +62,22 @@ namespace Dusk
                 OnPropertyChanged();
             }
         }
+
+        private ListCollectionView _searchResult;
+
+        public ListCollectionView SearchResult
+        {
+            get
+            {
+                if (_searchResult != null) return _searchResult;
+                _searchResult = new ListCollectionView(Person.Cache);
+                return _searchResult;
+            }
+        }
+
+        public bool HasSelected => Person.Cache.Any(x => x.IsSelected);
+
+        public long SelectionCount => Person.Cache.Count(x => x.IsSelected);
 
         private bool _IsAdding;
 
@@ -70,14 +103,31 @@ namespace Dusk
             });
         }
 
+        private ICommand _undoChangesCommand;
+
+        public ICommand UndoChangesCommand => _undoChangesCommand ?? (_undoChangesCommand = new DelegateCommand(d =>
+        {
+            foreach (var person in Person.Cache.Where(x => x.IsSelected).ToList())
+            {
+                person.Restore();
+            }
+        }));
+
+
         private bool _allSelected;
 
         public bool AllSelected
         {
-            get { return _allSelected; }
+            get { return Person.Cache.All(x => x.IsSelected); }
             set
             {
-                _allSelected = value; 
+                //if (value)
+                //{
+                foreach (var person in Person.Cache)
+                {
+                    person.IsSelected = value;
+                }
+                //}
                 OnPropertyChanged();
             }
         }
@@ -94,6 +144,67 @@ namespace Dusk
                 OnPropertyChanged(nameof(IsUserMenuOpen));
             }
         }
+
+        private ICommand _deleteSelectedCommand;
+        private List<Person> _deletedPersons;
+
+        public ICommand DeleteSelectedCommand =>
+            _deleteSelectedCommand ?? (_deleteSelectedCommand = new DelegateCommand(
+                async d =>
+                {
+                    var ma = (MetroWindow)Application.Current.MainWindow;
+                    var msg = await ma.ShowMessageAsync("Confirm Delete",
+                        "Are you sure you want to delete the selected items?",
+                        MessageDialogStyle.AffirmativeAndNegative,
+                        new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = "YES",
+                            NegativeButtonText = "NO",
+                            ColorScheme = MetroDialogColorScheme.Theme,
+                            DefaultButtonFocus = MessageDialogResult.Affirmative,
+                        });
+                    if (msg == MessageDialogResult.Negative) return;
+                    //_deletedPersons?.Clear();
+                    var items = Person.Cache.Where(x => x.IsSelected).ToList();
+                    foreach (var person in items)
+                    {
+                        person.Delete();
+                        person.IsSelected = false;
+                    }
+                    MessageQueue.Enqueue($"{items.Count} items deleted.", "UNDO", () =>
+                     {
+                         foreach (var person in items)
+                         {
+                             person.Update(nameof(Person.IsDeleted), false);
+                             Person.Cache.Add(person);
+                         }
+                     });
+                }));
+
+        //private ICommand _undoDeleteCommand;
+
+        //public ICommand UndoDeleteCommand => _undoDeleteCommand ?? (_undoDeleteCommand = new DelegateCommand(d =>
+        //{
+        //    if (_deletedPersons == null) return;
+        //    foreach (var person in _deletedPersons)
+        //    {
+        //        person.IsDeleted = false;
+        //        Person.Cache.Add(person);
+        //    }
+        //}));
+
+        private SnackbarMessageQueue _messageQueue;
+        public SnackbarMessageQueue MessageQueue => _messageQueue ?? (_messageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(7.0)));
+
+        private ICommand _showFullNameCommand;
+
+        public ICommand ToggleFullNameCommand => _showFullNameCommand ?? (_showFullNameCommand = new DelegateCommand(d =>
+        {
+            Settings.Default.ShowFullName = !Settings.Default.ShowFullName;
+            // OnPropertyChanged(nameof(ShowFullName));
+        }));
+
+        // public bool ShowFullName => Settings.Default.ShowFullName;
 
         private ICommand _accountSettingsCommand;
 

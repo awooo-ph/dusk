@@ -12,7 +12,7 @@ namespace Dusk
     public partial class App : Application
     {
 
-        private static Task<UpdateManager> _updateManager = null;
+        private static Task _updateManager = null;
 
         private MainWindow mainWindow;
 
@@ -37,7 +37,7 @@ namespace Dusk
                 mainWindow.DataContext = MainViewModel.Instance;
                 mainWindow.Show();
             }
-            Task.Factory.StartNew(CheckForUpdates);
+            _updateManager = Task.Factory.StartNew(CheckForUpdates);
         }
 
         private static async void CheckForUpdates()
@@ -50,15 +50,15 @@ namespace Dusk
             //    await mgr.UpdateApp();
             //}
 
-            _updateManager = UpdateManager.GitHubUpdateManager("https://github.com/awooo-ph/dusk", "Dusk", prerelease: true);
+            var upd = UpdateManager.GitHubUpdateManager("https://github.com/awooo-ph/dusk", "Dusk", prerelease: true);
 
             //_updateManager = new UpdateManager(@"C:\Users\7\Source\Repos\Dusk\deploy");
 
-            if (_updateManager.Result.IsInstalledApp)
+            if (upd.Result.IsInstalledApp)
             {
                 //_updateManager.UpdateApp()
                 // var up = await _updateManager.CheckForUpdate();
-                await _updateManager.Result.UpdateApp();
+                await upd.Result.UpdateApp();
             }
 
         }
@@ -66,9 +66,12 @@ namespace Dusk
 
         protected override void OnExit(ExitEventArgs e)
         {
-
-            _updateManager?.Dispose();
             Dusk.Properties.Settings.Default.Save();
+
+            if (!_updateManager?.IsCompleted ?? true)
+            {
+                _updateManager?.Wait();
+            }
 
             base.OnExit(e);
         }

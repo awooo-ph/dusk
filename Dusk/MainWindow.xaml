@@ -83,8 +83,9 @@
             </ma:Flyout>
         </ma:FlyoutsControl>
     </ma:MetroWindow.Flyouts>
-    <md:DialogHost>
-    <Grid IsSharedSizeScope="True">
+    <md:DialogHost SnackbarMessageQueue="{Binding MessageQueue}">
+ 
+            <Grid IsSharedSizeScope="True">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -102,12 +103,15 @@
                     <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
                     <ResourceDictionary
+                        Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.snackbar.xaml" />
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
                     <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />
                     <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />-->
                     <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                    
                     
                 </ResourceDictionary.MergedDictionaries>
                 <Style TargetType="{x:Type TextBlock}">
@@ -177,29 +181,78 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <md:TransitioningContent Grid.Row="1"
+            <!--<md:TransitioningContent Grid.Row="1"
                                      Grid.Column="0" Grid.ColumnSpan="4"
-                                     Content="{Binding CurrentScreen}" />
+                                     Content="{Binding CurrentScreen}" />-->
+            <screens:SearchResult Grid.Row="1"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="4"/>
 
-            <!--Status bar-->
-            
-                        <!--<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
-                              VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <!--Selection action bar-->
 
-                        
-                        <Button Margin="7">
+
+                <md:ColorZone Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                              Mode="Light"
+                             Visibility="{Binding HasSelected,Converter={converters:BooleanToVisibility}}"
+                              VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                                Margin="0 4">
+                        <md:PackIcon Kind="CheckboxMultipleMarked"
+                                     Height="24" Width="24"
+                                     Foreground="{StaticResource AccentColorBrush}"
+                                     VerticalAlignment="Center"
+                                     Margin="20 0 4 0"/>
+                        <TextBlock VerticalAlignment="Center"
+                                   Width="147"
+                                   Margin="0 0 10 0">
+                            <Run Text="{Binding SelectionCount,Mode=OneWay}"/>
+                            <Run Text=" items selected"/>
+                        </TextBlock>
+                        <UniformGrid HorizontalAlignment="Left"
+                                     Columns="4">
+                        <Button Margin="7"
+                                Focusable="False"
+                                Command="{Binding DeleteSelectedCommand}">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="MessageText" />
-                                <TextBlock Text="Send Feedback"
-                                           Margin="4,0,0,0" />
+                                <md:PackIcon Kind="Close" />
+                                <TextBlock Text="Delete"
+                                           Margin="7,0,0,0" />
 
                             </StackPanel>
                         </Button>
-                    </StackPanel>
-                </Grid>-->
 
-            <!--Title bar-->
+                            <Button Margin="7"
+                                    Focusable="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="AccountBoxOutline" />
+                                    <TextBlock Text="Deceased"
+                                               Margin="7,0,0,0" />
+
+                                </StackPanel>
+                            </Button>
+
+                            <Button Margin="7" Focusable="False">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Pencil" />
+                                <TextBlock Text="Edit"
+                                           Margin="7,0,0,0" />
+
+                            </StackPanel>
+                        </Button>
+
+                            <Button Margin="7" Focusable="False">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="MessageText" />
+                                <TextBlock Text="Remarks"
+                                           Margin="7,0,0,0" />
+
+                            </StackPanel>
+                        </Button>
+                        </UniformGrid>
+                    </StackPanel>
+                </md:ColorZone>
+
+                <!--Title bar-->
             <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
                           Grid.Column="0" Grid.Row="0"
                           IsHitTestVisible="False">
@@ -561,7 +614,7 @@
                                                              VerticalAlignment="Center" />
                                                 <StackPanel VerticalAlignment="Center"
                                                             Margin="4">
-                                                    <TextBlock Text="Tools" FontWeight="Bold" />
+                                                    <TextBlock Text="TOOLS" FontWeight="Bold" />
                                                     <TextBlock Text="Herramientas"
                                                                FontWeight="Light"
                                                                Opacity="0.7" />
@@ -597,6 +650,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                                
+                                
 
                     <GroupBox Margin="10">
                         <GroupBox.Header>
@@ -719,18 +774,12 @@
             </md:ColorZone>
         </Grid>
         
-        <md:Snackbar HorizontalAlignment="Left"
-                     Margin="7"
-                     Padding="2"
+        <md:Snackbar HorizontalAlignment="Right"
+                     md:ColorZoneAssist.Mode="Light"
+                     ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionLightButton}"
                      VerticalAlignment="Bottom"
-                     md:ShadowAssist.ShadowDepth="Depth4">
-            <md:SnackbarMessage>
-                <StackPanel Orientation="Horizontal">
-                    <md:PackIcon Kind="AlertCircle" Height="24" Width="24" />
-                    <TextBlock Text="sample status" VerticalAlignment="Center" />
-                </StackPanel>
-            </md:SnackbarMessage>
-        </md:Snackbar>
+                     MessageQueue="{Binding MessageQueue}"/>
     </Grid>
+
     </md:DialogHost>
 </ma:MetroWindow>

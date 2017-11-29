@@ -20,11 +20,13 @@
 
     <md:ColorZone Mode="Light" VerticalAlignment="Stretch">
         <Grid>
-            <DataGrid ItemsSource="{Binding Source={x:Static models:Person.Cache}}"
+            <DataGrid ItemsSource="{Binding SearchResult}"
+                      IsSynchronizedWithCurrentItem="False"
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       CanUserSortColumns="True"
                       FrozenColumnCount="1"
+                      RowEditEnding="DataGrid_OnRowEditEnding"
                       CanUserReorderColumns="True">
                 <DataGrid.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="DataGridRow">
@@ -43,17 +45,160 @@
                                       IsChecked="{Binding Source={x:Static dusk:MainViewModel.Instance},Path=AllSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         </DataGridCheckBoxColumn.Header>
                     </DataGridCheckBoxColumn>
+                    
                     <DataGridTextColumn Header="No." Binding="{Binding Number}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Header="Firstname" Binding="{Binding Firstname}" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                                        Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowFullName,Converter={converters:BooleanToVisibility Collapsed,Visible}}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu Padding="0" DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}">
+                                            <MenuItem Header="Show Full Name"
+                                                      Command="{Binding ToggleFullNameCommand}"
+                                                      Icon="{md:PackIcon Textbox}"
+                                                      Margin="0"/>
+                                            <MenuItem Header="Sort Ascending"
+                                                      Command="{Binding SortAscendingCommand}"
+                                                      CommandParameter="Firstname"
+                                                      Icon="{md:PackIcon SortAscending}"/>
+                                            <MenuItem Header="Sort Descending"
+                                                      Command="{Binding SortDescendingCommand}"
+                                                      CommandParameter="Firstname"
+                                                      Icon="{md:PackIcon SortDescending}" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Middle Name" Binding="{Binding Middlename}"
-                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                        Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowFullName,Converter={converters:BooleanToVisibility Collapsed,Visible}}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" >
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+                                   TargetType="DataGridColumnHeader">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu Padding="0"
+                                                     DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}">
+                                            <MenuItem Header="Show Full Name"
+                                                      Command="{Binding ToggleFullNameCommand}"
+                                                      Icon="{md:PackIcon Textbox}"
+                                                      Margin="0" />
+                                            <MenuItem Header="Sort Ascending"
+                                                      Command="{Binding SortAscendingCommand}"
+                                                      CommandParameter="MiddleName"
+                                                      Icon="{md:PackIcon SortAscending}" />
+                                            <MenuItem Header="Sort Descending"
+                                                      Command="{Binding SortDescendingCommand}"
+                                                      CommandParameter="MiddleName"
+                                                      Icon="{md:PackIcon SortDescending}" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Lastname" Binding="{Binding Lastname}"
-                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                        Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowFullName,Converter={converters:BooleanToVisibility Collapsed,Visible}}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" >
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+                                   TargetType="DataGridColumnHeader">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu Padding="0"
+                                                     DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}">
+                                            <MenuItem Header="Show Full Name"
+                                                      Command="{Binding ToggleFullNameCommand}"
+                                                      Icon="{md:PackIcon Textbox}"
+                                                      Margin="0" />
+                                            <MenuItem Header="Sort Ascending"
+                                                      Command="{Binding SortAscendingCommand}"
+                                                      CommandParameter="Lastname"
+                                                      Icon="{md:PackIcon SortAscending}" />
+                                            <MenuItem Header="Sort Descending"
+                                                      Command="{Binding SortDescendingCommand}"
+                                                      CommandParameter="Lastname"
+                                                      Icon="{md:PackIcon SortDescending}" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTemplateColumn Header="Name"
+                                            Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowFullName,Converter={converters:BooleanToVisibility}}">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+                                   TargetType="DataGridColumnHeader">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu Padding="0"
+                                                     DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}">
+                                            <MenuItem Header="Show First/Last Name"
+                                                      Command="{Binding ToggleFullNameCommand}"
+                                                      Icon="{md:PackIcon Textbox}"
+                                                      Margin="0" />
+                                            <MenuItem Header="Sort Ascending"
+                                                      Icon="{md:PackIcon SortAscending}" >
+                                                <MenuItem Header="By Firstname"/>
+                                                <MenuItem Header="By Middle Name" />
+                                                <MenuItem Header="By Lastname" />
+                                            </MenuItem>
+                                            <MenuItem Header="Sort Descending"
+                                                      Icon="{md:PackIcon SortDescending}">
+                                                <MenuItem Header="By Firstname" />
+                                                <MenuItem Header="By Middle Name" />
+                                                <MenuItem Header="By Lastname" />
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Fullname}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <UniformGrid Columns="3">
+                                    <TextBox Text="{Binding Firstname}"
+                                             md:HintAssist.Hint="Firstname"/>
+                                    <TextBox Text="{Binding Middlename}"
+                                             md:HintAssist.Hint="Middle Name"
+                                             Margin="4 0"/>
+                                    <TextBox Text="{Binding Lastname}"
+                                             md:HintAssist.Hint="Lastname" />
+                                </UniformGrid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
                     
                     <md:MaterialDataGridComboBoxColumn Header="Barangay" ItemsSource="{Binding Source={x:Static models:Barangay.Cache}}"
                                                        SelectedValuePath="Id" SelectedValueBinding="{Binding BarangayId}"/>
                     
                     <DataGridTemplateColumn Header="Birth Date">
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+                                   TargetType="DataGridColumnHeader">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu Padding="0"
+                                                     DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}">
+                                            <MenuItem Header="Show Age"
+                                                      IsCheckable="True"
+                                                      IsChecked="{Binding Source={x:Static cnf:Settings.Default},Path=ShowAge}"
+                                                      Margin="0" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding BirthDate,StringFormat=d}"/>
@@ -65,8 +210,26 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-                    
-                    <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age,Mode=OneWay}" />
+
+                    <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age,Mode=OneWay}"
+                                        Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowAge,Converter={converters:BooleanToVisibility}}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+                                   TargetType="DataGridColumnHeader">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu Padding="0"
+                                                     DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}">
+                                            <MenuItem Header="Show Age"
+                                                      IsCheckable="True"
+                                                      IsChecked="{Binding Source={x:Static cnf:Settings.Default},Path=ShowAge}"
+                                                      Margin="0" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
                     
                     <md:MaterialDataGridComboBoxColumn Header="Gender" SelectedValueBinding="{Binding Sex}"
                                                        ItemsSourceBinding="{Binding Source={dusk:EnumBinding {x:Type models:Sexes}}}" />

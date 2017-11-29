@@ -250,7 +250,7 @@
     <Resource Include="Resources\senior-male.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DSWD.mp4" />
+    <Resource Include="Resources\Splash.jpg" />
     <Resource Include="SplashScreen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

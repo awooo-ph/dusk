@@ -25,7 +25,7 @@ namespace Dusk.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowSplash {
             get {
                 return ((bool)(this["ShowSplash"]));
@@ -104,6 +104,30 @@ namespace Dusk.Properties {
             }
             set {
                 this["PicturePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowFullName {
+            get {
+                return ((bool)(this["ShowFullName"]));
+            }
+            set {
+                this["ShowFullName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowAge {
+            get {
+                return ((bool)(this["ShowAge"]));
+            }
+            set {
+                this["ShowAge"] = value;
             }
         }
     }
