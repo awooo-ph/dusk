@@ -20,12 +20,13 @@
                 xmlns:viewModels="clr-namespace:Dusk.Screens.ViewModels"
                 xmlns:system="clr-namespace:System;assembly=mscorlib"
                 xmlns:models="http://csproj.cf/dusk/models"
+                xmlns:properties="clr-namespace:Dusk.Properties"
                 Icon="Resources/sun.png"
                 mc:Ignorable="d"
                 GlowBrush="Black"
                 NonActiveGlowBrush="Black"
                 BorderThickness="0"
-                ShowTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=1000}}"
+                ShowTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=1100}}"
                 ShowIconOnTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=700}}"
                 Title="Dusk - DSWD Guihulngan" Height="470" MinWidth="666" Width="666">
     <ma:MetroWindow.Triggers>
@@ -55,22 +56,24 @@
         <ma:WindowCommands>
             <!--<Button Content="{md:PackIcon Settings}" ToolTip="Settings" Command="{Binding ShowSettingsCommand}"
                     />-->
-            
+
+            <Button Command="{Binding ShowSettingsCommand}"
+                    Cursor="Hand"
+                    Content="{md:PackIcon Settings}"
+                    ToolTip="Settings"/>
+
             <Button Command="{Binding ShowAboutCommand}"
+                    Cursor="Hand"
                     ToolTip="About Dusk">
-                <StackPanel Orientation="Horizontal" IsHitTestVisible="False">
-                    <Rectangle Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},Path=Foreground}"
+                <Rectangle Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},Path=Foreground}"
+                               IsHitTestVisible="False"
                                Height="16" Width="16">
-                        <Rectangle.OpacityMask>
-                            <ImageBrush ImageSource="/Resources/icon.ico" Stretch="Uniform"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Text="About Dusk"
-                               Visibility="{Binding RelativeSource={RelativeSource AncestorType=Button},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}"
-                               Margin="4 0 0 0"/>
-                </StackPanel>
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Resources/icon.ico" Stretch="Uniform"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
             </Button>
-            
+
         </ma:WindowCommands>
     </ma:MetroWindow.RightWindowCommands>
     <ma:MetroWindow.Flyouts>
@@ -209,7 +212,7 @@
                             <Run Text=" items selected"/>
                         </TextBlock>
                         <UniformGrid HorizontalAlignment="Left"
-                                     Columns="4">
+                                     Columns="5">
                         <Button Margin="7"
                                 Focusable="False"
                                 Command="{Binding DeleteSelectedCommand}">
@@ -220,34 +223,41 @@
 
                             </StackPanel>
                         </Button>
+                            <!--<Button Margin="7" Focusable="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="MessageText" />
+                                    <TextBlock Text="Remarks"
+                                               Margin="7,0,0,0" />
+
+                                </StackPanel>
+                            </Button>-->
+                            
 
                             <Button Margin="7"
+                                    Visibility="{Binding HasSelectedDeceased,Converter={converters:BooleanToVisibility}}"
+                                    Command="{Binding ResurrectCommand}"
                                     Focusable="False">
                                 <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="AccountBoxOutline" />
+                                    <md:PackIcon Kind="Creation" />
+                                    <TextBlock Text="Resurrect"
+                                               Margin="7,0,0,0" />
+
+                                </StackPanel>
+                            </Button>
+
+                            <Button Margin="7"
+                                    Visibility="{Binding HasSelectedAlive,Converter={converters:BooleanToVisibility Visible,Hidden}}"
+                                    Command="{Binding SetDeceasedCommand}"
+                                    Focusable="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="HeartPulse" />
                                     <TextBlock Text="Deceased"
                                                Margin="7,0,0,0" />
 
                                 </StackPanel>
                             </Button>
 
-                            <Button Margin="7" Focusable="False">
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Pencil" />
-                                <TextBlock Text="Edit"
-                                           Margin="7,0,0,0" />
 
-                            </StackPanel>
-                        </Button>
-
-                            <Button Margin="7" Focusable="False">
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="MessageText" />
-                                <TextBlock Text="Remarks"
-                                           Margin="7,0,0,0" />
-
-                            </StackPanel>
-                        </Button>
                         </UniformGrid>
                     </StackPanel>
                 </md:ColorZone>
@@ -261,7 +271,12 @@
                                 HorizontalAlignment="Left"
                                 
                                 Grid.Column="0">
-                        <Grid DockPanel.Dock="Left">
+                        <Rectangle Height="57" Width="1" Visibility="Hidden" 
+                                   DockPanel.Dock="Left"/>
+                            <Grid DockPanel.Dock="Left"
+                                  Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}">
+                            
                             <Image Source="Resources/sun.png" Height="57"
                                    x:Name="Sun"
                                    Opacity="0"
@@ -315,6 +330,7 @@
                     <StackPanel VerticalAlignment="Center" Margin="0 0 17 0">
                         <TextBlock Text="SEARCH OLDIES" FontWeight="Bold" Margin="7 0" />
                         <TextBox
+                            Text="{Binding SearchKeyword,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             md:HintAssist.Hint="Search keyword"
                             md:HintAssist.HintOpacity="0.4"
                             Margin="7 0"
@@ -330,7 +346,8 @@
 
                 </StackPanel>
 
-                <Rectangle Fill="Black" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True"
+                <Rectangle Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True"
+                           Fill="{StaticResource MaterialDesignLightSeparatorBackground}"
                            Grid.Column="1" />
             </Grid>
 
@@ -340,8 +357,12 @@
                           Grid.Row="0"
                           SnapsToDevicePixels="True"
                           IsChecked="{Binding IsOpen,Source={viewModels:NewPersonViewModel}}"
-                          Foreground="White" BorderThickness="1 0 1 0"
-                          BorderBrush="Black"
+                          Foreground="White"
+                          
+                          BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter TrueValue=1 0, FalseValue=0 0 1 0, Operation=GreaterThan, Operand=700}}"
+                          
+                          BorderBrush="{StaticResource MaterialDesignLightSeparatorBackground}"
                           Style="{StaticResource FlatButton}">
 
                 <StackPanel Orientation="Horizontal">
@@ -367,7 +388,7 @@
                           Grid.Row="0"
                           SnapsToDevicePixels="True"
                           Foreground="White" BorderThickness="0 0 1 0"
-                          BorderBrush="Black"
+                          BorderBrush="{StaticResource MaterialDesignLightSeparatorBackground}"
                           Style="{StaticResource FlatButton}">
 
                 <StackPanel Orientation="Horizontal">
@@ -388,7 +409,7 @@
 
             <!--User-->
             <Grid Grid.Column="3" Grid.Row="0"
-                  Visibility="{Binding Path=EnableUserAccounts,Converter={converters:BooleanToVisibility}}"
+                  Visibility="{Binding Source={x:Static properties:Settings.Default},Path=EnableUserAccounts,Converter={converters:BooleanToVisibility}}"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>

@@ -19,9 +19,6 @@ namespace Dusk.Converters
             NotEquals,
         }
 
-        private object trueVisibility = Visibility.Visible;
-        private object falseVisibility = Visibility.Collapsed;
-
         private ReturnTypes _returnType = ReturnTypes.Visibility;
 
         public ReturnTypes ReturnType
@@ -32,19 +29,23 @@ namespace Dusk.Converters
                 _returnType = value;
                 if (value == ReturnTypes.Boolean)
                 {
-                    trueVisibility = true;
-                    falseVisibility = false;
+                    TrueValue = true;
+                    FalseValue = false;
                 }
             }
         }
+
+        public object TrueValue { get; set; } = Visibility.Visible;
+
+        public object FalseValue { get; set; } = Visibility.Collapsed;
 
         public Operations Operation { get; set; } = Operations.Equals;
         public object Operand { get; set; } = 0;
 
         public EqualityConverter(object whenTrue, object whenFalse)
         {
-            trueVisibility = whenTrue;
-            falseVisibility = whenFalse;
+            TrueValue = whenTrue;
+            FalseValue = whenFalse;
         }
 
         public EqualityConverter()
@@ -57,22 +58,22 @@ namespace Dusk.Converters
             // if (targetType != trueVisibility.GetType()) return Binding.DoNothing;
 
             if (value == null)
-                return falseVisibility;
+                return FalseValue;
 
             if (parameter != null)
-                return value.Equals(parameter) ? trueVisibility : falseVisibility;
+                return value.Equals(parameter) ? TrueValue : FalseValue;
 
             if (Operation == Operations.GreaterThan)
             {
-                return (double)value >= System.Convert.ToDouble(Operand) ? trueVisibility : falseVisibility;
+                return (double)value >= System.Convert.ToDouble(Operand) ? TrueValue : FalseValue;
             }
             if (Operation == Operations.LessThan)
             {
-                return (double)value < System.Convert.ToDouble(Operand) ? trueVisibility : falseVisibility;
+                return (double)value < System.Convert.ToDouble(Operand) ? TrueValue : FalseValue;
             }
             if (Operation == Operations.NotEquals)
-                return value.Equals(Operand) ? falseVisibility : trueVisibility;
-            return value.Equals(Operand) ? trueVisibility : falseVisibility;
+                return value.Equals(Operand) ? FalseValue : TrueValue;
+            return value.Equals(Operand) ? TrueValue : FalseValue;
         }
     }
 }

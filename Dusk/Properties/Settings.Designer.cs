@@ -130,5 +130,125 @@ namespace Dusk.Properties {
                 this["ShowAge"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowNumber {
+            get {
+                return ((bool)(this["ShowNumber"]));
+            }
+            set {
+                this["ShowNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowBarangay {
+            get {
+                return ((bool)(this["ShowBarangay"]));
+            }
+            set {
+                this["ShowBarangay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowBirthDate {
+            get {
+                return ((bool)(this["ShowBirthDate"]));
+            }
+            set {
+                this["ShowBirthDate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowDisability {
+            get {
+                return ((bool)(this["ShowDisability"]));
+            }
+            set {
+                this["ShowDisability"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowKauban {
+            get {
+                return ((bool)(this["ShowKauban"]));
+            }
+            set {
+                this["ShowKauban"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowLivelihood {
+            get {
+                return ((bool)(this["ShowLivelihood"]));
+            }
+            set {
+                this["ShowLivelihood"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowOscaId {
+            get {
+                return ((bool)(this["ShowOscaId"]));
+            }
+            set {
+                this["ShowOscaId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowOscaDate {
+            get {
+                return ((bool)(this["ShowOscaDate"]));
+            }
+            set {
+                this["ShowOscaDate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowRemarks {
+            get {
+                return ((bool)(this["ShowRemarks"]));
+            }
+            set {
+                this["ShowRemarks"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowSex {
+            get {
+                return ((bool)(this["ShowSex"]));
+            }
+            set {
+                this["ShowSex"] = value;
+            }
+        }
     }
 }
