@@ -4,11 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dusk.Screens"
+             xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:properties="clr-namespace:Dusk.Properties"
+             xmlns:converters="clr-namespace:Dusk.Converters"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             Width="300"
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid Margin="10">
-        
-        
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            <TextBlock Text="Show/Hide Details" Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+            <TextBlock Text="Check the columns you want to show."
+                   Margin="0 0 0 20" Opacity="0.7"/>
+            <CheckBox Content="Number" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowNumber}"/>
+            <CheckBox Content="Fullname" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowFullName}" />
+            <CheckBox Content="Barangay" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowBarangay}" />
+            <CheckBox Content="Birth Date" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowBirthDate}" />
+            <CheckBox Content="Age" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowAge}" />
+            <CheckBox Content="Gender" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowSex}" />
+            <CheckBox Content="Disability" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowDisability}" />
+            <CheckBox Content="Livelihood" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowLivelihood}" />
+            <CheckBox Content="Kauban sa Balay" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowKauban}" />
+            <CheckBox Content="OSCA ID" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowOscaId}" />
+            <CheckBox Content="Date Issued" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowOscaDate}" />
+            <CheckBox Content="Remarks" IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowRemarks}" />
+
+            <Grid Margin="0 30 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Welcome Animation" Style="{StaticResource MaterialDesignTitleTextBlock}" />
+                    <TextBlock Text="{Binding Source={x:Static properties:Settings.Default},
+                                    Path=ShowSplash,Converter={converters:BooleanToObject 
+                                    {}Animation\ is\ shown\ when\ Dusk\ starts.,
+                                    {}No\ animation\ is\ played\ at\ startup.}}"
+                               Opacity="0.7"/>
+                    
+                </StackPanel>
+                
+                <ToggleButton Grid.Column="1"
+                              Style="{StaticResource MaterialDesignActionDarkToggleButton}"
+                              Content="{md:PackIcon VideoOff}"
+                                 IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowSplash}" />
+            </Grid>
+            
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

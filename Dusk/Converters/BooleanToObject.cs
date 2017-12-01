@@ -7,7 +7,7 @@ namespace Dusk.Converters
         public object TrueValue { get; set; }
         public object FalseValue { get; set; }
 
-        public BooleanToObject(object trueValue, object falseValue = null)
+        public BooleanToObject(object trueValue = null, object falseValue = null)
         {
             TrueValue = trueValue;
             FalseValue = falseValue;

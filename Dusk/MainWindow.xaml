@@ -218,7 +218,7 @@
                                 Command="{Binding DeleteSelectedCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Close" />
-                                <TextBlock Text="Delete"
+                                <TextBlock Text="DELETE"
                                            Margin="7,0,0,0" />
 
                             </StackPanel>
@@ -231,31 +231,31 @@
 
                                 </StackPanel>
                             </Button>-->
-                            
-
                             <Button Margin="7"
-                                    Visibility="{Binding HasSelectedDeceased,Converter={converters:BooleanToVisibility}}"
-                                    Command="{Binding ResurrectCommand}"
-                                    Focusable="False">
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="Creation" />
-                                    <TextBlock Text="Resurrect"
-                                               Margin="7,0,0,0" />
-
-                                </StackPanel>
-                            </Button>
-
-                            <Button Margin="7"
-                                    Visibility="{Binding HasSelectedAlive,Converter={converters:BooleanToVisibility Visible,Hidden}}"
+                                    Visibility="{Binding HasSelectedAlive,Converter={converters:BooleanToVisibility}}"
                                     Command="{Binding SetDeceasedCommand}"
                                     Focusable="False">
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Kind="HeartPulse" />
-                                    <TextBlock Text="Deceased"
+                                    <TextBlock Text="DECEASED"
                                                Margin="7,0,0,0" />
 
                                 </StackPanel>
                             </Button>
+
+                            <Button Margin="7"
+                                    Visibility="{Binding HasSelectedDeceased,Converter={converters:BooleanToVisibility Visible,Hidden}}"
+                                    Command="{Binding ResurrectCommand}"
+                                    Focusable="False">
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="Creation" />
+                                    <TextBlock Text="RESURRECT"
+                                               Margin="7,0,0,0" />
+
+                                </StackPanel>
+                            </Button>
+
+                         
 
 
                         </UniformGrid>
@@ -796,8 +796,6 @@
         </Grid>
         
         <md:Snackbar HorizontalAlignment="Right"
-                     md:ColorZoneAssist.Mode="Light"
-                     ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionLightButton}"
                      VerticalAlignment="Bottom"
                      MessageQueue="{Binding MessageQueue}"/>
     </Grid>
