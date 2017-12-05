@@ -9,6 +9,7 @@
              xmlns:converters="clr-namespace:Dusk.Converters"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             Background="{StaticResource MaterialDesignDarkBackground}"
              Width="300"
              d:DesignHeight="300" d:DesignWidth="300">
     <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -50,7 +51,49 @@
                               Content="{md:PackIcon VideoOff}"
                                  IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=ShowSplash}" />
             </Grid>
+
+            <Grid Margin="0 30 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="User Accounts" Style="{StaticResource MaterialDesignTitleTextBlock}" />
+                    <TextBlock
+                        Text="{Binding Source={x:Static properties:Settings.Default},
+                                    Path=EnableUserAccounts,Converter={converters:BooleanToObject 
+                                    {}User\ accounts\ access\ is\ enabled.,
+                                    {}Dusk\ access\ is\ anonymous.}}"
+                        Opacity="0.7" />
+
+                </StackPanel>
+
+                <ToggleButton Grid.Column="1"
+                              Style="{StaticResource MaterialDesignActionDarkToggleButton}"
+                              Content="{md:PackIcon AccountOff}"
+                              md:ToggleButtonAssist.OnContent="{md:PackIcon AccountMultiple}"
+                              IsChecked="{Binding Source={x:Static properties:Settings.Default},Path=EnableUserAccounts}"
+                              ToolTip="{Binding Source={x:Static properties:Settings.Default},
+                                    Path=EnableUserAccounts,Converter={converters:BooleanToObject 
+                                    {}Enable\ anonymous\ access.,
+                                    {}Enable\ user\ accounts.}}" />
+            </Grid>
             
+            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                    Margin="0 4 0 0"
+                    Height="Auto"
+                    Command="{Binding ShowUsersCommand}"
+                    IsEnabled="{Binding Source={x:Static properties:Settings.Default},Path=EnableUserAccounts}">
+                <StackPanel Orientation="Horizontal"
+                            Margin="4">
+                    <md:PackIcon Kind="AccountSearch"
+                                 Height="30" Width="30"
+                                 VerticalAlignment="Center"/>
+                    <TextBlock Text=" User Accounts"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource MaterialDesignHeadlineTextBlock}"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
