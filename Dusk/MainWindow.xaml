@@ -81,8 +81,22 @@
             <ma:Flyout CloseButtonVisibility="Visible" ExternalCloseButton="Left" IsModal="True"
                        IsOpen="{Binding IsSettingsOpen}" IsPinned="False"
                        CloseButtonIsCancel="True"
-                       Position="Right" TitleVisibility="Visible" Header="Settings">
-                <screens:SettingsView/>
+                       Position="Right" TitleVisibility="Visible" Header="{Binding SettingsIndex,Converter={converters:SettingsIndexToTitle}}">
+                <md:Transitioner SelectedIndex="{Binding SettingsIndex}">
+                    <md:TransitionerSlide>
+                        <md:TransitionerSlide.ForwardWipe>
+                            <md:FadeWipe Duration="0:0:0.4"/>
+                        </md:TransitionerSlide.ForwardWipe>
+                     
+                        <screens:SettingsView />
+                    </md:TransitionerSlide>
+                    <md:TransitionerSlide>
+                        <md:TransitionerSlide.BackwardWipe>
+                            <md:SlideWipe Direction="Right" Duration="0:0:0.3"/>
+                        </md:TransitionerSlide.BackwardWipe>
+                        <screens:Users/>
+                    </md:TransitionerSlide>
+                </md:Transitioner>
             </ma:Flyout>
         </ma:FlyoutsControl>
     </ma:MetroWindow.Flyouts>

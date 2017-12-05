@@ -67,6 +67,30 @@ namespace Dusk
             }
         }
 
+        private bool _isUsersOpen;
+
+        public bool IsUsersOpen
+        {
+            get => _isUsersOpen;
+            set
+            {
+                _isUsersOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private long _settingsIndex = 0;
+
+        public long SettingsIndex
+        {
+            get => _settingsIndex;
+            set
+            {
+                _settingsIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _isSettingsOpen;
         public bool IsSettingsOpen
         {
@@ -160,6 +184,19 @@ namespace Dusk
                                                    IsSettingsOpen = true;
                                                }));
 
+        private ICommand _gotoSettingsCommand;
+
+        public ICommand GotoSettingsCommand => _gotoSettingsCommand ?? (_gotoSettingsCommand = new DelegateCommand<string>(d =>
+        {
+            SettingsIndex = long.Parse(d);
+        }));
+
+        private ICommand _showUsersCommand;
+        public ICommand ShowUsersCommand => _showUsersCommand ?? (_showUsersCommand = new DelegateCommand(d =>
+        {
+            SettingsIndex = 1;
+        }));
+
         private ICommand _showFullNameCommand;
 
         public ICommand ToggleFullNameCommand => _showFullNameCommand ?? (_showFullNameCommand = new DelegateCommand(
@@ -248,6 +285,13 @@ namespace Dusk
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             Dispatcher.Invoke(() => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); });
+        }
+
+        public enum SettingsTitles
+        {
+            Settings,
+            [Description("User Accounts")]
+            UserAccounts,
         }
     }
 }
