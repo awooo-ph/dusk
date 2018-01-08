@@ -1,0 +1,499 @@
+﻿<UserControl x:Class="Dusk.Screens.NewPerson"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Dusk.Screens"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ma="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dusk="clr-namespace:Dusk"
+             xmlns:models="http://csproj.cf/dusk/models"
+             xmlns:vm="clr-namespace:Dusk.Screens.ViewModels"
+             xmlns:converters="clr-namespace:Dusk.Converters"
+             mc:Ignorable="d"
+             xmlns:help="clr-namespace:Dusk.Screens.Helpers"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             DataContext="{Binding Source={vm:NewPersonViewModel}}"
+             Foreground="{StaticResource MaterialDesignLightForeground}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="md:Badged" BasedOn="{StaticResource {x:Type md:Badged}}">
+            <Setter Property="Visibility" Value="{Binding IsUsageCountVisible,Converter={converters:BooleanToVisibility}}"/>
+        </Style>
+            
+    </UserControl.Resources>
+    <Grid IsSharedSizeScope="True">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="a"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                      Grid.Column="0" Grid.ColumnSpan="2">
+            <ScrollViewer.ContextMenu>
+                <ContextMenu StaysOpen="True">
+                    <MenuItem Header="Enable Suggestion" StaysOpenOnClick="True" 
+                              IsChecked="{Binding EnableSuggestion}"
+                              IsCheckable="True"/>
+                    <MenuItem Header="Show Usage Count" StaysOpenOnClick="True"
+                              IsChecked="{Binding IsUsageCountVisible}"
+                              IsCheckable="True"/>
+                </ContextMenu>
+            </ScrollViewer.ContextMenu>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="a" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="10" Grid.Column="1">
+                    
+                    
+                <!--Name-->
+               
+                    <GroupBox Margin="10" Padding="0">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="AccountCardDetails" VerticalAlignment="Center"
+                                             Foreground="White"
+                                             
+                                             Height="24" Width="24"
+                                             Margin="7 4 4 4"/>
+                                <TextBlock Text="PERSONAL DATA" VerticalAlignment="Center"
+                                           Foreground="White"
+                                           Margin="4 0"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                       <Grid.RowDefinitions>
+                           <RowDefinition Height="Auto"/>
+                           <RowDefinition Height="Auto"/>
+                           <RowDefinition Height="Auto"/>
+                       </Grid.RowDefinitions>
+                        
+                        <TextBox md:HintAssist.Hint="First Name" md:HintAssist.IsFloating="True"
+                                 md:TextFieldAssist.TextBoxViewMargin="0 0 17 0"
+                                 Grid.Column="0"
+                                 Grid.Row="0"
+                                 Margin="10"
+                                 Text="{Binding Model.Firstname,UpdateSourceTrigger=PropertyChanged}"
+                                 help:TextBoxHelper.SuggestionsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Firstname]}"       
+                                 Background="White" Foreground="Black"/>
+                        <md:Badged 
+                            Badge="{Binding Model.Firstname,Converter={converters:PersonUsageConverter Firstname}}"
+                            VerticalAlignment="Bottom"
+                            Margin="0 0 17 24"
+                            HorizontalAlignment="Right"
+                            Grid.Column="0"
+                            Grid.Row="0">
+                            <md:Badged.ToolTip>
+                                <TextBlock>
+                                    <Run Text="Indicates how many people have ["/><Run Text="{Binding Model.Firstname}"/><Run Text="] as their first name."/>
+                                </TextBlock>
+                            </md:Badged.ToolTip>
+                        </md:Badged>
+                        
+
+                        <TextBox md:HintAssist.Hint="Middle Name" md:HintAssist.IsFloating="True"
+                                 help:TextBoxHelper.SuggestionsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Middlename]}"
+                                         Text="{Binding Model.Middlename,UpdateSourceTrigger=PropertyChanged}"
+                                         Grid.Column="1"
+                                         Grid.Row="0"
+                                 Margin="10" />
+                        <md:Badged
+                            Badge="{Binding Model.Middlename,Converter={converters:PersonUsageConverter Middlename}}"
+                            VerticalAlignment="Bottom"
+                            Margin="0 0 17 24"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            Grid.Row="0">
+                            <md:Badged.ToolTip>
+                                <TextBlock>
+                                    <Run Text="Indicates how many people have [" />
+                                    <Run Text="{Binding Model.Middlename}" /><Run Text="] as their middle name." />
+                                </TextBlock>
+                            </md:Badged.ToolTip>
+                        </md:Badged>
+
+                        <TextBox md:HintAssist.Hint="Last Name" md:HintAssist.IsFloating="True"
+                                 md:TextFieldAssist.TextBoxViewMargin="0 0 17 0"
+                                 Grid.Column="0"
+                                 Grid.Row="1"
+                                 Margin="10"
+                                 Text="{Binding Model.Lastname,UpdateSourceTrigger=PropertyChanged}"
+                                 help:TextBoxHelper.SuggestionsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Lastname]}"       
+                                 Background="White" Foreground="Black"/>
+                        <md:Badged 
+                            Badge="{Binding Model.Lastname,Converter={converters:PersonUsageConverter Lastname}}"
+                            VerticalAlignment="Bottom"
+                            Margin="0 0 17 24"
+                            HorizontalAlignment="Right"
+                            Grid.Column="0"
+                            Grid.Row="1">
+                            <md:Badged.ToolTip>
+                                <TextBlock>
+                                    <Run Text="Indicates how many people have ["/><Run Text="{Binding Model.Lastname}"/><Run Text="] as their last name."/>
+                                </TextBlock>
+                            </md:Badged.ToolTip>
+                        </md:Badged>
+
+
+                        <TextBox md:HintAssist.Hint="Extension" md:HintAssist.IsFloating="True"
+                                 help:TextBoxHelper.SuggestionsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[NameExtension]}"
+                                         Text="{Binding Model.NameExtension,UpdateSourceTrigger=PropertyChanged}"
+                                         Grid.Column="1"
+                                         Grid.Row="1"
+                                 Margin="10" />
+                        <md:Badged
+                            Badge="{Binding Model.NameExtension,Converter={converters:PersonUsageConverter NameExtension}}"
+                            VerticalAlignment="Bottom"
+                            Margin="0 0 17 24"
+                            HorizontalAlignment="Right"
+                            Grid.Column="1"
+                            Grid.Row="1">
+                            <md:Badged.ToolTip>
+                                <TextBlock>
+                                    <Run Text="Indicates how many people have [" />
+                                    <Run Text="{Binding Model.NameExtension}" /><Run Text="] as their name extension." />
+                                </TextBlock>
+                            </md:Badged.ToolTip>
+                        </md:Badged>
+
+                        <Grid Grid.Column="0"
+                              Grid.Row="2" Grid.ColumnSpan="2"
+                              Grid.IsSharedSizeScope="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <DatePicker md:HintAssist.Hint="Date of Birth"
+                                        md:HintAssist.IsFloating="True"
+                                        VerticalContentAlignment="Bottom"
+                                        SelectedDate="{Binding Model.BirthDate}"
+                                        Margin="10" />
+                            <TextBox md:HintAssist.Hint="Age"
+                                     md:HintAssist.IsFloating="True"
+                                     MaxLength="3"
+                                     Text="{Binding Model.Age, Mode=OneWay}"
+                                     Grid.Column="1"
+                                     ToolTip="{ Binding Model.AgeDays, Mode= OneWay, StringFormat={}#\,##0 days}"
+                                     Margin="10" />
+
+                            <ComboBox md:HintAssist.Hint="Gender"
+                                      md:HintAssist.IsFloating="True"
+                                      ItemsSource="{Binding Source={dusk:EnumBinding {x:Type models:Sexes}}}"
+                                      SelectedItem="{Binding Model.Sex}"
+                                      Grid.Column="2"
+                                      Margin="10" >
+                            </ComboBox>
+
+                            <ComboBox md:HintAssist.Hint="Civil Status"
+                                      md:HintAssist.IsFloating="True"
+                                      Grid.Column="3"
+                                      SelectedItem="{Binding Model.CivilStatus}"
+                                      ItemsSource="{Binding Source={dusk:EnumBinding {x:Type models:CivilStatuses}}}"
+                                      Margin="10">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                        </Grid>
+                    </Grid>
+                    </GroupBox>
+                
+                    <GroupBox Padding="0" Margin="10">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Home" VerticalAlignment="Center"
+                                             Height="24" Width="24"
+                                             Margin="4"
+                                             Foreground="White" />
+                                <TextBlock Text="HOME ADDRESS" VerticalAlignment="Center"
+                                           Foreground="White"
+                                           Margin="4 0" />
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <UniformGrid Margin="10">
+
+
+                            <ComboBox md:HintAssist.Hint="Province" md:HintAssist.IsFloating="True"
+                                      IsReadOnly="True"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      ItemsSource="{Binding Source={x:Static models:Province.Cache}}"
+                                      Background="White" Foreground="Black"
+                                      Margin="10" />
+                
+                            <ComboBox md:HintAssist.Hint="City" md:HintAssist.IsFloating="True"
+                                      IsReadOnly="True"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      ItemsSource="{Binding Source={x:Static models:City.Cache}}"
+                                      Background="White" Foreground="Black"
+                                      Margin="10" />
+                        
+                                <ComboBox md:HintAssist.Hint="Barangay" md:HintAssist.IsFloating="True"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding Source={x:Static models:Barangay.Cache}}"
+                                  Background="White" Foreground="Black"
+                                          SelectedValuePath="Id"
+                                          SelectedValue="{Binding Model.BarangayId}"
+                                  Margin="10" />
+
+                        <ComboBox md:HintAssist.Hint="Street/Sitio/Purok" md:HintAssist.IsFloating="True"
+                                  Text="{Binding Model.Sitio}"
+                                  ItemsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Sitio]}"
+                                  IsTextSearchEnabled="True"
+                                  IsTextSearchCaseSensitive="False"
+                                  IsEditable="True"
+                                  Background="White" Foreground="Black"
+                                  Margin="10" />
+
+                    </UniformGrid>
+                    </GroupBox>
+
+
+                <GroupBox Padding="0" Margin="10">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="AccountMultiple" VerticalAlignment="Center"
+                                         Height="24" Width="24"
+                                         Margin="4"
+                                         Foreground="White" />
+                            <TextBlock Text="OSCA MEMBERSHIP" VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="4 0" />
+                        </StackPanel>
+                    </GroupBox.Header>
+
+                    <UniformGrid Margin="10" Columns="2"
+                                 Grid.IsSharedSizeScope="True">
+                        <TextBox md:HintAssist.Hint="ID Number"
+                                 md:HintAssist.IsFloating="True"
+                                 Text="{Binding Model.OscaId}"
+                                 Margin="10" />
+                        <DatePicker md:HintAssist.Hint="Date Issued"
+                                    VerticalContentAlignment="Bottom"
+                                    md:HintAssist.IsFloating="True"
+                                    SelectedDate="{Binding Model.DateIssued}"
+                                    Margin="10" />
+                    </UniformGrid>
+                </GroupBox>
+                
+
+                <GroupBox Padding="0" Margin="10">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="CheckboxMultipleMarked" VerticalAlignment="Center"
+                                         Height="24" Width="24"
+                                         Margin="4"
+                                         Foreground="White" />
+                            <TextBlock Text="OTHER REQUIRED INFORMATIONS" VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="4 0" />
+                        </StackPanel>
+                    </GroupBox.Header>
+
+                    <StackPanel Margin="10"
+                                 Grid.IsSharedSizeScope="True">
+                        <ComboBox md:HintAssist.Hint="Disability"
+                                  md:HintAssist.IsFloating="True"
+                                  Text="{Binding Model.Disability}"
+                                  ItemsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Disability]}"
+                                  IsTextSearchEnabled="True"
+                                  IsTextSearchCaseSensitive="False"
+                                  IsEditable="True"
+                                 Margin="10" />
+                        <ComboBox md:HintAssist.Hint="Kauban sa Panimalay"
+                                  md:HintAssist.IsFloating="True"
+                                  Text="{Binding Model.Kauban}"
+                                  ItemsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Kauban]}"
+                                  IsTextSearchEnabled="True"
+                                  IsTextSearchCaseSensitive="False"
+                                  IsEditable="True"
+                                 Margin="10" />
+                        <ComboBox md:HintAssist.Hint="Panginabuhian"
+                                  md:HintAssist.IsFloating="True"
+                                  Text="{Binding Model.Livelihood}"
+                                  ItemsSource="{Binding Source={x:Static models:PersonCache.Instance}, Path=[Livelihood]}"
+                                  IsTextSearchEnabled="True"
+                                  IsTextSearchCaseSensitive="False"
+                                  IsEditable="True"
+                                 Margin="10" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="Nagdawat ug Suporta"
+                                      IsChecked="{Binding Model.IsSupported}"
+                                  Margin="10"/>
+                            <CheckBox Content="Pensioner"
+                                      IsChecked="{Binding Model.IsPensioner}"
+                                  Margin="10" />
+                            <CheckBox Content="Mobile"
+                                      IsChecked="{Binding Model.IsMobile}"
+                                  Margin="10" />
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+               
+
+
+                <GroupBox Padding="0" Margin="10">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="MessageText" VerticalAlignment="Center"
+                                         Height="24" Width="24"
+                                         Margin="4"
+                                         Foreground="White" />
+                            <TextBlock Text="REMARKS" VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Margin="4 0" />
+                        </StackPanel>
+                    </GroupBox.Header>
+
+
+                    <TextBox md:HintAssist.Hint="Type remarks here."
+                             md:HintAssist.IsFloating="True"
+                             Text="{Binding Model.Remarks}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             HorizontalScrollBarVisibility="Disabled"
+                             VerticalScrollBarVisibility="Auto"/>
+                </GroupBox>
+
+                    <GroupBox Margin="10" Padding="1 0 1 1">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="Image" VerticalAlignment="Center"
+                                             Foreground="White"
+                                             Height="24" Width="24"
+                                             Margin="7 4 4 4" />
+                                <TextBlock Text="PICTURE" VerticalAlignment="Center"
+                                           Foreground="White"
+                                           Margin="4 0" />
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <Image Stretch="UniformToFill"
+                               Source="{Binding Model.Picture,Converter={converters:BytesToImage}}" />
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        
+        <Grid Grid.Column="0"
+              Grid.Row="0"
+              Visibility="{Binding RelativeSource={RelativeSource AncestorType=dusk:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}">
+
+        <Image Source="/Resources/senior-male.png" Stretch="Uniform"
+               IsHitTestVisible="False"
+               Visibility="{Binding Model.Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Male}, Operation=Equals}}"
+               Grid.Column="0" Grid.Row="0" Margin="10"/>
+
+        <Image Source="/Resources/senion-female.png" Stretch="Uniform"
+               IsHitTestVisible="False"
+               Visibility="{Binding Model.Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Female}, Operation=Equals}}"
+               Grid.Column="0" Grid.Row="0" Margin="10" />
+        
+        <Grid Grid.Column="0" Grid.Row="0"
+              IsHitTestVisible="False"
+              Visibility="{Binding Model.Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Unknown}, Operation=Equals}}">
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Grid.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:3">
+                            <DoubleAnimation From="1" To="0" Duration="0:0:1" BeginTime="0:0:1"
+                                             Storyboard.TargetName="SeniorMale"
+                                             Storyboard.TargetProperty="Opacity"/>
+                            <DoubleAnimation From="0" To="1" Duration="0:0:1" BeginTime="0:0:1"
+                                             Storyboard.TargetName="SeniorFemale"
+                                             Storyboard.TargetProperty="Opacity" />
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>
+            
+            <Image Source="/Resources/senior-male.png" Stretch="Uniform"
+                   Name="SeniorMale"
+                   Opacity="1"
+                   Grid.Column="0" Grid.Row="0" Margin="10" />
+
+            <Image Source="/Resources/senion-female.png" Stretch="Uniform"
+                   x:Name="SeniorFemale"
+                   Opacity="0"
+                   Grid.Column="0" Grid.Row="0" Margin="10" />
+        </Grid>
+
+        </Grid>
+
+        
+
+            <Grid Margin="17"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Grid.Row="1">
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+            <Button Margin="4"
+                    HorizontalAlignment="Left"
+                    Command="{Binding ResetCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Refresh" RenderTransformOrigin="0.5 0.5"
+                                 VerticalAlignment="Center">
+                        <md:PackIcon.RenderTransform>
+                            <ScaleTransform ScaleX="-1"/>
+                        </md:PackIcon.RenderTransform>
+                    </md:PackIcon>
+                    <TextBlock Text="Reset" Margin="4"/>
+                </StackPanel>
+            </Button>
+                <Button Margin="4"
+                        HorizontalAlignment="Left"
+                        Command="{Binding ChangePictureCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Image" RenderTransformOrigin="0.5 0.5"
+                                     VerticalAlignment="Center">
+                            <md:PackIcon.RenderTransform>
+                                <ScaleTransform ScaleX="-1" />
+                            </md:PackIcon.RenderTransform>
+                        </md:PackIcon>
+                        <TextBlock Text="Change Picture" Margin="4" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <UniformGrid HorizontalAlignment="Right"
+                         Columns="2">
+                <Button Margin="4" IsCancel="True" Command="{Binding CancelCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Close" RenderTransformOrigin="0.5 0.5"
+                                     VerticalAlignment="Center">
+                            
+                        </md:PackIcon>
+                        <TextBlock Text="Cancel" Margin="4"/>
+                    </StackPanel>
+                </Button>
+                <Button Margin="4" Command="{Binding SaveCommand}" IsDefault="True">
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Check" RenderTransformOrigin="0.5 0.5"
+                                     VerticalAlignment="Center">
+                           
+                        </md:PackIcon>
+                        <TextBlock Text="Save" Margin="4"/>
+                    </StackPanel>
+                </Button>
+            </UniformGrid>
+        </Grid>
+    </Grid>
+</UserControl>
