@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dusk.Screens"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:Dusk.Converters"
+             xmlns:models="http://csproj.cf/dusk/models"
              mc:Ignorable="d"
              Width="300"
              Background="{StaticResource MaterialDesignDarkBackground}"
@@ -26,18 +28,45 @@
             </TextBlock>
             
         </Button>
-        
+
         <ListBox Grid.Row="1"
                  VerticalContentAlignment="Top"
                  ItemsSource="{Binding Users}"
                  IsSynchronizedWithCurrentItem="True"
-                 Margin="20"/>
+                 Margin="20">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:User}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <md:PackIcon Kind="Account" Height="32" Width="32"
+                                     Margin="4 0 10 0"
+                                     VerticalAlignment="Center"
+                                     Grid.RowSpan="2"/>
+                        <TextBlock Text="{Binding Username}" Style="{StaticResource MaterialDesignTitleTextBlock}"
+                                   Grid.Column="1" Grid.Row="0"/>
+                        <TextBlock Text="{Binding IsAdmin,
+                                        Converter={converters:BooleanToObject {}Administrator, {}Regular\ User}}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"
+                                   Opacity="0.4"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <GroupBox Header="Account Details"
                   Grid.Row="2"
                   Margin="20">
             <StackPanel Margin="10">
                 <TextBox md:HintAssist.Hint="USERNAME"
+                         Text="{Binding Users.CurrentItem.Username,UpdateSourceTrigger=PropertyChanged}"
                          md:HintAssist.IsFloating="True"
                          
                          Margin="0 0 0 7"/>
@@ -50,24 +79,35 @@
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Change Password"
+                                          Command="{Binding ChangePasswordCommand}"
+                                          CommandParameter="{Binding Users.CurrentItem}"
                                           Icon="{md:PackIcon KeyChange}"/>
                             </ContextMenu>
                         </TextBox.ContextMenu>
                     </TextBox>
                     <Button Content="{md:PackIcon KeyChange}"
                             Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding ChangePasswordCommand}"
+                            CommandParameter="{Binding Users.CurrentItem}"
                             ToolTip="Change Password"
                             HorizontalAlignment="Right"/>
                 </Grid>
-                <CheckBox Content="Administrator"/>
-                <CheckBox Content="Can Add Items"/>
-                <CheckBox Content="Can Modify Items"/>
-                <CheckBox Content="Can Delete Items"/>
+                <CheckBox Content="Administrator"
+                          IsChecked="{Binding Users.CurrentItem.IsAdmin}"/>
+                <CheckBox Content="Can Add Items"
+                          IsChecked="{Binding Users.CurrentItem.CanAdd}" />
+                <CheckBox Content="Can Modify Items"
+                          IsChecked="{Binding Users.CurrentItem.CanEdit}" />
+                <CheckBox Content="Can Delete Items"
+                          IsChecked="{Binding Users.CurrentItem.CanDelete}" />
                 <UniformGrid Columns="2" Rows="1">
                     <Button Content="SAVE"
+                            Command="{Binding Users.CurrentItem.SaveCommand}"
                             Margin="0 20 10 0"/>
                     
                     <Button Content="DELETE"
+                            Command="{Binding DeleteUserCommand}"
+                            CommandParameter="{Binding Users.CurrentItem}"
                             Margin="10 20 0 0"/>
                 </UniformGrid>
             </StackPanel>

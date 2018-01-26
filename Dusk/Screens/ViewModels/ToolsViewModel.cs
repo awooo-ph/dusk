@@ -15,6 +15,63 @@ namespace Dusk.Screens.ViewModels
             return Instance;
         }
 
+        private bool _FilterResult;
+
+        public bool FilterResult
+        {
+            get => _FilterResult;
+            set
+            {
+                if(value == _FilterResult)
+                    return;
+                _FilterResult = value;
+                OnPropertyChanged(nameof(FilterResult));
+            }
+        }
+
+        private bool _FilterAge;
+
+        public bool FilterAge
+        {
+            get => _FilterAge;
+            set
+            {
+                if(value == _FilterAge)
+                    return;
+                _FilterAge = value;
+                OnPropertyChanged(nameof(FilterAge));
+            }
+        }
+
+        private int _AgeFrom = 60;
+
+        public int AgeFrom
+        {
+            get => _AgeFrom;
+            set
+            {
+                if(value == _AgeFrom)
+                    return;
+                _AgeFrom = value;
+                OnPropertyChanged(nameof(AgeFrom));
+            }
+        }
+
+        private int _AgeTo = 0;
+
+        public int AgeTo
+        {
+            get => _AgeTo;
+            set
+            {
+                if(value == _AgeTo)
+                    return;
+                _AgeTo = value;
+                OnPropertyChanged(nameof(AgeTo));
+            }
+        }
+
+        
 
         private ShowPeople _ShowPeople = ShowPeople.ShowAll;
 

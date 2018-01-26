@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -10,6 +11,7 @@ using System.Windows.Threading;
 using Dusk.Annotations;
 using Dusk.Models;
 using Dusk.Properties;
+using Dusk.Screens.ViewModels;
 using FastMember;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -36,6 +38,14 @@ namespace Dusk
                 });
             Messenger.Default.AddListener<Person>(Messages.PersonSaved,
                 person => MessageQueue.Enqueue("Changes has been saved.", "UNDO", person.Restore));
+
+            Settings.Default.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(Settings.EnableUserAccounts))
+                {
+                    OnPropertyChanged(nameof(IsUsersEnabled));
+                }
+            };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -251,14 +261,57 @@ namespace Dusk
             {
                 if (_searchResult != null) return _searchResult;
                 _searchResult = new ListCollectionView(Person.Cache);
+                ToolsViewModel.Instance.PropertyChanged += (sender, args) =>
+                {
+                    _searchResult.Filter = Filter;
+                };
                 return _searchResult;
             }
         }
-
+        
         public long SelectionCount => Person.Cache.Count(x => x.IsSelected);
 
         private bool Filter(object o)
         {
+            var person = o as Person;
+            if(person == null) return false;
+            if (ToolsViewModel.Instance.FilterResult)
+            {
+                var filter = ToolsViewModel.Instance;
+                if (filter.FilterBarangay && person.BarangayId != filter.Barangay.Id) return false;
+                if (filter.FilterCivilStatus && person.CivilStatus != filter.CivilStatus) return false;
+                if (filter.FilterDisability && !person.Disability.ToLower().Contains(filter.Disability.ToLower()))
+                    return false;
+                if (filter.FilterGender && person.Sex != filter.Gender) return false;
+                switch (filter.ShowPeople)
+                {
+                    case ShowPeople.Alive:
+                        if (person.Deceased) return false;
+                        break;
+                    case ShowPeople.Dead:
+                        if (!person.Deceased) return false;
+                        break;
+                }
+                if (filter.FilterAge)
+                {
+                    if (filter.AgeFrom + filter.AgeTo <= 0)
+                    {
+                        if (person.Age.HasValue) return false;
+                    }
+                    else
+                    {
+                        if (person.Age == null)
+                            return false;
+                        if (person.Age < filter.AgeFrom)
+                            return false;
+                        if (filter.AgeTo > filter.AgeFrom && person.Age > filter.AgeTo)
+                            return false;
+                    }
+                    
+                }
+            }
+            
+            
             if (string.IsNullOrWhiteSpace(SearchKeyword)) return true;
 
             var props = new List<string>()
@@ -281,17 +334,75 @@ namespace Dusk
             return false;
         }
 
+        private ListCollectionView _users;
+        private ObservableCollection<User> _usersCache;
+        public ListCollectionView Users
+        {
+            get
+            {
+                if (_users != null) return _users;
+                _usersCache = new ObservableCollection<User>(User.Cache.ToList());
+                _usersCache.Add(new User() { Username = "New User" });
+
+                _users = new ListCollectionView(_usersCache);
+
+                User.OnNewItemSaved = user => _usersCache.Add(new User() { Username = "New User" });
+
+
+                return _users;
+            }
+        }
+
+        private User _currentUser;
+
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set
+            {
+                _currentUser = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsUsersEnabled => Settings.Default.EnableUserAccounts && User.Cache.Count > 0;
+
+        private ICommand _deleteUserCommand;
+
+        public ICommand DeleteUserCommand => _deleteUserCommand ?? (_deleteUserCommand = new DelegateCommand<User>(
+            async usr =>
+            {
+                var dlg = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync(
+                    "Confirm Delete", $"Are you sure you want to delete {usr.Username}?",
+                    MessageDialogStyle.AffirmativeAndNegative,
+                    new MetroDialogSettings()
+                    {
+                        AffirmativeButtonText = "YES",
+                        NegativeButtonText = "NO",
+
+                    });
+                if (dlg == MessageDialogResult.Negative) return;
+                usr.Delete();
+                _usersCache.Remove(usr);
+            }, usr => !usr?.IsNew ?? true));
+
+        private ICommand _changePasswordCommand;
+
+        public ICommand ChangePasswordCommand =>
+            _changePasswordCommand ?? (_changePasswordCommand = new DelegateCommand<User>(
+                async usr =>
+                {
+                    var password =
+                        await ((MetroWindow)Application.Current.MainWindow).ShowInputAsync("New Password",
+                            "Enter new password.");
+                    usr.Update(nameof(User.Password), password);
+
+                }, usr => !usr?.IsNew ?? true));
+
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             Dispatcher.Invoke(() => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); });
-        }
-
-        public enum SettingsTitles
-        {
-            Settings,
-            [Description("User Accounts")]
-            UserAccounts,
         }
     }
 }
