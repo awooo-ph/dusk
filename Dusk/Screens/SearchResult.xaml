@@ -120,7 +120,7 @@
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                     
                     <DataGridTemplateColumn Header="Name"
-                                            SortMemberPath="Firstname"
+                                            SortMemberPath="Fullname"
                                             Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowFullName,Converter={converters:BooleanToVisibility}}">
                       
                         <DataGridTemplateColumn.CellTemplate>

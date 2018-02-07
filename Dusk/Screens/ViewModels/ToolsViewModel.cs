@@ -1,7 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using Dusk.Models;
+using MahApps.Metro.Controls;
+using Xceed.Words.NET;
+using VerticalAlignment = Xceed.Words.NET.VerticalAlignment;
 
 namespace Dusk.Screens.ViewModels
 {
@@ -181,7 +189,7 @@ namespace Dusk.Screens.ViewModels
             }
         }
 
-        private string _Disability;
+        private string _Disability = "";
 
         public string Disability
         {
@@ -194,8 +202,156 @@ namespace Dusk.Screens.ViewModels
             }
         }
 
+        private bool _FilterLivelihood;
+
+        public bool FilterLivelihood
+        {
+            get => _FilterLivelihood;
+            set
+            {
+                if (value == _FilterLivelihood)
+                    return;
+                _FilterLivelihood = value;
+                OnPropertyChanged(nameof(FilterLivelihood));
+            }
+        }
+
+        private string _Livelihood = "";
+
+        public string Livelihood
+        {
+            get => _Livelihood;
+            set
+            {
+                if (value == _Livelihood)
+                    return;
+                _Livelihood = value;
+                OnPropertyChanged(nameof(Livelihood));
+            }
+        }
 
 
+        private bool _PrintAll = true;
+
+        public bool PrintAll
+        {
+            get => _PrintAll;
+            set
+            {
+                if(value == _PrintAll)
+                    return;
+                _PrintAll = value;
+                OnPropertyChanged(nameof(PrintAll));
+            }
+        }
+
+        private ICommand _printCommand;
+
+        public ICommand PrintCommand => _printCommand ?? (_printCommand = new DelegateCommand(d =>
+        {
+            PrintList();
+        }));
+
+        private void PrintList()
+        {
+            if (!Directory.Exists("Temp"))
+                Directory.CreateDirectory("Temp");
+
+            var items = MainViewModel.Instance
+                .SearchResult
+                .Cast<Person>()
+                .Where(x=>x.IsSelected || PrintAll)
+                .ToList();
+            
+            foreach (var barangay in Models.Barangay.Cache)
+            {
+                if(items.All(x=>x.BarangayId!=barangay.Id)) continue;
+                
+                var temp = Path.Combine("Temp", $"{barangay.Name} {DateTime.Now:d-MMM-yyyy}.docx");
+                
+                using (var doc = DocX.Load(@"BarangayList.docx"))
+                {
+                    doc.ReplaceText("[BARANGAY]",barangay.Name);
+                    doc.ReplaceText("[DATE]",DateTime.Now.ToString("MMM d, yyyy"));
+                    
+                    var tbl = doc.Tables.First(); // doc.InsertTable(1, 6);
+                    var persons = items.Where(x => x.BarangayId == barangay.Id).ToList();
+                    var row = tbl.Rows[1];
+                    for (var i = 0; i < persons.Count; i++)
+                    {
+                        var r = i==0 ? tbl.Rows[1] : tbl.InsertRow();
+                        var item = persons[i];
+
+                        foreach (var rCell in r.Cells)
+                        {
+                            rCell.VerticalAlignment = VerticalAlignment.Center;
+                            rCell.MarginBottom = 2;
+                            rCell.MarginLeft = 4;
+                            rCell.MarginRight = 4;
+                            rCell.MarginTop = 2;
+                        }
+                        
+                        r.Cells[0].Paragraphs.First().Append($"{i + 1}").Alignment = Alignment.center;
+                        
+                        r.Cells[1].Paragraphs.First().Append(item.Fullname);
+                        
+                        r.Cells[2].Paragraphs.First().Append(item.Sitio);
+                        r.Cells[3].Paragraphs.First().Append(item.OscaId).Alignment = Alignment.center;
+                        if(item.DateIssued.HasValue && item.DateIssued.Value>DateTime.MinValue)
+                        r.Cells[4].Paragraphs.First().Append(item.DateIssued?.ToString("M/d/yyyy")??"")
+                            .Alignment =Alignment.center;
+                        r.Cells[5].Paragraphs.First().Append(item.BirthDate?.ToString("M/d/yyyy") ?? "")
+                            .Alignment = Alignment.center;
+                        r.Cells[6].Paragraphs.First().Append(item.Age?.ToString()??"")
+                            .Alignment = Alignment.center;
+
+                        if(item.Sex==Sexes.Female)
+                            r.Cells[7].Paragraphs.First().Append("F").Alignment = Alignment.center;
+                        else if(item.Sex==Sexes.Male)
+                            r.Cells[7].Paragraphs.First().Append("M").Alignment = Alignment.center;
+                        
+                        r.Cells[8].Paragraphs.First().Append(item.KaubanSaBalay);
+                        r.Cells[8].Paragraphs.First().Append(item.Disability);
+                        r.Cells[10].Paragraphs.First().Append(item.Livelihood);
+                        r.Cells[11].Paragraphs.First().Append(item.Mobile?"YES":"NO").Alignment = Alignment.center;
+                        r.Cells[12].Paragraphs.First().Append(item.IsSupported?"NAA":"WALA")
+                                .Alignment = Alignment.center;
+                        r.Cells[13].Paragraphs.First().Append(item.IsPensioner?"YES":"NO")
+                            .Alignment = Alignment.center;
+                        r.Cells[14].Paragraphs.First().Append(item.Remarks);
+
+                    }
+                    //var border = new Xceed.Words.NET.Border(BorderStyle.Tcbs_single, BorderSize.one, 0,
+                    //    System.Drawing.Color.Black);
+                    //tbl.SetBorder(TableBorderType.Bottom, border);
+                    //tbl.SetBorder(TableBorderType.Left, border);
+                    //tbl.SetBorder(TableBorderType.Right, border);
+                    //tbl.SetBorder(TableBorderType.Top, border);
+                    //tbl.SetBorder(TableBorderType.InsideV, border);
+                    //tbl.SetBorder(TableBorderType.InsideH, border);
+                    try
+                    {
+                        File.Delete(temp);
+                    }
+                    catch (Exception e)
+                    {
+                        //
+                    }
+                    
+                    doc.SaveAs(temp);
+                }
+
+                var info = new ProcessStartInfo(temp);
+                info.Arguments = "\"" + MainViewModel.Instance.Printers.CurrentItem + "\"";
+                info.CreateNoWindow = true;
+                info.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                info.UseShellExecute = true;
+                info.Verb = "PrintTo";
+                Process.Start(info);
+            }
+            
+            
+        }
     }
 
     public enum ShowPeople
@@ -204,4 +360,5 @@ namespace Dusk.Screens.ViewModels
         [Description("Show the Living Only")] Alive,
         [Description("Show Only the Dead")] Dead
     }
+    
 }

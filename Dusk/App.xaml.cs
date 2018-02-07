@@ -9,14 +9,12 @@ namespace Dusk
     /// </summary>
     public partial class App : Application
     {
-
-
+        
         private MainWindow mainWindow;
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            awooo.IsRunning = true;
-
+            awooo.Initialize();
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline),
                 new FrameworkPropertyMetadata { DefaultValue = 30 });
 

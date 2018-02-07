@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Printing;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
@@ -45,6 +46,15 @@ namespace Dusk
                 {
                     OnPropertyChanged(nameof(IsUsersEnabled));
                 }
+            };
+
+            ToolsViewModel.Instance.PropertyChanged += (sender, args) =>
+            {
+                OnPropertyChanged(nameof(HasSelected));
+                OnPropertyChanged(nameof(SelectionCount));
+                OnPropertyChanged(nameof(AllSelected));
+                OnPropertyChanged(nameof(HasSelectedAlive));
+                OnPropertyChanged(nameof(HasSelectedDeceased));
             };
         }
 
@@ -113,11 +123,11 @@ namespace Dusk
             }
         }
 
-        public bool HasSelected => Person.Cache.Any(x => x.IsSelected);
+        public bool HasSelected => SearchResult.Cast<Person>().Any(x => x.IsSelected);
 
-        public bool HasSelectedAlive => Person.Cache.Any(x => x.IsSelected && !x.Deceased);
+        public bool HasSelectedAlive => SearchResult.Cast<Person>().Any(x => x.IsSelected && !x.Deceased);
 
-        public bool HasSelectedDeceased => Person.Cache.Any(x => x.IsSelected && x.Deceased);
+        public bool HasSelectedDeceased => SearchResult.Cast<Person>().Any(x => x.IsSelected && x.Deceased);
 
         private ICommand _deleteSelectedCommand;
         public ICommand DeleteSelectedCommand =>
@@ -264,8 +274,32 @@ namespace Dusk
                 ToolsViewModel.Instance.PropertyChanged += (sender, args) =>
                 {
                     _searchResult.Filter = Filter;
+                    OnPropertyChanged(nameof(HasSelected));
+                    OnPropertyChanged(nameof(SelectionCount));
+                    OnPropertyChanged(nameof(AllSelected));
+                    OnPropertyChanged(nameof(HasSelectedAlive));
+                    OnPropertyChanged(nameof(HasSelectedDeceased));
                 };
                 return _searchResult;
+            }
+        }
+
+        private List<string> _printers;
+        public ListCollectionView Printers
+        {
+            get
+            {
+                if (_printers != null) return (ListCollectionView) CollectionViewSource.GetDefaultView(_printers);
+                var printer = new System.Printing.LocalPrintServer();
+                var printers = printer.GetPrintQueues();
+                _printers = new List<string>(printers.Count());
+                var defprinter = LocalPrintServer.GetDefaultPrintQueue().Name;
+                foreach (var p in printers)
+                {
+                    _printers.Add(p.Name);                    
+                }
+                ((ListCollectionView) CollectionViewSource.GetDefaultView(_printers)).MoveCurrentTo(defprinter);
+                return (ListCollectionView) CollectionViewSource.GetDefaultView(_printers);
             }
         }
         
@@ -280,8 +314,15 @@ namespace Dusk
                 var filter = ToolsViewModel.Instance;
                 if (filter.FilterBarangay && person.BarangayId != filter.Barangay.Id) return false;
                 if (filter.FilterCivilStatus && person.CivilStatus != filter.CivilStatus) return false;
-                if (filter.FilterDisability && !person.Disability.ToLower().Contains(filter.Disability.ToLower()))
+                if (filter.FilterDisability && !(person.Disability?.ToLower().Contains(filter.Disability.ToLower())??false))
                     return false;
+                if (filter.FilterLivelihood)
+                {
+                    if(!string.IsNullOrEmpty(filter.Livelihood))
+                       if(!(person.Livelihood?.ToLower().Contains(filter.Livelihood.ToLower()) ?? false))
+                            return false;
+                }
+                    
                 if (filter.FilterGender && person.Sex != filter.Gender) return false;
                 switch (filter.ShowPeople)
                 {
@@ -402,7 +443,7 @@ namespace Dusk
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Dispatcher.Invoke(() => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); });
+            Dispatcher?.Invoke(() => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); });
         }
     }
 }
