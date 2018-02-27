@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Dusk.Screens.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dusk.Screens"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:dusk="clr-namespace:Dusk"
+             mc:Ignorable="d" 
+             VerticalAlignment="Stretch"
+             HorizontalAlignment="Stretch"
+             Background="#77000000"
+             DataContext="{Binding Source={x:Static dusk:MainViewModel.Instance}}"
+             d:DesignHeight="300" d:DesignWidth="300">
+  <materialDesign:ColorZone VerticalAlignment="Center" HorizontalAlignment="Center"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth4"
+                            materialDesign:ShadowAssist.ShadowEdges="All"
+                            Mode="Light"
+                       CornerRadius="7">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Image Source="pack://application:,,,/Resources/dswd_128.png"
+           Height="128" Width="128"
+           Margin="20"/>
+    <StackPanel Orientation="Vertical"
+                Margin="0 20 20 20"
+                Width="333"
+                Grid.Column="1">
+      <TextBlock Text="PLEASE LOGIN" Style="{StaticResource MaterialDesignHeadlineTextBlock}" Margin="0 0 0 0"/>
+      <TextBox materialDesign:HintAssist.Hint="USERNAME" materialDesign:HintAssist.IsFloating="True"
+               Text="{Binding LoginUsername,UpdateSourceTrigger=PropertyChanged}"
+               x:Name="Username"/>
+      <PasswordBox materialDesign:HintAssist.Hint="PASSWORD" materialDesign:HintAssist.IsFloating="True"
+               x:Name="Password" />
+      <Button HorizontalAlignment="Right" Content="LOGIN"
+              Command="{Binding LoginCommand}"
+              CommandParameter="{Binding ElementName=Password}"
+              Margin="0 10 0 0"/>
+    </StackPanel>
+  </Grid>
+  </materialDesign:ColorZone>
+</UserControl>

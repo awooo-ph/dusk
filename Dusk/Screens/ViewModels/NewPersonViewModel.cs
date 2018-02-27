@@ -7,7 +7,6 @@ using Dusk.Data;
 using Dusk.Models;
 using FastMember;
 using Microsoft.Win32;
-using NuGet;
 
 namespace Dusk.Screens.ViewModels
 {
@@ -65,10 +64,18 @@ namespace Dusk.Screens.ViewModels
                     Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 if (!dlg.ShowDialog(Application.Current.MainWindow) ?? false) return;
                 Settings.PicturePath = Path.GetDirectoryName(dlg.FileName);
-                Model.Picture = dlg.OpenFile().ReadAllBytes();
+                try
+                {
+                    Model.Picture = File.ReadAllBytes(dlg.FileName);
+                }
+                catch (Exception e)
+                {
+                    Messenger.Default.Broadcast(Messages.Error, e);
+                }
+
             }));
 
-        
+
 
         private ICommand _saveCommand;
 

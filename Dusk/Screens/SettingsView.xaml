@@ -58,12 +58,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="User Accounts" Style="{StaticResource MaterialDesignTitleTextBlock}" />
+                    <TextBlock Text="Dusk Access" Style="{StaticResource MaterialDesignTitleTextBlock}" />
                     <TextBlock
                         Text="{Binding Source={x:Static properties:Settings.Default},
                                     Path=EnableUserAccounts,Converter={converters:BooleanToObject 
-                                    {}User\ accounts\ access\ is\ enabled.,
-                                    {}Dusk\ access\ is\ anonymous.}}"
+                                    {}Anonymous\ access\ is\ disabled.,
+                                    {}Anonymous\ access\ is\ enabled.}}"
                         Opacity="0.7" />
 
                 </StackPanel>

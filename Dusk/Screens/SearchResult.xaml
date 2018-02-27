@@ -20,8 +20,13 @@
 
     <md:ColorZone Mode="Light" VerticalAlignment="Stretch">
         <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
             <DataGrid ItemsSource="{Binding SearchResult}"
-                      IsSynchronizedWithCurrentItem="False"
+                      IsReadOnly="{Binding CurrentUser.CanEdit,Converter={converters:Inverter}}"
+                      IsSynchronizedWithCurrentItem="True"
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="False"
                       CanUserSortColumns="True"
@@ -45,11 +50,6 @@
                         </Setter>
                     </Style>
                 </DataGrid.CellStyle>
-                <DataGrid.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="DataGridRow">
-                        <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>
-                    </Style>
-                </DataGrid.ItemContainerStyle>
                 <DataGrid.ColumnHeaderStyle>
                     <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
                         <Setter Property="ContextMenu">
@@ -84,18 +84,25 @@
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                                            CanUserReorder="False"
-                                            CanUserResize="False"
-                                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
-                                            Binding="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
-                        <DataGridCheckBoxColumn.Header>
-                            <CheckBox HorizontalAlignment="Center" Margin="4 0 0 0"
-                                      IsChecked="{Binding Source={x:Static dusk:MainViewModel.Instance},Path=AllSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        </DataGridCheckBoxColumn.Header>
-                    </DataGridCheckBoxColumn>
+               
+          <DataGridCheckBoxColumn
+            CanUserSort="False"
+            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+            Binding="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged}"
+            CanUserResize="False"
+            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
+            <DataGridCheckBoxColumn.Header>
 
-                    <DataGridTextColumn Header="No."
+              <CheckBox VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Focusable="False"
+                        Margin="2 0 0 0"
+                        IsChecked="{Binding Source={x:Static dusk:MainViewModel.Instance},Path=SelectionState}"
+                        Padding="0" />
+            </DataGridCheckBoxColumn.Header>
+          </DataGridCheckBoxColumn>
+
+          <DataGridTextColumn Header="No."
                                         CanUserReorder="False"
                                         CanUserResize="False"
                                         Binding="{Binding Number}"
@@ -120,7 +127,7 @@
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
                     
                     <DataGridTemplateColumn Header="Name"
-                                            SortMemberPath="Firstname"
+                                            SortMemberPath="Fullname"
                                             Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowFullName,Converter={converters:BooleanToVisibility}}">
                       
                         <DataGridTemplateColumn.CellTemplate>
@@ -195,6 +202,94 @@
                                         Binding="{Binding Remarks}"/>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
+          
+          <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <md:Card UniformCornerRadius="7"
+                 Cursor="Hand"
+                 Height="222"
+                 Width="222"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 
+                 Margin="10">
+          <Grid>
+          <Image Source="{Binding SearchResult/Picture,Converter={converters:BytesToImage}}"
+                 Stretch="UniformToFill"
+                 RenderOptions.BitmapScalingMode="HighQuality"
+                 Visibility="{Binding SearchResult/HasPicture,Converter={converters:BooleanToVisibility}}"/>
+          <Grid Visibility="{Binding SearchResult/HasPicture,Converter={converters:BooleanToVisibility Collapsed,Visible}}">
+          <Image Source="/Resources/senior-male.png" Stretch="Uniform"
+                 IsHitTestVisible="False"
+                 Visibility="{Binding SearchResult/Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Male}, Operation=Equals}}"
+                 Grid.Column="0" Grid.Row="0" Margin="10" />
+
+          <Image Source="/Resources/senion-female.png" Stretch="Uniform"
+                 IsHitTestVisible="False"
+                 Visibility="{Binding SearchResult/Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Female}, Operation=Equals}}"
+                 Grid.Column="0" Grid.Row="0" Margin="10" />
+          </Grid>
+            <md:ColorZone
+              Padding="7"
+              Mode="Accent"
+              VerticalAlignment="Center" 
+              Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type md:Card}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}">
+       
+              <StackPanel>
+                <TextBlock Text="CLICK TO CHANGE PHOTO"
+                           TextAlignment="Center" />
+              </StackPanel>  
+            </md:ColorZone>
+            
+            <Button Style="{StaticResource MaterialDesignToolButton}"
+                    Height="Auto"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Width="Auto"
+                    Command="{Binding Source={x:Static dusk:MainViewModel.Instance},Path=ChangePictureCommand}"
+                    CommandParameter="{Binding SearchResult.CurrentItem}" />
+          </Grid>
+        </md:Card>
+
+        <GroupBox Header="CASH ASSISTANCE RECEIVED" Grid.Row="1">
+        <DataGrid Grid.Row="1"
+                  IsReadOnly="{Binding CurrentUser.CanEdit,Converter={converters:Inverter}}"
+                  ItemsSource="{Binding CashAssistances}"
+                      AutoGenerateColumns="False">
+          <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Date">
+
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Received,StringFormat=d}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+              <DataGridTemplateColumn.CellEditingTemplate>
+                <DataTemplate>
+                  <DatePicker SelectedDate="{Binding Received}" Margin="-4" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellEditingTemplate>
+            </DataGridTemplateColumn>
+
+            <md:MaterialDataGridTextColumn Header="Amount" Binding="{Binding Amount}"
+                                           EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+            <md:MaterialDataGridTextColumn Header="Given By" Binding="{Binding GivenBy}"
+                                           EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+            <md:MaterialDataGridTextColumn Header="Remarks" Binding="{Binding Remarks}"
+                                           EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+          </DataGrid.Columns>
+        </DataGrid>
+        </GroupBox>
+            
+            
+      </Grid>
+
+      <Rectangle Width="1" Fill="{StaticResource PrimaryHueMidBrush}"
+                 Grid.Column="1" HorizontalAlignment="Left" />
+          
+    </Grid>
     </md:ColorZone>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Markup;
@@ -12,6 +13,8 @@ namespace Dusk.Screens.ViewModels
         protected ViewModelBase()
         {
         }
+
+        public abstract override object ProvideValue(IServiceProvider serviceProvider);
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -87,7 +87,7 @@
                         <md:TransitionerSlide.ForwardWipe>
                             <md:FadeWipe Duration="0:0:0.4"/>
                         </md:TransitionerSlide.ForwardWipe>
-                     
+
                         <screens:SettingsView />
                     </md:TransitionerSlide>
                     <md:TransitionerSlide>
@@ -101,111 +101,112 @@
         </ma:FlyoutsControl>
     </ma:MetroWindow.Flyouts>
     <md:DialogHost SnackbarMessageQueue="{Binding MessageQueue}">
- 
-            <Grid IsSharedSizeScope="True">
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <!-- MahApps -->
 
-                    <ResourceDictionary
+        <Grid IsSharedSizeScope="True">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <!-- MahApps -->
+
+                        <ResourceDictionary
                         Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
 
-                    <!-- Material Design -->
-                    <ResourceDictionary
+                        <!-- Material Design -->
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                    <!-- Material Design: MahApps Compatibility -->
-                    <ResourceDictionary
+                        <!-- Material Design: MahApps Compatibility -->
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Defaults.xaml " />
-                    <ResourceDictionary
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
-                    <ResourceDictionary
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.snackbar.xaml" />
                         <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.popupbox.xaml" />
-                    <ResourceDictionary
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />
-                    <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />-->
-                    <ResourceDictionary
+                        <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />-->
+                        <ResourceDictionary
                         Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
-                    
-                    
-                </ResourceDictionary.MergedDictionaries>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-                    <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
-                </Style>
-                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
-                    <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
-                    <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
-                </Style>
 
 
-                <Style x:Key="FlatButton" TargetType="{x:Type ToggleButton}">
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="BorderBrush" Value="Transparent" />
-                    <Setter Property="Cursor" Value="Hand" />
-                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
-                    <Setter Property="md:RippleAssist.Feedback"
+                    </ResourceDictionary.MergedDictionaries>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                    </Style>
+                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+                        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+                    </Style>
+
+
+                    <Style x:Key="FlatButton" TargetType="{x:Type ToggleButton}">
+                        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                        <Setter Property="md:RippleAssist.Feedback"
                             Value="{DynamicResource MaterialDesignFlatButtonRipple}" />
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="Padding" Value="16 4 16 4" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                <Grid>
-                                    <Border Background="{TemplateBinding Background}" x:Name="border"
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="16 4 16 4" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Grid>
+                                        <Border Background="{TemplateBinding Background}" x:Name="border"
                                             BorderBrush="{TemplateBinding BorderBrush}"
                                             BorderThickness="{TemplateBinding BorderThickness}">
-                                        <md:Ripple Content="{TemplateBinding Content}"
+                                            <md:Ripple Content="{TemplateBinding Content}"
                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
                                                    Focusable="False"
                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                    Padding="{TemplateBinding Padding}"
                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                    </Border>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="BorderBrush" TargetName="border" Value="#11FFFFFF" />
-                                        <Setter Property="Background" TargetName="border" Value="#11FFFFFF" />
-                                    </Trigger>
-                                    <Trigger Property="IsEnabled" Value="false">
-                                        <Setter Property="Opacity" Value="0.23" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ResourceDictionary>
-        </Grid.Resources>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="BorderBrush" TargetName="border" Value="#11FFFFFF" />
+                                            <Setter Property="Background" TargetName="border" Value="#11FFFFFF" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Opacity" Value="0.23" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
 
-        <Grid IsSharedSizeScope="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" SharedSizeGroup="titleBar" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding ElementName=TitleIcon,Path=ActualWidth}" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid IsSharedSizeScope="True"
+                  IsEnabled="{Binding HasLoggedIn}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" SharedSizeGroup="titleBar" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TitleIcon,Path=ActualWidth}" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <!--<md:TransitioningContent Grid.Row="1"
+                <!--<md:TransitioningContent Grid.Row="1"
                                      Grid.Column="0" Grid.ColumnSpan="4"
                                      Content="{Binding CurrentScreen}" />-->
-            <screens:SearchResult Grid.Row="1"
+                <screens:SearchResult Grid.Row="1"
                                   Grid.Column="0"
                                   Grid.ColumnSpan="4"/>
 
-            <!--Selection action bar-->
+                <!--Selection action bar-->
 
 
                 <md:ColorZone Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
@@ -227,16 +228,16 @@
                         </TextBlock>
                         <UniformGrid HorizontalAlignment="Left"
                                      Columns="5">
-                        <Button Margin="7"
+                            <Button Margin="7"
                                 Focusable="False"
                                 Command="{Binding DeleteSelectedCommand}">
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Close" />
-                                <TextBlock Text="DELETE"
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="Close" />
+                                    <TextBlock Text="DELETE"
                                            Margin="7,0,0,0" />
 
-                            </StackPanel>
-                        </Button>
+                                </StackPanel>
+                            </Button>
                             <!--<Button Margin="7" Focusable="False">
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Kind="MessageText" />
@@ -269,7 +270,7 @@
                                 </StackPanel>
                             </Button>
 
-                         
+
 
 
                         </UniformGrid>
@@ -277,73 +278,73 @@
                 </md:ColorZone>
 
                 <!--Title bar-->
-            <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
+                <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
                           Grid.Column="0" Grid.Row="0"
                           IsHitTestVisible="False">
-                <Grid x:Name="TitleIcon" HorizontalAlignment="Left">
-                    <StackPanel Orientation="Horizontal"
+                    <Grid x:Name="TitleIcon" HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Left"
                                 
                                 Grid.Column="0">
-                        <Rectangle Height="57" Width="1" Visibility="Hidden" 
+                            <Rectangle Height="57" Width="1" Visibility="Hidden" 
                                    DockPanel.Dock="Left"/>
                             <Grid DockPanel.Dock="Left"
                                   Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
                                             Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}">
-                            
-                            <Image Source="Resources/sun.png" Height="57"
+
+                                <Image Source="Resources/sun.png" Height="57"
                                    x:Name="Sun"
                                    Opacity="0"
                                    Stretch="Uniform"
                                    RenderOptions.BitmapScalingMode="HighQuality"
                                    Margin="10" />
-                            <Image Source="Resources/dswd_128.png" Height="57"
+                                <Image Source="Resources/dswd_128.png" Height="57"
                                    Stretch="Uniform"
                                    x:Name="Dswd"
                                    RenderOptions.BitmapScalingMode="HighQuality"
                                    Margin="10" />
-                        </Grid>
-                        <StackPanel VerticalAlignment="Center"
+                            </Grid>
+                            <StackPanel VerticalAlignment="Center"
                                     Margin="0 0 47 0"
                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
                                             Converter={converters:EqualityConverter Operation=GreaterThan, Operand=1000}}">
-                            <TextBlock Text="Social Pension for Indigent Senior Citizens"
+                                <TextBlock Text="Social Pension for Indigent Senior Citizens"
                                        FontFamily="Resources/#WeblySleek UI"
                                        FontSize="10pt" />
-                            <TextBlock Text="BENEFICIARIES MANAGER"
+                                <TextBlock Text="BENEFICIARIES MANAGER"
                                        FontFamily="Resources/#WeblySleek UI"
                                        FontWeight="Bold"
                                        FontSize="15pt" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </md:ColorZone>
+                    </Grid>
+                </md:ColorZone>
 
-            <!--Search-->
-            <Grid Grid.Row="0" HorizontalAlignment="Left"
+                <!--Search-->
+                <Grid Grid.Row="0" HorizontalAlignment="Left"
                   Background="Transparent"
                   Grid.Column="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                            IsHitTestVisible="False"
                            Grid.ColumnSpan="2"
                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}" />
 
-                <StackPanel Margin="14 0 7 0"
+                    <StackPanel Margin="14 0 7 0"
                             VerticalAlignment="Center"
                             Grid.Column="0"
                             Orientation="Horizontal">
-                    <md:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        <md:PackIcon Kind="Magnify" HorizontalAlignment="Right" VerticalAlignment="Center"
                                  FontWeight="Bold"
                                  Height="17pt" Width="17pt"
                                  Margin="4" />
 
-                    <StackPanel VerticalAlignment="Center" Margin="0 0 17 0">
-                        <TextBlock Text="SEARCH OLDIES" FontWeight="Bold" Margin="7 0" />
-                        <TextBox
+                        <StackPanel VerticalAlignment="Center" Margin="0 0 17 0">
+                            <TextBlock Text="SEARCH OLDIES" FontWeight="Bold" Margin="7 0" />
+                            <TextBox
                             Text="{Binding SearchKeyword,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             md:HintAssist.Hint="Search keyword"
                             md:HintAssist.HintOpacity="0.4"
@@ -356,17 +357,18 @@
                             VerticalAlignment="Center"
                             Width="174" />
 
+                        </StackPanel>
+
                     </StackPanel>
 
-                </StackPanel>
-
-                <Rectangle Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True"
+                    <Rectangle Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True"
                            Fill="{StaticResource MaterialDesignLightSeparatorBackground}"
                            Grid.Column="1" />
-            </Grid>
+                </Grid>
 
-            <!--Add New-->
-            <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
+                <!--Add New-->
+                <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
+                              IsEnabled="{Binding CurrentUser.CanAdd}"
                           Grid.Column="1"
                           Grid.Row="0"
                           SnapsToDevicePixels="True"
@@ -379,24 +381,24 @@
                           BorderBrush="{StaticResource MaterialDesignLightSeparatorBackground}"
                           Style="{StaticResource FlatButton}">
 
-                <StackPanel Orientation="Horizontal">
-                    <md:PackIcon Kind="AccountPlus"
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="AccountPlus"
                                  Margin="4"
                                  Height="17pt"
                                  Width="17pt"
                                  VerticalAlignment="Center" />
-                    <StackPanel VerticalAlignment="Center"
+                        <StackPanel VerticalAlignment="Center"
                                 Margin="4">
-                        <TextBlock Text="ADD NEW" FontWeight="Bold" />
-                        <TextBlock Text="Senior Citizen"
+                            <TextBlock Text="ADD NEW" FontWeight="Bold" />
+                            <TextBlock Text="Senior Citizen"
                                    FontWeight="Light"
                                    Opacity="0.7" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </ToggleButton>
+                </ToggleButton>
 
-            <!--Tools-->
-            <ToggleButton VerticalAlignment="Stretch"
+                <!--Tools-->
+                <ToggleButton VerticalAlignment="Stretch"
                           x:Name="ToolsButton"
                           Grid.Column="2"
                           Grid.Row="0"
@@ -405,372 +407,365 @@
                           BorderBrush="{StaticResource MaterialDesignLightSeparatorBackground}"
                           Style="{StaticResource FlatButton}">
 
-                <StackPanel Orientation="Horizontal">
-                    <md:PackIcon Kind="Wrench"
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="Wrench"
                                  Margin="4"
                                  Height="17pt"
                                  Width="17pt"
                                  VerticalAlignment="Center" />
-                    <StackPanel VerticalAlignment="Center"
+                        <StackPanel VerticalAlignment="Center"
                                 Margin="4">
-                        <TextBlock Text="TOOLS" FontWeight="Bold" />
-                        <TextBlock Text="Herramientas"
+                            <TextBlock Text="TOOLS" FontWeight="Bold" />
+                            <TextBlock Text="Herramientas"
                                    FontWeight="Light"
                                    Opacity="0.7" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </ToggleButton>
+                </ToggleButton>
 
-            <!--User-->
-            <Grid Grid.Column="3" Grid.Row="0"
-                  Visibility="{Binding Source={x:Static properties:Settings.Default},Path=EnableUserAccounts,Converter={converters:BooleanToVisibility}}"
+                <!--User-->
+                <Grid Grid.Column="3" Grid.Row="0"
+                  Visibility="{Binding IsUsersEnabled,Converter={converters:BooleanToVisibility}}"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Right">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="userColumn" />
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="userColumn" />
+                    </Grid.ColumnDefinitions>
 
-                <Grid x:Name="UserGrid"
+                    <Grid x:Name="UserGrid"
                       Margin="0 0 7 0"
                       Background="{DynamicResource MaterialDesignDarkBackground}">
-                    <ToggleButton x:Name="UserToggle"
+                        <ToggleButton x:Name="UserToggle"
                                   IsChecked="{Binding IsUserMenuOpen,Mode=TwoWay}">
-                        <ToggleButton.Style>
-                            <Style TargetType="ToggleButton">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ToggleButton">
-                                            <Grid Background="Transparent" />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ToggleButton.Style>
-                        <ToggleButton.Triggers>
-                            <EventTrigger RoutedEvent="ToggleButton.Checked">
-                                <EventTrigger.Actions>
-                                    <StopStoryboard BeginStoryboardName="HideUserOptions" />
-                                    <BeginStoryboard Name="ShowUserOptions">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="UserOptions"
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Grid Background="Transparent" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <EventTrigger.Actions>
+                                        <StopStoryboard BeginStoryboardName="HideUserOptions" />
+                                        <BeginStoryboard Name="ShowUserOptions">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="UserOptions"
                                                              Storyboard.TargetProperty="Height"
-                                                             To="64" Duration="0:0:0.1" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                                <EventTrigger.Actions>
-                                    <StopStoryboard BeginStoryboardName="ShowUserOptions" />
-                                    <BeginStoryboard Name="HideUserOptions">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="UserOptions"
+                                                             To="32" Duration="0:0:0.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <EventTrigger.Actions>
+                                        <StopStoryboard BeginStoryboardName="ShowUserOptions" />
+                                        <BeginStoryboard Name="HideUserOptions">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="UserOptions"
                                                              Storyboard.TargetProperty="Height"
                                                              To="0" Duration="0:0:0.1" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </ToggleButton.Triggers>
-                    </ToggleButton>
-                    <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                        <Rectangle Fill="#11FFFFFF" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                IsHitTestVisible="False"
                                Grid.ColumnSpan="2"
                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}" />
 
-                    <DockPanel HorizontalAlignment="Stretch"
+                        <DockPanel HorizontalAlignment="Stretch"
                                IsHitTestVisible="False"
                                Margin="20 10 10 10"
                                LastChildFill="True">
-                        <md:PackIcon Kind="Account" Height="16" Width="16" VerticalAlignment="Center"
+                            <md:PackIcon Kind="Account" Height="16" Width="16" VerticalAlignment="Center"
                                      DockPanel.Dock="Left" />
-                        <TextBlock Text="admin" VerticalAlignment="Center"
+                            <TextBlock Text="{Binding CurrentUser.Username}" VerticalAlignment="Center"
                                    Margin="7 0"
                                    DockPanel.Dock="Left" />
-                        <md:PackIcon Kind="ChevronDown" VerticalAlignment="Center"
+                            <md:PackIcon Kind="ChevronDown" VerticalAlignment="Center"
                                      DockPanel.Dock="Right"
                                      HorizontalAlignment="Right"
                                      Margin="2 0 0 0"
                                      Opacity="0.4" />
-                    </DockPanel>
+                        </DockPanel>
 
+                    </Grid>
                 </Grid>
-            </Grid>
 
-            <!--User popup-->
-            <Grid Grid.Column="3" Grid.Row="1"
+                <!--User popup-->
+                <Grid Grid.Column="3" Grid.Row="1"
                   Visibility="{Binding Path=EnableUserAccounts,Converter={converters:BooleanToVisibility}}"
                   VerticalAlignment="Top"
                   HorizontalAlignment="Right">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="userColumn" />
-                </Grid.ColumnDefinitions>
-                <StackPanel x:Name="UserOptions"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="userColumn" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="UserOptions"
+                                Visibility="{Binding HasLoggedIn,Converter={converters:BooleanToVisibility}}"
                             Margin="0 0 7 0"
                             Height="0"
 
                             Background="{DynamicResource MaterialDesignDarkBackground}"
                             VerticalAlignment="Top" HorizontalAlignment="Right">
-                    <MenuItem HorizontalContentAlignment="Center"
+                        <!--<MenuItem HorizontalContentAlignment="Center"
                               Command="{Binding AccountSettingsCommand}"
                               Foreground="White">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="AccountSettingsVariant" Height="16" Width="16"
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="AccountSettingsVariant" Height="16" Width="16"
                                              VerticalAlignment="Center"
                                              DockPanel.Dock="Left" />
-                                <TextBlock Text="Account" VerticalAlignment="Center"
+                                    <TextBlock Text="Account" VerticalAlignment="Center"
                                            Margin="7 0"
                                            DockPanel.Dock="Left" />
-                            </StackPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem HorizontalContentAlignment="Center"
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>-->
+                        <MenuItem HorizontalContentAlignment="Center"
                               Command="{Binding LogoutCommand}"
                               Foreground="White">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Logout" Height="16" Width="16"
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="Logout" Height="16" Width="16"
                                              VerticalAlignment="Center"
                                              DockPanel.Dock="Left" />
-                                <TextBlock Text="Logout" VerticalAlignment="Center"
+                                    <TextBlock Text="Logout" VerticalAlignment="Center"
                                            Margin="7 0"
                                            DockPanel.Dock="Left" />
-                            </StackPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                </StackPanel>
-            </Grid>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </StackPanel>
+                </Grid>
 
 
-            <!--Add new background-->
-            <ToggleButton Grid.Row="0" Grid.Column="0"
+                <!--Add new background-->
+                <ToggleButton Grid.Row="0" Grid.Column="0"
                           Grid.RowSpan="3"
                           Grid.ColumnSpan="4"
                           Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}"
                           IsChecked="{Binding ElementName=AddNewButton,Path=IsChecked}">
-                <ToggleButton.Style>
-                    <Style TargetType="ToggleButton">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Rectangle Fill="#77000000" />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Rectangle Fill="#77000000" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
 
-            <!--Add new (checked)-->
-            <ToggleButton IsChecked="{Binding ElementName=AddNewButton,Path=IsChecked}"
+                <!--Add new (checked)-->
+                <ToggleButton IsChecked="{Binding ElementName=AddNewButton,Path=IsChecked}"
                           Grid.Column="1" Grid.Row="0"
                           Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}">
-                <ToggleButton.Style>
-                    <Style TargetType="ToggleButton">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Grid Background="Transparent">
-                                        <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid Background="Transparent">
+                                            <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Right"
                                                 Width="{Binding ElementName=AddNewButton,Path=ActualWidth}"
                                                 Padding="16 4 16 4"
                                                 Background="White">
-                                            <StackPanel Orientation="Horizontal">
-                                                <md:PackIcon Kind="AccountPlus"
+                                                <StackPanel Orientation="Horizontal">
+                                                    <md:PackIcon Kind="AccountPlus"
                                                              Margin="4"
                                                              Height="17pt"
                                                              Width="17pt"
                                                              VerticalAlignment="Center" />
-                                                <StackPanel VerticalAlignment="Center"
+                                                    <StackPanel VerticalAlignment="Center"
                                                             Margin="4">
-                                                    <TextBlock Text="ADD NEW" FontWeight="Bold" />
-                                                    <TextBlock Text="Senior Citizen"
+                                                        <TextBlock Text="ADD NEW" FontWeight="Bold" />
+                                                        <TextBlock Text="Senior Citizen"
                                                                FontWeight="Light"
                                                                Opacity="0.7" />
+                                                    </StackPanel>
                                                 </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
 
-            <!--Add new form-->
-            <screens:NewPerson Background="White"
+                <!--Add new form-->
+                <screens:NewPerson Background="White"
                                Grid.ColumnSpan="3"
                                Grid.Column="1"
                                Grid.Row="1"
                                Grid.RowSpan="2"
                                HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,Converter={converters:EqualityConverter Left,Stretch, ReturnType=Object, Operation=GreaterThan, Operand=700}}"
                                Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}" />
-            
-            <!--Tools background-->
-            <ToggleButton Grid.Row="0" Grid.Column="0"
+
+                <!--Tools background-->
+                <ToggleButton Grid.Row="0" Grid.Column="0"
                           Grid.RowSpan="2"
                           Grid.ColumnSpan="4"
                           Visibility="{Binding ElementName=ToolsButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}"
                           IsChecked="{Binding ElementName=ToolsButton,Path=IsChecked}">
-                <ToggleButton.Style>
-                    <Style TargetType="ToggleButton">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Rectangle Fill="#77000000" />
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Rectangle Fill="#77000000" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
 
-            <!--Tools checked-->
-            <ToggleButton IsChecked="{Binding ElementName=ToolsButton,Path=IsChecked}"
+                <!--Tools checked-->
+                <ToggleButton IsChecked="{Binding ElementName=ToolsButton,Path=IsChecked}"
                           Grid.Column="2" Grid.Row="0"
                           Visibility="{Binding ElementName=ToolsButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}">
-                <ToggleButton.Style>
-                    <Style TargetType="ToggleButton">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Grid Background="Transparent">
-                                        <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Right"
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid Background="Transparent">
+                                            <Border x:Name="Border" VerticalAlignment="Stretch" HorizontalAlignment="Right"
                                                 Width="{Binding ElementName=ToolsButton,Path=ActualWidth}"
                                                 Padding="16 4 16 4"
                                                 Background="White">
-                                            <StackPanel Orientation="Horizontal">
-                                                <md:PackIcon Kind="Wrench"
+                                                <StackPanel Orientation="Horizontal">
+                                                    <md:PackIcon Kind="Wrench"
                                                              Margin="4"
                                                              Height="17pt"
                                                              Width="17pt"
                                                              VerticalAlignment="Center" />
-                                                <StackPanel VerticalAlignment="Center"
+                                                    <StackPanel VerticalAlignment="Center"
                                                             Margin="4">
-                                                    <TextBlock Text="TOOLS" FontWeight="Bold" />
-                                                    <TextBlock Text="Herramientas"
+                                                        <TextBlock Text="TOOLS" FontWeight="Bold" />
+                                                        <TextBlock Text="Herramientas"
                                                                FontWeight="Light"
                                                                Opacity="0.7" />
+                                                    </StackPanel>
                                                 </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ToggleButton.Style>
-            </ToggleButton>
-            
-            <!--Tools popup-->
-            <md:ColorZone Mode="Dark" Background="White"
-                          DataContext="{Binding Source={viewModels:ToolsViewModel}}"
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+                <!--Tools popup-->
+                <md:ColorZone Mode="Dark" Background="White"
+                              DataContext="{Binding Source={x:Static viewModels:ToolsViewModel.Instance}}"
                           Visibility="{Binding ElementName=ToolsButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}"
                           Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2"
                           Margin="1 0 0 0"
                           Foreground="{StaticResource MaterialDesignLightForeground}"
                           HorizontalAlignment="Left">
-                
-                            <Grid Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                                
-                                
 
-                    <GroupBox Margin="10">
-                        <GroupBox.Header>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <md:PackIcon Kind="Filter" Margin="4"
+                    <WrapPanel Margin="10" Orientation="Vertical">
+                        <GroupBox Margin="10"
+                              DataContext="{viewModels:ToolsViewModel}">
+                            <GroupBox.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <md:PackIcon Kind="Filter" Margin="4"
                                              Foreground="White"/>
-                                <TextBlock Text="FILTER" Margin="4"
+                                    <TextBlock Text="FILTER" Margin="4"
                                            Grid.Column="1"
                                            Foreground="White"/>
-                                <ToggleButton Grid.Column="2"
+                                    <ToggleButton Grid.Column="2"
+                                              IsChecked="{Binding FilterResult}"
                                               Style="{DynamicResource MaterialDesignSwitchLightToggleButton}"
                                           HorizontalAlignment="Right"
                                           x:Name="EnableFilterCheckBox"
                                           ToolTip="Enable/disable filter"
                                           Margin="4"/>
-                            </Grid>
-                        </GroupBox.Header>
-                        <Grid IsEnabled="{Binding ElementName=EnableFilterCheckBox,Path=IsChecked}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            
-                            <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type viewModels:ShowPeople}}}"
+                                </Grid>
+                            </GroupBox.Header>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Grid IsEnabled="{Binding ElementName=EnableFilterCheckBox,Path=IsChecked}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type viewModels:ShowPeople}}}"
                                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                               SelectedItem="{Binding ShowPeople}"
                               IsSynchronizedWithCurrentItem="True"
                               Margin="4">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            
-                            
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={converters:EnumDescription}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+
                                 <CheckBox IsChecked="{Binding FilterGender}" Margin="4" Content="Gender"
                                           ToolTip="Filter Gender"
                                           Grid.Column="0" Grid.Row="1"/>
-                            <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type models:Sexes}}}"
+                                <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type models:Sexes}}}"
                                       Grid.Row="1"
                                       Grid.Column="1"
                                       SelectedItem="{Binding Gender}"
                                       IsEnabled="{Binding FilterGender}"
                                       IsSynchronizedWithCurrentItem="True"
                                       Margin="4">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
                                 <CheckBox IsChecked="{Binding FilterCivilStatus}" Margin="4" Content="Civil Status"
                                           ToolTip="Filter Civil Status"
                                           Grid.Column="0" Grid.Row="2"/>
-                            <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type models:CivilStatuses}}}"
+                                <ComboBox ItemsSource="{Binding Source={local:EnumBinding {x:Type models:CivilStatuses}}}"
                                       Grid.Row="2"
                                       Grid.Column="1"
                                       SelectedItem="{Binding CivilStatus}"
                                       IsEnabled="{Binding FilterCivilStatus}"
                                       IsSynchronizedWithCurrentItem="True"
                                       Margin="4">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={converters:EnumDescription}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
                                 <CheckBox IsChecked="{Binding FilterBarangay}" Margin="4" Content="Barangay"
                                           ToolTip="Filter Barangay"
                                           Grid.Column="0" Grid.Row="3"/>
@@ -781,10 +776,11 @@
                                       Margin="4"/>
 
 
-                            <CheckBox IsChecked="{Binding FilterDisability}" Margin="4" Content="Disability"
+                                <CheckBox IsChecked="{Binding FilterDisability}" Margin="4" Content="Disability"
                                       ToolTip="Filter Disability"
                                       Grid.Column="0" Grid.Row="4" />
-                            <ComboBox ItemsSource="{Binding Source={x:Static models:PersonCache.Instance},Path=[Disability]}"
+                                <ComboBox ItemsSource="{Binding Source={x:Static models:PersonCache.Instance},Path=[Disability]}"
+                                          Text="{Binding Disability,UpdateSourceTrigger=PropertyChanged}"
                                       IsEditable="True"
                                       Grid.Row="4"
                                       Grid.Column="1"
@@ -792,27 +788,61 @@
                                       IsSynchronizedWithCurrentItem="True"
                                       Margin="4"/>
 
-                            <CheckBox IsChecked="{Binding FilterLivelihood}" Margin="4" Content="Panginabuhian"
+                                <CheckBox IsChecked="{Binding FilterLivelihood}" Margin="4" Content="Panginabuhian"
                                       ToolTip="Filter Livelihood"
                                       Grid.Column="0" Grid.Row="5" />
-                            <ComboBox
-                                ItemsSource="{Binding Source={x:Static models:PersonCache.Instance},Path=[Livelihood]}"
-                                IsEditable="True"
-                                Grid.Row="5"
-                                Grid.Column="1"
-                                IsEnabled="{Binding FilterLivelihood}"
-                                IsSynchronizedWithCurrentItem="True"
-                                Margin="4" />
-                        </Grid>
-                    </GroupBox>
-                </Grid>
-            </md:ColorZone>
-        </Grid>
-        
-        <md:Snackbar HorizontalAlignment="Right"
+                                <ComboBox ItemsSource="{Binding Source={x:Static models:PersonCache.Instance},Path=[Livelihood]}"
+                                        IsEditable="True"
+                                        Grid.Row="5"
+                                        Grid.Column="1"
+                                          Text="{Binding Livelihood,UpdateSourceTrigger=PropertyChanged}"
+                                        IsEnabled="{Binding FilterLivelihood}"
+                                        IsSynchronizedWithCurrentItem="True"
+                                        Margin="4" />
+                                <CheckBox IsChecked="{Binding FilterAge}" Margin="4" Content="Age"
+                                          ToolTip="Filter Age"
+                                          Grid.Column="0" Grid.Row="6" />
+                                <Grid Grid.Row="6" Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Text="{Binding AgeFrom,UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="0 0 5 0"
+                                             md:HintAssist.Hint="FROM" md:HintAssist.IsFloating="True"/>
+                                    <TextBox Text="{Binding AgeTo,UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="5 0 0 0"
+                                             Grid.Column="1"
+                                             md:HintAssist.Hint="TO" md:HintAssist.IsFloating="True" />
+                                </Grid>
+                            </Grid>
+                            </ScrollViewer>
+                        </GroupBox>
+                        
+                        <GroupBox Margin="10" Header="PRINT">
+                            <StackPanel>
+                                <ComboBox md:HintAssist.Hint="PRINTER"
+                                          ItemsSource="{Binding Source={x:Static local:MainViewModel.Instance},Path=Printers}"
+                                          IsSynchronizedWithCurrentItem="True"
+                                          md:HintAssist.IsFloating="True"
+                                          Margin="0 10" />
+                                <RadioButton Content="PRINT ALL" IsChecked="{Binding PrintAll}"/>
+                                <RadioButton Content="SELECTED ONLY"
+                                             Margin="0 10"/>
+                              
+                                <Button Content="PRINT" Command="{Binding PrintCommand}"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </WrapPanel>
+                </md:ColorZone>
+            </Grid>
+
+            <md:Snackbar HorizontalAlignment="Right"
                      VerticalAlignment="Bottom"
                      MessageQueue="{Binding MessageQueue}"/>
-    </Grid>
+          
+          <screens:Login Visibility="{Binding HasLoggedIn,Converter={converters:BooleanToVisibility Collapsed,Visible}}"/>
+        </Grid>
 
     </md:DialogHost>
 </ma:MetroWindow>
