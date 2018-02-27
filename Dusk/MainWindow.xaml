@@ -185,7 +185,8 @@
                 </ResourceDictionary>
             </Grid.Resources>
 
-            <Grid IsSharedSizeScope="True">
+            <Grid IsSharedSizeScope="True"
+                  IsEnabled="{Binding HasLoggedIn}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" SharedSizeGroup="titleBar" />
                     <RowDefinition Height="*" />
@@ -367,6 +368,7 @@
 
                 <!--Add New-->
                 <ToggleButton VerticalAlignment="Stretch" x:Name="AddNewButton"
+                              IsEnabled="{Binding CurrentUser.CanAdd}"
                           Grid.Column="1"
                           Grid.Row="0"
                           SnapsToDevicePixels="True"
@@ -454,7 +456,7 @@
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="UserOptions"
                                                              Storyboard.TargetProperty="Height"
-                                                             To="64" Duration="0:0:0.1" />
+                                                             To="32" Duration="0:0:0.1" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </EventTrigger.Actions>
@@ -484,7 +486,7 @@
                                LastChildFill="True">
                             <md:PackIcon Kind="Account" Height="16" Width="16" VerticalAlignment="Center"
                                      DockPanel.Dock="Left" />
-                            <TextBlock Text="admin" VerticalAlignment="Center"
+                            <TextBlock Text="{Binding CurrentUser.Username}" VerticalAlignment="Center"
                                    Margin="7 0"
                                    DockPanel.Dock="Left" />
                             <md:PackIcon Kind="ChevronDown" VerticalAlignment="Center"
@@ -506,12 +508,13 @@
                         <ColumnDefinition SharedSizeGroup="userColumn" />
                     </Grid.ColumnDefinitions>
                     <StackPanel x:Name="UserOptions"
+                                Visibility="{Binding HasLoggedIn,Converter={converters:BooleanToVisibility}}"
                             Margin="0 0 7 0"
                             Height="0"
 
                             Background="{DynamicResource MaterialDesignDarkBackground}"
                             VerticalAlignment="Top" HorizontalAlignment="Right">
-                        <MenuItem HorizontalContentAlignment="Center"
+                        <!--<MenuItem HorizontalContentAlignment="Center"
                               Command="{Binding AccountSettingsCommand}"
                               Foreground="White">
                             <MenuItem.Header>
@@ -524,7 +527,7 @@
                                            DockPanel.Dock="Left" />
                                 </StackPanel>
                             </MenuItem.Header>
-                        </MenuItem>
+                        </MenuItem>-->
                         <MenuItem HorizontalContentAlignment="Center"
                               Command="{Binding LogoutCommand}"
                               Foreground="White">
@@ -837,6 +840,8 @@
             <md:Snackbar HorizontalAlignment="Right"
                      VerticalAlignment="Bottom"
                      MessageQueue="{Binding MessageQueue}"/>
+          
+          <screens:Login Visibility="{Binding HasLoggedIn,Converter={converters:BooleanToVisibility Collapsed,Visible}}"/>
         </Grid>
 
     </md:DialogHost>

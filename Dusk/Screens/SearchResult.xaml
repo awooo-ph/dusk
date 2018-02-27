@@ -25,6 +25,7 @@
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
             <DataGrid ItemsSource="{Binding SearchResult}"
+                      IsReadOnly="{Binding CurrentUser.CanEdit,Converter={converters:Inverter}}"
                       IsSynchronizedWithCurrentItem="True"
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserDeleteRows="False"
@@ -85,6 +86,7 @@
                 <DataGrid.Columns>
                
           <DataGridCheckBoxColumn
+            CanUserSort="False"
             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
             Binding="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged}"
             CanUserResize="False"
@@ -254,6 +256,7 @@
 
         <GroupBox Header="CASH ASSISTANCE RECEIVED" Grid.Row="1">
         <DataGrid Grid.Row="1"
+                  IsReadOnly="{Binding CurrentUser.CanEdit,Converter={converters:Inverter}}"
                   ItemsSource="{Binding CashAssistances}"
                       AutoGenerateColumns="False">
           <DataGrid.Columns>

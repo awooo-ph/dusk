@@ -7,6 +7,7 @@ using System.Linq;
 using System.Printing;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -30,7 +31,7 @@ namespace Dusk
 
         private MainViewModel()
         {
-            Messenger.Default.AddListener<Person>(Messages.PersonSelectionChanged,
+            Messenger.Default.AddListener<Person>(Messages.ModelSelected,
                 person =>
                 {
                     OnPropertyChanged(nameof(HasSelected));
@@ -182,7 +183,7 @@ namespace Dusk
                             Person.Cache.Add(person);
                         }
                     });
-                }));
+                },d=>CurrentUser?.CanDelete??false));
 
         private ICommand _resurrectCommand;
         public ICommand ResurrectCommand => _resurrectCommand ?? (_resurrectCommand = new DelegateCommand(d =>
@@ -199,7 +200,7 @@ namespace Dusk
                     person.Update(nameof(Person.Deceased), true);
                 }
             });
-        }));
+        },d=>CurrentUser?.CanEdit??false));
 
         private ICommand _setDeceasedCommand;
         public ICommand SetDeceasedCommand => _setDeceasedCommand ?? (_setDeceasedCommand = new DelegateCommand(d =>
@@ -216,14 +217,14 @@ namespace Dusk
                     person.Update(nameof(Person.Deceased), false);
                 }
             });
-        }));
+        }, d => CurrentUser?.CanEdit ?? false));
 
         private ICommand _showSettingsCommand;
         public ICommand ShowSettingsCommand => _showSettingsCommand ??
                                                (_showSettingsCommand = new DelegateCommand(d =>
                                                {
                                                    IsSettingsOpen = true;
-                                               }));
+                                               },d=>HasLoggedIn));
 
         private ICommand _gotoSettingsCommand;
 
@@ -236,7 +237,7 @@ namespace Dusk
         public ICommand ShowUsersCommand => _showUsersCommand ?? (_showUsersCommand = new DelegateCommand(d =>
         {
             SettingsIndex = 1;
-        }));
+        }, d => CurrentUser?.IsAdmin ?? false));
 
         private ICommand _showFullNameCommand;
 
@@ -424,8 +425,76 @@ namespace Dusk
             {
                 _currentUser = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(HasLoggedIn));
             }
         }
+
+        private bool _HasLoggedIn;
+
+        public bool HasLoggedIn
+        {
+            get => CurrentUser!=null || !IsUsersEnabled;
+            set
+            {
+                if(value == _HasLoggedIn)
+                    return;
+                _HasLoggedIn = value;
+                OnPropertyChanged(nameof(HasLoggedIn));
+            }
+        }
+
+        private string _LoginUsername;
+
+        public string LoginUsername
+        {
+            get => _LoginUsername;
+            set
+            {
+                if(value == _LoginUsername)
+                    return;
+                _LoginUsername = value;
+                OnPropertyChanged(nameof(LoginUsername));
+            }
+        }
+        
+        private ICommand _loginCommand;
+
+        public ICommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand<PasswordBox>(d =>
+        {
+            var user = User.Cache.FirstOrDefault(x => x.Username.ToLower() == LoginUsername.ToLower());
+            if (user == null && User.Cache.Count == 0)
+            {
+                user = new User()
+                {
+                    Username = LoginUsername,
+                };
+                user.Save();
+            }
+            if (user == null)
+            {
+                MessageBox.Show("Invalid Username and Password");
+                return;
+            }
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                user.Update(nameof(User.Password),d.Password);
+            }
+            if (user.Password != d.Password)
+            {
+                MessageBox.Show("Invalid Username and Password");
+                return;
+            }
+            CurrentUser = user;
+            LoginUsername = "";
+            d.Password = "";
+        },d=>d?.Password?.Length>0 && !string.IsNullOrEmpty(LoginUsername)));
+
+        private ICommand _logoutCommand;
+
+        public ICommand LogoutCommand => _logoutCommand ?? (_logoutCommand = new DelegateCommand(d =>
+        {
+            CurrentUser = null;
+        }));
 
         public bool IsUsersEnabled => Settings.Default.EnableUserAccounts && User.Cache.Count > 0;
 
