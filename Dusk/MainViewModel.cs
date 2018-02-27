@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Printing;
 using System.Runtime.CompilerServices;
@@ -17,6 +18,7 @@ using FastMember;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 
 namespace Dusk
 {
@@ -33,7 +35,6 @@ namespace Dusk
                 {
                     OnPropertyChanged(nameof(HasSelected));
                     OnPropertyChanged(nameof(SelectionCount));
-                    OnPropertyChanged(nameof(AllSelected));
                     OnPropertyChanged(nameof(HasSelectedAlive));
                     OnPropertyChanged(nameof(HasSelectedDeceased));
                 });
@@ -52,7 +53,6 @@ namespace Dusk
             {
                 OnPropertyChanged(nameof(HasSelected));
                 OnPropertyChanged(nameof(SelectionCount));
-                OnPropertyChanged(nameof(AllSelected));
                 OnPropertyChanged(nameof(HasSelectedAlive));
                 OnPropertyChanged(nameof(HasSelectedDeceased));
             };
@@ -62,16 +62,39 @@ namespace Dusk
 
         public static MainViewModel Instance => _instance ?? (_instance = new MainViewModel());
 
-        public bool AllSelected
+        private bool? _SelectionState = false;
+
+        public bool? SelectionState
         {
-            get { return Person.Cache.All(x => x.IsSelected); }
+            get => _SelectionState;
             set
             {
-                foreach (var person in Person.Cache)
+                if (value == _SelectionState)
+                    return;
+                _SelectionState = value;
+                OnPropertyChanged(nameof(SelectionState));
+
+                var students = Person.Cache.ToList();
+                foreach (var student in students)
                 {
-                    person.IsSelected = value;
+                    student.Select(_SelectionState ?? false);
                 }
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasSelected));
+            }
+        }
+
+        private bool _HasSelected;
+
+        public bool HasSelected
+        {
+            get
+            {
+                return SearchResult.Cast<Person>().ToList().Any(x=>x.IsSelected);
+            }
+            set
+            {
+                _HasSelected = value;
+                OnPropertyChanged(nameof(HasSelected));
             }
         }
 
@@ -122,9 +145,7 @@ namespace Dusk
                 OnPropertyChanged(nameof(IsSettingsOpen));
             }
         }
-
-        public bool HasSelected => SearchResult.Cast<Person>().Any(x => x.IsSelected);
-
+        
         public bool HasSelectedAlive => SearchResult.Cast<Person>().Any(x => x.IsSelected && !x.Deceased);
 
         public bool HasSelectedDeceased => SearchResult.Cast<Person>().Any(x => x.IsSelected && x.Deceased);
@@ -276,10 +297,10 @@ namespace Dusk
                     _searchResult.Filter = Filter;
                     OnPropertyChanged(nameof(HasSelected));
                     OnPropertyChanged(nameof(SelectionCount));
-                    OnPropertyChanged(nameof(AllSelected));
                     OnPropertyChanged(nameof(HasSelectedAlive));
                     OnPropertyChanged(nameof(HasSelectedDeceased));
                 };
+               
                 return _searchResult;
             }
         }
@@ -444,6 +465,63 @@ namespace Dusk
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             Dispatcher?.Invoke(() => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); });
+        }
+
+        private ListCollectionView _cashAssistances;
+
+        public ListCollectionView CashAssistances
+        {
+            get
+            {
+                if (_cashAssistances != null) return _cashAssistances;
+                _cashAssistances = new ListCollectionView(CashAssistance.Cache);
+                
+                _cashAssistances.Filter = FilterCashAssistance;
+                SearchResult.CurrentChanged += (sender, args) =>
+                {
+                    CashAssistance.SelectedPerson = _searchResult.CurrentItem as Person;
+                    if (SearchResult.IsAddingNew) return;
+                    _cashAssistances.Refresh();
+                };
+                return _cashAssistances;
+            }
+        }
+
+        private ICommand _changePictureCommand;
+
+        public ICommand ChangePictureCommand => _changePictureCommand ?? (_changePictureCommand = new DelegateCommand<Person>(
+        d =>
+        {
+            try
+            {
+                var dialog = new OpenFileDialog
+                {
+                    Multiselect = false,
+                    Filter = @"All Images|*.BMP;*.JPG;*.JPEG;*.GIF;*.PNG|
+BMP Files|*.BMP;*.DIB;*.RLE|
+JPEG Files|*.JPG;*.JPEG;*.JPE;*.JFIF|
+GIF Files|*.GIF|
+PNG Files|*.PNG",
+                    Title = "Select Picture",
+                };
+                if (!(dialog.ShowDialog() ?? false))
+                    return;
+
+                d.Update(nameof(Person.Picture),
+                    File.ReadAllBytes(dialog.FileName));
+            }
+            catch (Exception e)
+            {
+                //
+            }
+
+        }, d => d != null));
+
+        private bool FilterCashAssistance(object o)
+        {
+            if (!(o is CashAssistance cash)) return false;
+            if (!(SearchResult.CurrentItem is Person p)) return false;
+            return cash.PersonId == p.Id;
         }
     }
 }
