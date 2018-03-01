@@ -237,7 +237,7 @@ namespace Dusk
         public ICommand ShowUsersCommand => _showUsersCommand ?? (_showUsersCommand = new DelegateCommand(d =>
         {
             SettingsIndex = 1;
-        }, d => CurrentUser?.IsAdmin ?? false));
+        }));
 
         private ICommand _showFullNameCommand;
 
@@ -488,6 +488,14 @@ namespace Dusk
             LoginUsername = "";
             d.Password = "";
         },d=>d?.Password?.Length>0 && !string.IsNullOrEmpty(LoginUsername)));
+
+        private ICommand _showInfoCommand;
+
+        public ICommand ShowInfoCommand => _showInfoCommand ?? (_showInfoCommand = new DelegateCommand<Person>(p =>
+        {
+            NewPersonViewModel.Instance.Model = p;
+            NewPersonViewModel.Instance.IsOpen = true;
+        }));
 
         private ICommand _logoutCommand;
 

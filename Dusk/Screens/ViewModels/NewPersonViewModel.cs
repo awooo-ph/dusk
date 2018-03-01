@@ -118,6 +118,8 @@ namespace Dusk.Screens.ViewModels
                 if (value == _IsOpen) return;
                 _IsOpen = value;
                 OnPropertyChanged(nameof(IsOpen));
+                if(!value)
+                    Model = null;
             }
         }
 

@@ -209,36 +209,39 @@
                 <!--Selection action bar-->
 
 
-                <md:ColorZone Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
-                              Mode="Light"
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
+         
+          <md:ColorZone Mode="Light"
                              Visibility="{Binding HasSelected,Converter={converters:BooleanToVisibility}}"
                               VerticalAlignment="Bottom">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                                 Margin="0 4">
-                        <md:PackIcon Kind="CheckboxMultipleMarked"
+              <md:PackIcon Kind="CheckboxMultipleMarked"
                                      Height="24" Width="24"
                                      Foreground="{StaticResource AccentColorBrush}"
                                      VerticalAlignment="Center"
                                      Margin="20 0 4 0"/>
-                        <TextBlock VerticalAlignment="Center"
+              <TextBlock VerticalAlignment="Center"
                                    Width="147"
                                    Margin="0 0 10 0">
                             <Run Text="{Binding SelectionCount,Mode=OneWay}"/>
                             <Run Text=" items selected"/>
-                        </TextBlock>
-                        <UniformGrid HorizontalAlignment="Left"
+              </TextBlock>
+              <UniformGrid HorizontalAlignment="Left"
                                      Columns="5">
-                            <Button Margin="7"
+
+                <Button Margin="7"
                                 Focusable="False"
                                 Command="{Binding DeleteSelectedCommand}">
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="Close" />
-                                    <TextBlock Text="DELETE"
+                  <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Close" />
+                    <TextBlock Text="DELETE"
                                            Margin="7,0,0,0" />
 
-                                </StackPanel>
-                            </Button>
-                            <!--<Button Margin="7" Focusable="False">
+                  </StackPanel>
+                </Button>
+                <!--<Button Margin="7" Focusable="False">
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Kind="MessageText" />
                                     <TextBlock Text="Remarks"
@@ -246,36 +249,38 @@
 
                                 </StackPanel>
                             </Button>-->
-                            <Button Margin="7"
+                <Button Margin="7"
                                     Visibility="{Binding HasSelectedAlive,Converter={converters:BooleanToVisibility}}"
                                     Command="{Binding SetDeceasedCommand}"
                                     Focusable="False">
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="HeartPulse" />
-                                    <TextBlock Text="DECEASED"
+                  <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="HeartPulse" />
+                    <TextBlock Text="DECEASED"
                                                Margin="7,0,0,0" />
 
-                                </StackPanel>
-                            </Button>
+                  </StackPanel>
+                </Button>
 
-                            <Button Margin="7"
+                <Button Margin="7"
                                     Visibility="{Binding HasSelectedDeceased,Converter={converters:BooleanToVisibility Visible,Hidden}}"
                                     Command="{Binding ResurrectCommand}"
                                     Focusable="False">
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="Creation" />
-                                    <TextBlock Text="RESURRECT"
+                  <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Creation" />
+                    <TextBlock Text="RESURRECT"
                                                Margin="7,0,0,0" />
 
-                                </StackPanel>
-                            </Button>
+                  </StackPanel>
+                </Button>
 
 
 
 
-                        </UniformGrid>
-                    </StackPanel>
-                </md:ColorZone>
+              </UniformGrid>
+            </StackPanel>
+          </md:ColorZone>
+        </StackPanel>
+                
 
                 <!--Title bar-->
                 <md:ColorZone Mode="Dark" Grid.ColumnSpan="4"
