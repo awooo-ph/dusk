@@ -179,8 +179,12 @@
                     <md:MaterialDataGridComboBoxColumn Header="Gender" SelectedValueBinding="{Binding Sex}"
                                                        Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowSex,Converter={converters:BooleanToVisibility}}"
                                                        ItemsSourceBinding="{Binding Source={dusk:EnumBinding {x:Type models:Sexes}}}" />
-                    
-                    <DataGridTextColumn Header="Disability"
+
+          <md:MaterialDataGridComboBoxColumn Header="Civil Status"
+                                             ItemsSource="{Binding Source={dusk:EnumBinding EnumType=models:CivilStatuses}}"
+                                             SelectedItemBinding="{Binding CivilStatus}" />
+
+          <DataGridTextColumn Header="Disability"
                                         Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowDisability,Converter={converters:BooleanToVisibility}}"
                                         Binding="{Binding Disability}"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
@@ -208,6 +212,7 @@
               <RowDefinition Height="Auto"/>
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+        <StackPanel>
         <md:Card UniformCornerRadius="7"
                  Cursor="Hand"
                  Height="222"
@@ -253,7 +258,19 @@
                     CommandParameter="{Binding SearchResult.CurrentItem}" />
           </Grid>
         </md:Card>
+        <Button Margin="7"
+                Focusable="False"
+                Command="{Binding ShowInfoCommand}"
+                CommandParameter="{Binding SearchResult.CurrentItem}">
+          <StackPanel Orientation="Horizontal">
+            <md:PackIcon Kind="Information" />
+            <TextBlock Text="SHOW INFO"
+                       Margin="7,0,0,0" />
 
+          </StackPanel>
+        </Button>
+        </StackPanel>
+            
         <GroupBox Header="CASH ASSISTANCE RECEIVED" Grid.Row="1">
         <DataGrid Grid.Row="1"
                   IsReadOnly="{Binding CurrentUser.CanEdit,Converter={converters:Inverter}}"
