@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Animation;
+using Dusk.Properties;
 using Dusk.Screens;
 
 namespace Dusk
@@ -14,6 +16,11 @@ namespace Dusk
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
+            while (Config.Default.Expired)
+            {
+                Task.Delay(777);
+            }
+            
             awooo.Initialize();
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline),
                 new FrameworkPropertyMetadata { DefaultValue = 30 });
