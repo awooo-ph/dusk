@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -225,10 +226,27 @@ namespace Dusk.Screens.ViewModels
                     }
                     else
                     {
-
+                        OpenAttachment(d);
                     }
 
                 }, d => d != null));
+
+        private void OpenAttachment(Attachment attachment)
+        {
+            try
+            {
+                var temp = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetTempFileName())+".jpg");
+                File.WriteAllBytes(temp, attachment.Data);
+
+                Process.Start(temp);
+            }
+            catch (Exception e)
+            {
+                //
+            }
+            
+            
+        }
 
         private void AddAttachment(Attachment d)
         {
