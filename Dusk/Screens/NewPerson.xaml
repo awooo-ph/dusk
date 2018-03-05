@@ -25,12 +25,12 @@
     <Grid IsSharedSizeScope="True">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="a"/>
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="a" MaxWidth="444"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
@@ -51,9 +51,31 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="10" Grid.Column="1">
-                    
-                    
-                <!--Name-->
+
+          <Grid Grid.Column="0"
+                Grid.Row="0"
+                Visibility="{Binding RelativeSource={RelativeSource AncestorType=dusk:MainWindow},Path=ActualWidth,
+                                            Converter={converters:EqualityConverter Operation=LessThan, Operand=800}}">
+
+            <GroupBox Margin="10" Padding="1 0 1 1">
+              <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                  <md:PackIcon Kind="Image" VerticalAlignment="Center"
+                               Foreground="White"
+                               Height="24" Width="24"
+                               Margin="7 4 4 4" />
+                  <TextBlock Text="PICTURE" VerticalAlignment="Center"
+                             Foreground="White"
+                             Margin="4 0" />
+                </StackPanel>
+              </GroupBox.Header>
+              <Image Stretch="UniformToFill"
+                     Source="{Binding Model.Picture,Converter={converters:BytesToImage}}" />
+            </GroupBox>
+
+          </Grid>
+
+          <!--Name-->
                
                     <GroupBox Margin="10" Padding="0">
                         <GroupBox.Header>
@@ -70,8 +92,8 @@
                         </GroupBox.Header>
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                        <Grid.RowDefinitions>
                            <RowDefinition Height="Auto"/>
@@ -374,17 +396,74 @@
                     <GroupBox Margin="10" Padding="1 0 1 1">
                         <GroupBox.Header>
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Image" VerticalAlignment="Center"
+                                <md:PackIcon Kind="Attachment" VerticalAlignment="Center"
                                              Foreground="White"
                                              Height="24" Width="24"
                                              Margin="7 4 4 4" />
-                                <TextBlock Text="PICTURE" VerticalAlignment="Center"
+                                <TextBlock Text="ATTACHMENTS" VerticalAlignment="Center"
                                            Foreground="White"
                                            Margin="4 0" />
                             </StackPanel>
                         </GroupBox.Header>
-                        <Image Stretch="UniformToFill"
-                               Source="{Binding Model.Picture,Converter={converters:BytesToImage}}" />
+            <ItemsControl ItemsSource="{Binding Attachments}"
+                          Grid.IsSharedSizeScope="True">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <UniformGrid/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:Attachment}">
+                  <md:Card Margin="10" md:ShadowAssist.ShadowEdges="All">
+                  <Grid >
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="*" SharedSizeGroup="attachment_row"/>
+                    </Grid.RowDefinitions>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding Source={x:Static vm:NewPersonViewModel.Instance},Path=AttachmentCommand}"
+                            CommandParameter="{Binding}"
+                            Height="Auto" Width="Auto"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch" />
+                      <Grid Visibility="{Binding IsNew,Converter={converters:BooleanToVisibility Collapsed,Visible}}">
+                      <Image Source="{Binding Data,Converter={converters:BytesToImage}}"
+                             IsHitTestVisible="False"
+                             Stretch="UniformToFill" 
+                             HorizontalAlignment="Stretch"/>
+                        
+                      <TextBlock Text="{Binding Description}"
+                                 Padding="2"
+                                 IsHitTestVisible="False"
+                                 VerticalAlignment="Bottom"
+                                 Background="{StaticResource AccentColorBrush2}"
+                                 Foreground="{StaticResource SecondaryAccentForegroundBrush}"
+                                 TextAlignment="Center"
+                                 TextWrapping="Wrap"/>
+                        <Button Content="{md:PackIcon Kind=Close}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type md:Card}},Path=IsMouseOver,Converter={converters:BooleanToVisibility}}"
+                                Command="{Binding DeleteCommand}" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                ToolTip="Remove Attachment"
+                                Padding="2"
+                                Height="Auto"
+                                Width="Auto"
+                                Margin="7"/>
+                    </Grid>
+                      <StackPanel IsHitTestVisible="False"
+                                  VerticalAlignment="Center"
+                                  Margin="10"
+                                Visibility="{Binding IsNew,Converter={converters:BooleanToVisibility}}">
+                      <md:PackIcon Kind="Plus" Height="64" Width="64" HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                      <TextBlock Text="NEW ATTACHMENT"
+                                 TextAlignment="Center"
+                                 TextWrapping="Wrap" />
+                    </StackPanel>
+              
+                  </Grid>
+                  </md:Card>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
                     </GroupBox>
                 </StackPanel>
             </Grid>
@@ -393,49 +472,25 @@
         <Grid Grid.Column="0"
               Grid.Row="0"
               Visibility="{Binding RelativeSource={RelativeSource AncestorType=dusk:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}">
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=800}}">
 
-        <Image Source="/Resources/senior-male.png" Stretch="Uniform"
-               IsHitTestVisible="False"
-               Visibility="{Binding Model.Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Male}, Operation=Equals}}"
-               Grid.Column="0" Grid.Row="0" Margin="10"/>
+          <GroupBox Margin="20 20 10 0" Padding="1 0 1 1">
+            <GroupBox.Header>
+              <StackPanel Orientation="Horizontal">
+                <md:PackIcon Kind="Image" VerticalAlignment="Center"
+                             Foreground="White"
+                             Height="24" Width="24"
+                             Margin="7 4 4 4" />
+                <TextBlock Text="PICTURE" VerticalAlignment="Center"
+                           Foreground="White"
+                           Margin="4 0" />
+              </StackPanel>
+            </GroupBox.Header>
+            <Image Stretch="UniformToFill"
+                   Source="{Binding Model.Picture,Converter={converters:BytesToImage}}" />
+          </GroupBox>
 
-        <Image Source="/Resources/senion-female.png" Stretch="Uniform"
-               IsHitTestVisible="False"
-               Visibility="{Binding Model.Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Female}, Operation=Equals}}"
-               Grid.Column="0" Grid.Row="0" Margin="10" />
-        
-        <Grid Grid.Column="0" Grid.Row="0"
-              IsHitTestVisible="False"
-              Visibility="{Binding Model.Sex, Converter={converters:EqualityConverter Operand={x:Static models:Sexes.Unknown}, Operation=Equals}}">
-            <Grid.Triggers>
-                <EventTrigger RoutedEvent="Grid.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:3">
-                            <DoubleAnimation From="1" To="0" Duration="0:0:1" BeginTime="0:0:1"
-                                             Storyboard.TargetName="SeniorMale"
-                                             Storyboard.TargetProperty="Opacity"/>
-                            <DoubleAnimation From="0" To="1" Duration="0:0:1" BeginTime="0:0:1"
-                                             Storyboard.TargetName="SeniorFemale"
-                                             Storyboard.TargetProperty="Opacity" />
-
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Grid.Triggers>
-            
-            <Image Source="/Resources/senior-male.png" Stretch="Uniform"
-                   Name="SeniorMale"
-                   Opacity="1"
-                   Grid.Column="0" Grid.Row="0" Margin="10" />
-
-            <Image Source="/Resources/senion-female.png" Stretch="Uniform"
-                   x:Name="SeniorFemale"
-                   Opacity="0"
-                   Grid.Column="0" Grid.Row="0" Margin="10" />
-        </Grid>
-
-        </Grid>
+    </Grid>
 
         
 

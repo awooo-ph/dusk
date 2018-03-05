@@ -61,7 +61,18 @@ namespace Dusk
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static MainViewModel Instance => _instance ?? (_instance = new MainViewModel());
+        public static MainViewModel Instance
+        {
+            get
+            {
+                if (_instance != null) return _instance;
+
+                if (Config.Default.Expired) return null;
+                
+                _instance = new MainViewModel();
+                return _instance;
+            }
+        }
 
         private bool? _SelectionState = false;
 

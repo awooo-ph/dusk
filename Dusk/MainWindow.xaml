@@ -26,8 +26,8 @@
                 GlowBrush="Black"
                 NonActiveGlowBrush="Black"
                 BorderThickness="0"
-                ShowTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=1100}}"
-                ShowIconOnTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=700}}"
+                ShowTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=1200}}"
+                ShowIconOnTitleBar="{Binding RelativeSource={RelativeSource Self},Path=ActualWidth,Converter={converters:EqualityConverter ReturnType=Boolean, Operation=LessThan, Operand=900}}"
                 Title="Dusk - DSWD Guihulngan" Height="470" MinWidth="666" Width="666">
     <ma:MetroWindow.Triggers>
         <EventTrigger RoutedEvent="ma:MetroWindow.WindowTransitionCompleted">
@@ -295,7 +295,7 @@
                                    DockPanel.Dock="Left"/>
                             <Grid DockPanel.Dock="Left"
                                   Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=700}}">
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=900}}">
 
                                 <Image Source="Resources/sun.png" Height="57"
                                    x:Name="Sun"
@@ -312,7 +312,7 @@
                             <StackPanel VerticalAlignment="Center"
                                     Margin="0 0 47 0"
                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=1000}}">
+                                            Converter={converters:EqualityConverter Operation=GreaterThan, Operand=1200}}">
                                 <TextBlock Text="Social Pension for Indigent Senior Citizens"
                                        FontFamily="Resources/#WeblySleek UI"
                                        FontSize="10pt" />
@@ -381,7 +381,7 @@
                           Foreground="White"
                           
                           BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,
-                                            Converter={converters:EqualityConverter TrueValue=1 0, FalseValue=0 0 1 0, Operation=GreaterThan, Operand=700}}"
+                                            Converter={converters:EqualityConverter TrueValue=1 0, FalseValue=0 0 1 0, Operation=GreaterThan, Operand=900}}"
                           
                           BorderBrush="{StaticResource MaterialDesignLightSeparatorBackground}"
                           Style="{StaticResource FlatButton}">
@@ -613,7 +613,7 @@
                                Grid.Column="1"
                                Grid.Row="1"
                                Grid.RowSpan="2"
-                               HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,Converter={converters:EqualityConverter Left,Stretch, ReturnType=Object, Operation=GreaterThan, Operand=700}}"
+                               HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:MainWindow},Path=ActualWidth,Converter={converters:EqualityConverter Left,Stretch, ReturnType=Object, Operation=GreaterThan, Operand=1200}}"
                                Visibility="{Binding ElementName=AddNewButton,Path=IsChecked,Converter={converters:BooleanToVisibility}}" />
 
                 <!--Tools background-->

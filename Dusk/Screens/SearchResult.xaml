@@ -171,7 +171,32 @@
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age,Mode=OneWay}"
+          <DataGridTemplateColumn Header="Date of Death">
+
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                <TextBlock Text="{Binding DateOfDeath,Converter={converters:DateConverter}}" TextAlignment="Center"
+                           Visibility="{Binding Deceased,Converter={converters:BooleanToVisibility}}"/>
+                  <TextBlock Text="ALIVE"  TextAlignment="Center"
+                             Visibility="{Binding Deceased,Converter={converters:BooleanToVisibility Collapsed,Visible}}" />
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn.CellEditingTemplate>
+              <DataTemplate>
+                <Grid>
+                  <DatePicker SelectedDate="{Binding DateOfDeath}" Margin="-4"
+                              Visibility="{Binding Deceased,Converter={converters:BooleanToVisibility}}" />
+                  <TextBlock Text="ALIVE" TextAlignment="Center"
+                             Visibility="{Binding Deceased,Converter={converters:BooleanToVisibility Collapsed,Visible}}" />
+                </Grid>
+                
+              </DataTemplate>
+            </DataGridTemplateColumn.CellEditingTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTextColumn Header="Age" IsReadOnly="True" Binding="{Binding Age,Mode=OneWay}"
                                         Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowAge,Converter={converters:BooleanToVisibility}}">
                       
                     </DataGridTextColumn>
@@ -183,7 +208,7 @@
           <md:MaterialDataGridComboBoxColumn Header="Civil Status"
                                              ItemsSource="{Binding Source={dusk:EnumBinding EnumType=models:CivilStatuses}}"
                                              SelectedItemBinding="{Binding CivilStatus}" />
-
+                  
           <DataGridTextColumn Header="Disability"
                                         Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowDisability,Converter={converters:BooleanToVisibility}}"
                                         Binding="{Binding Disability}"
@@ -199,6 +224,9 @@
                                         Binding="{Binding Livelihood}"
                                         EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
 
+                  <DataGridCheckBoxColumn Header="Indigent" Binding="{Binding IsIndigent}"
+                                          EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+                  
                     <DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                                         Visibility="{Binding Source={x:Static cnf:Settings.Default},Path=ShowRemarks,Converter={converters:BooleanToVisibility}}"
                                         Header="Remarks"
@@ -219,7 +247,6 @@
                  Width="222"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center"
-                 
                  Margin="10">
           <Grid>
           <Image Source="{Binding SearchResult/Picture,Converter={converters:BytesToImage}}"
