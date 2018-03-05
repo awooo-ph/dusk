@@ -70,8 +70,7 @@ namespace Dusk
             get => _SelectionState;
             set
             {
-                if (value == _SelectionState)
-                    return;
+                if (value == _SelectionState) return;
                 _SelectionState = value;
                 OnPropertyChanged(nameof(SelectionState));
 
@@ -81,6 +80,8 @@ namespace Dusk
                     student.Select(_SelectionState ?? false);
                 }
                 OnPropertyChanged(nameof(HasSelected));
+                OnPropertyChanged(nameof(HasSelectedAlive));
+                OnPropertyChanged(nameof(HasSelectedDeceased));
             }
         }
 
@@ -208,13 +209,17 @@ namespace Dusk
             var items = Person.Cache.Where(x => x.IsSelected && !x.Deceased).ToList();
             foreach (var person in items)
             {
-                person.Update(nameof(Person.Deceased), true);
+                person.DateOfDeath = DateTime.Now;
+                person.Deceased = true;
+                person.Save();
             }
             MessageQueue.Enqueue("Selected items are dead.", "REVIVE", () =>
             {
                 foreach (var person in items)
                 {
-                    person.Update(nameof(Person.Deceased), false);
+                    person.DateOfDeath = null;
+                    person.Deceased = false;
+                    person.Save();
                 }
             });
         }, d => CurrentUser?.CanEdit ?? false));
@@ -600,5 +605,7 @@ PNG Files|*.PNG",
             if (!(SearchResult.CurrentItem is Person p)) return false;
             return cash.PersonId == p.Id;
         }
+
+      
     }
 }
